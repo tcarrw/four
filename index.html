@@ -37,7 +37,7 @@
   .why em{color:#d9d9ef;font-style:normal}
   .actions{display:flex;gap:10px;padding:0 14px 14px;flex-wrap:wrap}
   .go{background:var(--accent);color:#1a1300}
-  .muted{background:#1e1e27;color:var(--dim)}
+  .muted{background:#1e1e27;color:#var(--dim)}
   .loop{background:#202633}
   .loop.on{background:#2e6aff;color:#e9f0ff}
   .bg{background:#1d2830}
@@ -46,13 +46,11 @@
   .lock{color:var(--lock);font-weight:700}
   .secret{display:none;margin-top:8px;background:linear-gradient(180deg,rgba(255,255,255,.06),transparent 30%),#111116;border:1px dashed rgba(255,255,255,.16);padding:12px;border-radius:12px;font-size:14px}
   .secret b{color:var(--accent)}
-  /* Mini controller */
   .miniNow{position:fixed;right:12px;bottom:72px;display:flex;align-items:center;gap:8px;background:#15151a;border:1px solid var(--line);border-radius:999px;padding:6px 10px}
   .miniNow .dot{width:8px;height:8px;border-radius:50%;background:#a0ffc9}
   .miniNow .name{font-size:12px;color:#dfe1ff;max-width:42vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .miniNow button{padding:6px 10px}
   .hide{display:none}
-  /* Self-check banner */
   .check{display:none;padding:10px 12px;border-bottom:1px solid var(--line);background:#241a00;color:#ffe9b0;font-size:12.5px}
   .check.show{display:block}
 </style>
@@ -62,23 +60,19 @@
 
 <header>
   <h1>FOUR · Taylor x Illumina</h1>
-  <p class="intro">A four-song Taylor ritual that traces how courage, heartbreak, sparkle, and peace grow into the same woman.</p>
+  <p class="intro">four songs. one arc. press play and the page shifts with you.</p>
   <div class="keys">
     Keys: <span class="kbd">1–4</span> play • <span class="kbd">Space</span> toggle • <span class="kbd">M</span> mute • <span class="kbd">N</span> next
   </div>
 </header>
 
 <div class="grid" id="grid">
-  <!-- 1. Fearless (TV) -->
   <div class="tile" data-id="7lLigiVgJsE" data-key="1"
        data-hint="Practice courage as a body feeling, not an idea. <em>Act with the butterflies.</em>"
        data-mantra="I step while my heart is loud.">
     <div class="ytwrap" aria-label="Fearless (Taylor's Version) lyric video"></div>
     <div class="bar"><div class="fill"></div></div>
-    <div class="meta">
-      <div><div class="title">Fearless (Taylor’s Version)</div><div class="sub">Lyric Video • 1</div></div>
-      <div class="badge" aria-live="polite">0s</div>
-    </div>
+    <div class="meta"><div><div class="title">Fearless (Taylor’s Version)</div><div class="sub">Lyric Video • 1</div></div><div class="badge" aria-live="polite">0s</div></div>
     <div class="why"></div>
     <div class="actions">
       <button class="go" aria-label="Play or pause Fearless">Play/Pause</button>
@@ -88,16 +82,12 @@
     </div>
   </div>
 
-  <!-- 2. White Horse (TV) -->
   <div class="tile" data-id="9-rKvhsjwKU" data-key="2"
        data-hint="Retire the rescue fantasy. <em>Choose self-respect over the fairytale.</em>"
        data-mantra="My no makes space for yes.">
     <div class="ytwrap" aria-label="White Horse (Taylor's Version) lyric video"></div>
     <div class="bar"><div class="fill"></div></div>
-    <div class="meta">
-      <div><div class="title">White Horse (Taylor’s Version)</div><div class="sub">Lyric Video • 2</div></div>
-      <div class="badge" aria-live="polite">0s</div>
-    </div>
+    <div class="meta"><div><div class="title">White Horse (Taylor’s Version)</div><div class="sub">Lyric Video • 2</div></div><div class="badge" aria-live="polite">0s</div></div>
     <div class="why"></div>
     <div class="actions">
       <button class="go" aria-label="Play or pause White Horse">Play/Pause</button>
@@ -107,16 +97,12 @@
     </div>
   </div>
 
-  <!-- 3. Bejeweled -->
   <div class="tile" data-id="b7QlX3yR2xs" data-key="3"
        data-hint="Reclaim shine without permission. <em>Let value radiate from inside out.</em>"
        data-mantra="I sparkle because I’m true.">
     <div class="ytwrap" aria-label="Bejeweled official video"></div>
     <div class="bar"><div class="fill"></div></div>
-    <div class="meta">
-      <div><div class="title">Bejeweled</div><div class="sub">Official Video • 3</div></div>
-      <div class="badge" aria-live="polite">0s</div>
-    </div>
+    <div class="meta"><div><div class="title">Bejeweled</div><div class="sub">Official Video • 3</div></div><div class="badge" aria-live="polite">0s</div></div>
     <div class="why"></div>
     <div class="actions">
       <button class="go" aria-label="Play or pause Bejeweled">Play/Pause</button>
@@ -126,16 +112,12 @@
     </div>
   </div>
 
-  <!-- 4. Lavender Haze -->
   <div class="tile" data-id="h8DLofLM7No" data-key="4"
        data-hint="Protect the private weather of love. <em>Hold the boundary around your feeling.</em>"
        data-mantra="I keep the haze safe and warm.">
     <div class="ytwrap" aria-label="Lavender Haze official video"></div>
     <div class="bar"><div class="fill"></div></div>
-    <div class="meta">
-      <div><div class="title">Lavender Haze</div><div class="sub">Official Video • 4</div></div>
-      <div class="badge" aria-live="polite">0s</div>
-    </div>
+    <div class="meta"><div><div class="title">Lavender Haze</div><div class="sub">Official Video • 4</div></div><div class="badge" aria-live="polite">0s</div></div>
     <div class="why"></div>
     <div class="actions">
       <button class="go" aria-label="Play or pause Lavender Haze">Play/Pause</button>
@@ -146,7 +128,6 @@
   </div>
 </div>
 
-<!-- Floating mini “Now Playing” -->
 <div id="miniNow" class="miniNow hide" aria-live="polite">
   <div class="dot" aria-hidden="true"></div>
   <div class="name" id="miniName">Now Playing</div>
@@ -160,27 +141,44 @@
     <button id="revealBtn" class="go" disabled>Discover</button>
   </div>
   <div id="secret" class="secret" role="region" aria-live="polite">
-    Tip: For background on iOS, use <b>Background</b> → enter <b>Picture-in-Picture</b>.  
+    Tip: For background on iOS, use <b>Background</b> → enter <b>Picture-in-Picture</b>.
   </div>
 </footer>
 
-<!-- YouTube API -->
 <script>
   (function(){
     var check=document.getElementById('check'); check.classList.add('show');
     var tag=document.createElement('script'); tag.src="https://www.youtube.com/iframe_api";
-    var firstScript=document.getElementsByTagName('script')[0]; firstScript.parentNode.insertBefore(tag,firstScript);
+    var first=document.getElementsByTagName('script')[0]; first.parentNode.insertBefore(tag,first);
     setTimeout(function(){ if(!window.YT) check.textContent="Still loading YouTube… one quick refresh usually fixes it."; }, 4000);
   })();
 
-  var players=[], state={}, activeIndex=0, unlockSeconds=30;
+  var players=[], state={}, activeIndex=0, unlockSeconds=30, userInteracted=false;
   var mini=document.getElementById('miniNow'), miniName=document.getElementById('miniName');
+
   function setMiniVisible(on){ mini.classList.toggle('hide', !on); }
+
+  // Mark first user gesture to allow unmuted play later
+  ['click','touchstart','keydown'].forEach(function(ev){
+    window.addEventListener(ev,function(){ userInteracted=true; }, {once:true, passive:true});
+  });
 
   function onYouTubeIframeAPIReady(){
     document.getElementById('check').classList.remove('show');
     var tiles=[].slice.call(document.querySelectorAll('.tile'));
+
+    // Observe visibility; pause when tile is off-screen
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(ent){
+        var i=+ent.target.getAttribute('data-idx');
+        if(!ent.isIntersecting && players[i]){
+          try{ players[i].pauseVideo(); }catch(_){}
+        }
+      });
+    },{threshold:0.01});
+
     tiles.forEach(function(tile, idx){
+      tile.setAttribute('data-idx', idx);
       var id=tile.getAttribute('data-id');
       var wrap=tile.querySelector('.ytwrap');
       var why=tile.querySelector('.why');
@@ -188,17 +186,21 @@
 
       var p=new YT.Player(wrap,{
         videoId:id,
-        playerVars:{playsinline:1,modestbranding:1,rel:0,iv_load_policy:3,color:"white",loop:1,playlist:id},
+        host:"https://www.youtube.com",
+        playerVars:{
+          playsinline:1,modestbranding:1,rel:0,iv_load_policy:3,origin:location.origin,
+          color:"white",loop:1,playlist:id
+        },
         events:{'onReady':onReady(idx),'onStateChange':onChange(idx)}
       });
       players[idx]=p;
 
       state[idx]={sec:0,ok:false,timer:null,muted:false,key:tile.getAttribute('data-key'),
                   loop:false,id:id,whyEl:why,mantra:tile.getAttribute('data-mantra'),
-                  title:tile.querySelector('.title').textContent};
+                  title:tile.querySelector('.title').textContent,started:false};
 
-      tile.querySelector('.go').addEventListener('click',function(){toggle(idx)});
-      tile.querySelector('.muted').addEventListener('click',function(){mute(idx)});
+      tile.querySelector('.go').addEventListener('click',function(){ toggle(idx,true); });
+      tile.querySelector('.muted').addEventListener('click',function(){ mute(idx); });
       var loopBtn=tile.querySelector('.loop');
       loopBtn.addEventListener('click',function(){
         state[idx].loop=!state[idx].loop;
@@ -209,14 +211,21 @@
         var url='https://www.youtube.com/watch?v='+encodeURIComponent(id)+'&autoplay=1&loop=1&playlist='+encodeURIComponent(id);
         window.open(url,'_blank','noopener,noreferrer');
       });
-      wrap.setAttribute('x-webkit-airplay','allow');
+
+      io.observe(tile);
     });
 
-    document.getElementById('miniToggle').addEventListener('click',function(){ toggle(activeIndex); });
+    document.getElementById('miniToggle').addEventListener('click',function(){ toggle(activeIndex,true); });
     document.getElementById('miniNext').addEventListener('click',function(){ nextTrack(); });
   }
 
-  function onReady(i){ return function(){ /* ready */ } }
+  function onReady(i){ return function(){
+    try{
+      var iframe=players[i].getIframe();
+      iframe.setAttribute('allow','autoplay; encrypted-media; picture-in-picture; fullscreen; accelerometer; gyroscope');
+      iframe.setAttribute('x-webkit-airplay','allow');
+    }catch(_){}
+  } }
 
   function onChange(i){ return function(e){
     var s=e.data;
@@ -225,8 +234,9 @@
       activeIndex=i;
       setMiniVisible(true);
       miniName.textContent=state[i].title;
+      state[i].started=true;
     }
-    if(s===YT.PlayerState.PAUSED||s===YT.PlayerState.ENDED){ stopTick(i); }
+    if(s===YT.PlayerState.PAUSED || s===YT.PlayerState.ENDED){ stopTick(i); }
     if(s===YT.PlayerState.ENDED){
       if(state[i].loop){
         try{ players[i].seekTo(0,true); players[i].playVideo(); }catch(_){}
@@ -234,7 +244,7 @@
         state[i].ok=true; refreshUI(i,true); checkUnlock();
       }
     }
-  }}
+  } }
 
   function startTick(i){
     stopTick(i);
@@ -252,11 +262,22 @@
   }
   function stopTick(i){ if(state[i] && state[i].timer){ clearInterval(state[i].timer); state[i].timer=null; } }
 
-  function toggle(i){
+  // Toggle with optional "fromUser" flag to unmute on human interaction
+  function toggle(i,fromUser){
     activeIndex=i;
     players.forEach(function(p,j){ if(j!==i){ try{p.pauseVideo()}catch(_){}} });
     var st; try{ st=players[i].getPlayerState(); }catch(_){ st=null; }
-    if(st===YT.PlayerState.PLAYING){ players[i].pauseVideo(); } else { players[i].playVideo(); }
+
+    // iOS autoplay safety: if starting and not a user gesture, start muted
+    if(st!==YT.PlayerState.PLAYING){
+      try{
+        if(!fromUser && !userInteracted){ players[i].mute(); }
+        else if(fromUser){ players[i].unMute(); }
+      }catch(_){}
+      try{ players[i].playVideo(); }catch(_){}
+    } else {
+      try{ players[i].pauseVideo(); }catch(_){}
+    }
   }
 
   function mute(i){
@@ -286,7 +307,7 @@
 
   function nextTrack(){
     activeIndex=(activeIndex+1)%players.length;
-    toggle(activeIndex);
+    toggle(activeIndex,true);
   }
 
   document.getElementById('revealBtn').addEventListener('click',function(){
@@ -303,10 +324,15 @@
 
   window.addEventListener('keydown',function(e){
     var k=e.key.toLowerCase();
-    if(k===' '){ e.preventDefault(); toggle(activeIndex); return; }
+    if(k===' '){ e.preventDefault(); toggle(activeIndex,true); return; }
     if(k==='m'){ mute(activeIndex); return; }
     if(k==='n'){ nextTrack(); return; }
-    if(k>='1' && k<='4'){ toggle(parseInt(k,10)-1); return; }
+    if(k>='1' && k<='4'){ toggle(parseInt(k,10)-1,true); return; }
+  });
+
+  // Clean up players to avoid stuck audio on iOS back/forward cache
+  window.addEventListener('pagehide',function(){
+    players.forEach(function(p){ try{p.stopVideo();}catch(_){} });
   });
 </script>
 </body>
