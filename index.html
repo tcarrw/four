@@ -1,168 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>four · plnt.earth — Froot Test</title>
-<meta name="apple-mobile-web-app-capable" content="yes">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>FOUR · Taylor x Illumina — Froot Test</title>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="theme-color" content="#0b0b0d" />
 <style>
   :root{
-    --bg:#0b0b0d;--ink:#e7e7ee;--dim:#9a9ab3;--card:#15151a;--accent:#ffd36e;--ok:#77ffa6;--lock:#ff7a7a;
+    --bg:#0b0b0d;--ink:#e7e7ee;--dim:#9a9ab3;--card:#15151a;--accent:#ffd36e;
+    --ok:#77ffa6;--lock:#ff7a7a;--line:rgba(255,255,255,.08);
   }
   *{box-sizing:border-box}
-  html,body{margin:0;padding:0;background:radial-gradient(1200px 800px at 50% -20%,#1b1b22 0%,#0b0b0d 55%);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif}
-  header{padding:22px 18px 10px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
-  header h1{font-size:18px;letter-spacing:.4px;margin:0;font-weight:600}
-  header .mini{font-size:12px;color:var(--dim)}
-  .grid{display:grid;gap:14px;padding:10px 12px 100px}
-  @media(min-width:760px){.grid{grid-template-columns:1fr 1fr;gap:18px;padding:16px 18px 120px}}
-  .tile{background:linear-gradient(180deg,rgba(255,255,255,.04),transparent 28%),var(--card);border:1px solid rgba(255,255,255,.06);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
-  .meta{padding:12px 14px 8px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-  .title{font-size:14px;font-weight:700}
-  .sub{font-size:12px;color:var(--dim)}
-  .why{padding:0 14px 10px;font-size:12.5px;color:var(--dim);line-height:1.35}
-  .why em{color:#cfcfe6;font-style:normal}
+  html,body{margin:0;padding:0;background:radial-gradient(1200px 800px at 50% -20%,#1b1b22 0%,#0b0b0d 55%);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
+  a{color:inherit}
+  button{appearance:none;border:0;border-radius:999px;padding:10px 14px;font-weight:600;background:#232330;color:var(--ink);cursor:pointer}
+  button:focus-visible{outline:2px solid #7ab6ff;outline-offset:2px}
+  button:active{transform:scale(.98)}
+  header{padding:22px 18px 10px;display:flex;flex-direction:column;gap:8px}
+  header h1{font-size:18px;letter-spacing:.4px;margin:0;font-weight:700}
+  .intro{font-size:13.5px;line-height:1.45;color:var(--dim);max-width:640px;margin:0}
+  .keys{font-size:12px;color:var(--dim)}
+  .kbd{font:600 11px/1 system-ui;letter-spacing:.3px;background:#20202a;color:#bfc0d9;border:1px solid #2f3040;padding:4px 6px;border-radius:6px}
+  .grid{display:grid;gap:14px;padding:10px 12px 130px}
+  @media(min-width:760px){.grid{grid-template-columns:1fr 1fr;gap:18px;padding:16px 18px 140px}}
+  .tile{background:linear-gradient(180deg,rgba(255,255,255,.04),transparent 28%),var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+  .ytwrap{position:relative;width:100%;aspect-ratio:16/9;background:#0e0e12}
+  .ytwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
   .bar{height:4px;background:#2a2a34;border-radius:99px;margin:0 14px 10px;overflow:hidden}
   .fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#9af1ff)}
+  .meta{padding:12px 14px 6px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .title{font-size:14px;font-weight:800}
+  .sub{font-size:12px;color:var(--dim)}
+  .badge{font-size:12px;padding:6px 10px;border-radius:999px;background:#1d1d27;border:1px solid var(--line);color:var(--dim)}
+  .why{padding:0 14px 10px;font-size:12.5px;color:var(--dim);line-height:1.35}
+  .why em{color:#d9d9ef;font-style:normal}
   .actions{display:flex;gap:10px;padding:0 14px 14px;flex-wrap:wrap}
-  button{appearance:none;border:0;border-radius:999px;padding:10px 14px;font-weight:600;background:#232330;color:var(--ink);cursor:pointer}
-  button:active{transform:scale(.98)}
   .go{background:var(--accent);color:#1a1300}
   .muted{background:#1e1e27;color:var(--dim)}
-  .ok{background:var(--ok);color:#001b0b}
   .loop{background:#202633}
   .loop.on{background:#2e6aff;color:#e9f0ff}
   .bg{background:#1d2830}
-  .ytwrap{position:relative;width:100%;aspect-ratio:16/9;background:#0e0e12}
-  .ytwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-  footer{position:fixed;left:0;right:0;bottom:0;border-top:1px solid rgba(255,255,255,.08);background:rgba(8,8,12,.85);backdrop-filter:blur(10px);padding:10px 12px}
+  footer{position:fixed;left:0;right:0;bottom:0;border-top:1px solid var(--line);background:rgba(8,8,12,.85);backdrop-filter:blur(10px);padding:10px 12px}
   .unlock{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-  .badge{font-size:12px;padding:6px 10px;border-radius:999px;background:#1d1d27;border:1px solid rgba(255,255,255,.08);color:var(--dim)}
   .lock{color:var(--lock);font-weight:700}
   .secret{display:none;margin-top:8px;background:linear-gradient(180deg,rgba(255,255,255,.06),transparent 30%),#111116;border:1px dashed rgba(255,255,255,.16);padding:12px;border-radius:12px;font-size:14px}
   .secret b{color:var(--accent)}
-  .kbd{font:600 11px/1 system-ui;letter-spacing:.3px;background:#20202a;color:#bfc0d9;border:1px solid #2f3040;padding:4px 6px;border-radius:6px}
+  /* Mini controller */
+  .miniNow{position:fixed;right:12px;bottom:72px;display:flex;align-items:center;gap:8px;background:#15151a;border:1px solid var(--line);border-radius:999px;padding:6px 10px}
+  .miniNow .dot{width:8px;height:8px;border-radius:50%;background:#a0ffc9}
+  .miniNow .name{font-size:12px;color:#dfe1ff;max-width:42vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .miniNow button{padding:6px 10px}
+  .hide{display:none}
+  /* Self-check banner */
+  .check{display:none;padding:10px 12px;border-bottom:1px solid var(--line);background:#241a00;color:#ffe9b0;font-size:12.5px}
+  .check.show{display:block}
 </style>
 </head>
 <body>
+<div id="check" class="check" role="status">Loading YouTube… If players don’t appear, refresh once or check your network.</div>
+
 <header>
-  <h1>FOUR · Taylor x Illumina <span class="mini">— listen 30s each to unlock</span></h1>
-  <div class="mini">Keys: <span class="kbd">1–4</span> play • <span class="kbd">Space</span> toggle • <span class="kbd">M</span> mute • <span class="kbd">N</span> next</div>
+  <h1>FOUR · Taylor x Illumina</h1>
+  <p class="intro">A four-song Taylor ritual that traces how courage, heartbreak, sparkle, and peace grow into the same woman.</p>
+  <div class="keys">
+    Keys: <span class="kbd">1–4</span> play • <span class="kbd">Space</span> toggle • <span class="kbd">M</span> mute • <span class="kbd">N</span> next
+  </div>
 </header>
 
 <div class="grid" id="grid">
-  <!-- Fearless -->
+  <!-- 1. Fearless (TV) -->
   <div class="tile" data-id="7lLigiVgJsE" data-key="1"
        data-hint="Practice courage as a body feeling, not an idea. <em>Act with the butterflies.</em>"
        data-mantra="I step while my heart is loud.">
-    <div class="ytwrap" aria-label="Fearless (Taylor's Version)"></div>
+    <div class="ytwrap" aria-label="Fearless (Taylor's Version) lyric video"></div>
     <div class="bar"><div class="fill"></div></div>
     <div class="meta">
-      <div>
-        <div class="title">Fearless (Taylor’s Version)</div>
-        <div class="sub">Lyric Video • 1</div>
-      </div>
+      <div><div class="title">Fearless (Taylor’s Version)</div><div class="sub">Lyric Video • 1</div></div>
       <div class="badge" aria-live="polite">0s</div>
     </div>
     <div class="why"></div>
     <div class="actions">
-      <button class="go">Play/Pause</button>
-      <button class="muted">Mute</button>
-      <button class="loop" aria-pressed="false">Loop</button>
-      <button class="bg" title="Open in YouTube for PiP/background">Background</button>
+      <button class="go" aria-label="Play or pause Fearless">Play/Pause</button>
+      <button class="muted" aria-label="Mute or unmute">Mute</button>
+      <button class="loop" aria-pressed="false" aria-label="Toggle loop">Loop</button>
+      <button class="bg" title="Open in YouTube for Picture-in-Picture">Background</button>
     </div>
   </div>
 
-  <!-- White Horse -->
+  <!-- 2. White Horse (TV) -->
   <div class="tile" data-id="9-rKvhsjwKU" data-key="2"
        data-hint="Retire the rescue fantasy. <em>Choose self-respect over the fairytale.</em>"
        data-mantra="My no makes space for yes.">
-    <div class="ytwrap" aria-label="White Horse (Taylor's Version)"></div>
+    <div class="ytwrap" aria-label="White Horse (Taylor's Version) lyric video"></div>
     <div class="bar"><div class="fill"></div></div>
     <div class="meta">
-      <div>
-        <div class="title">White Horse (Taylor’s Version)</div>
-        <div class="sub">Lyric Video • 2</div>
-      </div>
+      <div><div class="title">White Horse (Taylor’s Version)</div><div class="sub">Lyric Video • 2</div></div>
       <div class="badge" aria-live="polite">0s</div>
     </div>
     <div class="why"></div>
     <div class="actions">
-      <button class="go">Play/Pause</button>
-      <button class="muted">Mute</button>
-      <button class="loop" aria-pressed="false">Loop</button>
-      <button class="bg" title="Open in YouTube for PiP/background">Background</button>
+      <button class="go" aria-label="Play or pause White Horse">Play/Pause</button>
+      <button class="muted" aria-label="Mute or unmute">Mute</button>
+      <button class="loop" aria-pressed="false" aria-label="Toggle loop">Loop</button>
+      <button class="bg" title="Open in YouTube for Picture-in-Picture">Background</button>
     </div>
   </div>
 
-  <!-- Bejeweled -->
+  <!-- 3. Bejeweled -->
   <div class="tile" data-id="b7QlX3yR2xs" data-key="3"
        data-hint="Reclaim shine without permission. <em>Let value radiate from inside out.</em>"
        data-mantra="I sparkle because I’m true.">
-    <div class="ytwrap" aria-label="Bejeweled"></div>
+    <div class="ytwrap" aria-label="Bejeweled official video"></div>
     <div class="bar"><div class="fill"></div></div>
     <div class="meta">
-      <div>
-        <div class="title">Bejeweled</div>
-        <div class="sub">Official Video • 3</div>
-      </div>
+      <div><div class="title">Bejeweled</div><div class="sub">Official Video • 3</div></div>
       <div class="badge" aria-live="polite">0s</div>
     </div>
     <div class="why"></div>
     <div class="actions">
-      <button class="go">Play/Pause</button>
-      <button class="muted">Mute</button>
-      <button class="loop" aria-pressed="false">Loop</button>
-      <button class="bg" title="Open in YouTube for PiP/background">Background</button>
+      <button class="go" aria-label="Play or pause Bejeweled">Play/Pause</button>
+      <button class="muted" aria-label="Mute or unmute">Mute</button>
+      <button class="loop" aria-pressed="false" aria-label="Toggle loop">Loop</button>
+      <button class="bg" title="Open in YouTube for Picture-in-Picture">Background</button>
     </div>
   </div>
 
-  <!-- Lavender Haze -->
+  <!-- 4. Lavender Haze -->
   <div class="tile" data-id="h8DLofLM7No" data-key="4"
        data-hint="Protect the private weather of love. <em>Hold the boundary around your feeling.</em>"
        data-mantra="I keep the haze safe and warm.">
-    <div class="ytwrap" aria-label="Lavender Haze"></div>
+    <div class="ytwrap" aria-label="Lavender Haze official video"></div>
     <div class="bar"><div class="fill"></div></div>
     <div class="meta">
-      <div>
-        <div class="title">Lavender Haze</div>
-        <div class="sub">Official Video • 4</div>
-      </div>
+      <div><div class="title">Lavender Haze</div><div class="sub">Official Video • 4</div></div>
       <div class="badge" aria-live="polite">0s</div>
     </div>
     <div class="why"></div>
     <div class="actions">
-      <button class="go">Play/Pause</button>
-      <button class="muted">Mute</button>
-      <button class="loop" aria-pressed="false">Loop</button>
-      <button class="bg" title="Open in YouTube for PiP/background">Background</button>
+      <button class="go" aria-label="Play or pause Lavender Haze">Play/Pause</button>
+      <button class="muted" aria-label="Mute or unmute">Mute</button>
+      <button class="loop" aria-pressed="false" aria-label="Toggle loop">Loop</button>
+      <button class="bg" title="Open in YouTube for Picture-in-Picture">Background</button>
     </div>
   </div>
 </div>
 
+<!-- Floating mini “Now Playing” -->
+<div id="miniNow" class="miniNow hide" aria-live="polite">
+  <div class="dot" aria-hidden="true"></div>
+  <div class="name" id="miniName">Now Playing</div>
+  <button id="miniToggle" title="Play/Pause (Space)">⏯</button>
+  <button id="miniNext" title="Next (N)">⏭</button>
+</div>
+
 <footer>
   <div class="unlock">
-    <div class="mini">Progress: <span id="doneCount">0</span>/4 listened ≥ 30s <span class="lock" id="lockMsg">— locked</span></div>
+    <div class="keys">Progress: <span id="doneCount">0</span>/4 listened ≥ 30s <span class="lock" id="lockMsg">— locked</span></div>
     <button id="revealBtn" class="go" disabled>Discover</button>
   </div>
   <div id="secret" class="secret" role="region" aria-live="polite">
-    <div class="mini">Tip: For true background play on iOS, use the <b>Background</b> button to open the track in YouTube, then enter <b>Picture-in-Picture</b>.</div>
+    Tip: For background on iOS, use <b>Background</b> → enter <b>Picture-in-Picture</b>.  
   </div>
 </footer>
 
+<!-- YouTube API -->
 <script>
-  // Load YT API
-  var tag=document.createElement('script');tag.src="https://www.youtube.com/iframe_api";var firstScriptTag=document.getElementsByTagName('script')[0];firstScriptTag.parentNode.insertBefore(tag,firstScriptTag);
+  (function(){
+    var check=document.getElementById('check'); check.classList.add('show');
+    var tag=document.createElement('script'); tag.src="https://www.youtube.com/iframe_api";
+    var firstScript=document.getElementsByTagName('script')[0]; firstScript.parentNode.insertBefore(tag,firstScript);
+    setTimeout(function(){ if(!window.YT) check.textContent="Still loading YouTube… one quick refresh usually fixes it."; }, 4000);
+  })();
 
-  var players=[],state={},unlockSeconds=30,activeIndex=0,readyCount=0;
+  var players=[], state={}, activeIndex=0, unlockSeconds=30;
+  var mini=document.getElementById('miniNow'), miniName=document.getElementById('miniName');
+  function setMiniVisible(on){ mini.classList.toggle('hide', !on); }
 
   function onYouTubeIframeAPIReady(){
+    document.getElementById('check').classList.remove('show');
     var tiles=[].slice.call(document.querySelectorAll('.tile'));
-    tiles.forEach(function(tile,idx){
+    tiles.forEach(function(tile, idx){
       var id=tile.getAttribute('data-id');
       var wrap=tile.querySelector('.ytwrap');
-
-      // seed the "why" text from data-hint
       var why=tile.querySelector('.why');
       why.innerHTML='Why listen: '+tile.getAttribute('data-hint');
 
@@ -172,16 +192,18 @@
         events:{'onReady':onReady(idx),'onStateChange':onChange(idx)}
       });
       players[idx]=p;
+
       state[idx]={sec:0,ok:false,timer:null,muted:false,key:tile.getAttribute('data-key'),
-                  loop:false,id:id,whyEl:why,mantra:tile.getAttribute('data-mantra')};
+                  loop:false,id:id,whyEl:why,mantra:tile.getAttribute('data-mantra'),
+                  title:tile.querySelector('.title').textContent};
 
       tile.querySelector('.go').addEventListener('click',function(){toggle(idx)});
       tile.querySelector('.muted').addEventListener('click',function(){mute(idx)});
       var loopBtn=tile.querySelector('.loop');
       loopBtn.addEventListener('click',function(){
         state[idx].loop=!state[idx].loop;
-        loopBtn.classList.toggle('on',state[idx].loop);
-        loopBtn.setAttribute('aria-pressed',String(state[idx].loop));
+        loopBtn.classList.toggle('on', state[idx].loop);
+        loopBtn.setAttribute('aria-pressed', String(state[idx].loop));
       });
       tile.querySelector('.bg').addEventListener('click',function(){
         var url='https://www.youtube.com/watch?v='+encodeURIComponent(id)+'&autoplay=1&loop=1&playlist='+encodeURIComponent(id);
@@ -189,52 +211,60 @@
       });
       wrap.setAttribute('x-webkit-airplay','allow');
     });
+
+    document.getElementById('miniToggle').addEventListener('click',function(){ toggle(activeIndex); });
+    document.getElementById('miniNext').addEventListener('click',function(){ nextTrack(); });
   }
-  function onReady(i){return function(){readyCount++;} }
-  function onChange(i){return function(e){
+
+  function onReady(i){ return function(){ /* ready */ } }
+
+  function onChange(i){ return function(e){
     var s=e.data;
-    if(s===YT.PlayerState.PLAYING){startTick(i)}
-    if(s===YT.PlayerState.PAUSED||s===YT.PlayerState.ENDED){stopTick(i)}
+    if(s===YT.PlayerState.PLAYING){
+      startTick(i);
+      activeIndex=i;
+      setMiniVisible(true);
+      miniName.textContent=state[i].title;
+    }
+    if(s===YT.PlayerState.PAUSED||s===YT.PlayerState.ENDED){ stopTick(i); }
     if(s===YT.PlayerState.ENDED){
       if(state[i].loop){
-        try{players[i].seekTo(0,true);players[i].playVideo();}catch(_){}
+        try{ players[i].seekTo(0,true); players[i].playVideo(); }catch(_){}
       } else {
-        state[i].ok=true;refreshUI(i,true);checkUnlock()
+        state[i].ok=true; refreshUI(i,true); checkUnlock();
       }
     }
   }}
+
   function startTick(i){
     stopTick(i);
     state[i].timer=setInterval(function(){
-      state[i].sec+=1;refreshUI(i,false);
-      if(state[i].sec===10){
-        // reinforce purpose early
-        state[i].whyEl.style.transition='opacity .3s';
-        state[i].whyEl.style.opacity='0.85';
-      }
+      state[i].sec+=1; refreshUI(i,false);
+      if(state[i].sec===10){ state[i].whyEl.style.opacity='0.9'; }
       if(state[i].sec>=unlockSeconds){
         if(!state[i].ok){
           state[i].ok=true;
-          // swap hint → mantra
           state[i].whyEl.innerHTML='Mantra: <em>'+state[i].mantra+'</em>';
         }
         checkUnlock();
       }
     },1000);
   }
-  function stopTick(i){if(state[i].timer){clearInterval(state[i].timer);state[i].timer=null}}
+  function stopTick(i){ if(state[i] && state[i].timer){ clearInterval(state[i].timer); state[i].timer=null; } }
+
   function toggle(i){
     activeIndex=i;
-    players.forEach(function(p,j){if(j!==i){try{p.pauseVideo()}catch(e){}}});
-    var st;
-    try{st=players[i].getPlayerState()}catch(e){st=null}
-    if(st===YT.PlayerState.PLAYING){players[i].pauseVideo()}else{players[i].playVideo()}
+    players.forEach(function(p,j){ if(j!==i){ try{p.pauseVideo()}catch(_){}} });
+    var st; try{ st=players[i].getPlayerState(); }catch(_){ st=null; }
+    if(st===YT.PlayerState.PLAYING){ players[i].pauseVideo(); } else { players[i].playVideo(); }
   }
+
   function mute(i){
     var m=state[i].muted;
-    try{if(m){players[i].unMute()}else{players[i].mute()}}catch(e){}
+    try{ if(m){players[i].unMute()} else {players[i].mute()} }catch(_){}
     state[i].muted=!m;
   }
+
   function refreshUI(i,ended){
     var tile=document.querySelectorAll('.tile')[i];
     var fill=tile.querySelector('.fill');
@@ -243,35 +273,40 @@
     var t=state[i].sec; if(t>goal)t=goal;
     var pct=(t/goal)*100; fill.style.width=pct+'%';
     badge.textContent=(ended?'✓ ':'')+Math.floor(state[i].sec)+'s';
-    if(state[i].ok){fill.style.background='linear-gradient(90deg,var(--ok),#aaffea)';badge.textContent='✓ '+Math.floor(state[i].sec)+'s'}
+    if(state[i].ok){ fill.style.background='linear-gradient(90deg,var(--ok),#aaffea)'; badge.textContent='✓ '+Math.floor(state[i].sec)+'s'; }
   }
+
   function checkUnlock(){
-    var okCount=Object.keys(state).filter(function(k){return state[k].ok}).length;
+    var okCount=Object.keys(state).filter(function(k){ return state[k].ok; }).length;
     document.getElementById('doneCount').textContent=okCount;
     var btn=document.getElementById('revealBtn');
     var lock=document.getElementById('lockMsg');
-    if(okCount>=4){btn.disabled=false;lock.textContent='— unlocked'}else{btn.disabled=true;lock.textContent='— locked'}
+    if(okCount>=4){ btn.disabled=false; lock.textContent='— unlocked'; } else { btn.disabled=true; lock.textContent='— locked'; }
   }
+
+  function nextTrack(){
+    activeIndex=(activeIndex+1)%players.length;
+    toggle(activeIndex);
+  }
+
   document.getElementById('revealBtn').addEventListener('click',function(){
     var box=document.getElementById('secret');
     var lines=[
-      '🍑 Froot Key: Listen first, then look.',
-      'Ground → choose one word from each song.',
-      'Flow → arrange them into a sentence.',
-      'Rest → whisper it once. That is today’s color.',
-      'Tip: Use the Background button for PiP/background.'
+      '🍑 Froot Key → Ground: choose one word from each song.',
+      'Flow: arrange them into one sentence.',
+      'Rest: whisper it once. That is today’s color.'
     ];
     box.textContent=lines.join(' ');
     box.style.display='block';
-    this.className='ok';
-    this.textContent='Froot Key Revealed';
+    this.className='go'; this.textContent='Froot Key Revealed';
   });
+
   window.addEventListener('keydown',function(e){
     var k=e.key.toLowerCase();
-    if(k===' '){e.preventDefault();toggle(activeIndex);return}
-    if(k==='m'){mute(activeIndex);return}
-    if(k==='n'){activeIndex=(activeIndex+1)%players.length;toggle(activeIndex);return}
-    if(k>='1'&&k<='4'){var i=parseInt(k,10)-1;toggle(i);return}
+    if(k===' '){ e.preventDefault(); toggle(activeIndex); return; }
+    if(k==='m'){ mute(activeIndex); return; }
+    if(k==='n'){ nextTrack(); return; }
+    if(k>='1' && k<='4'){ toggle(parseInt(k,10)-1); return; }
   });
 </script>
 </body>
