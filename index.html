@@ -1,244 +1,215 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>four.plnt.earth — Taylor Ritual • 1989 Deluxe Decode</title>
+  <title>FOUR · Taylor Ritual</title>
+  <meta name="description" content="FOUR — a 4-song Taylor ritual with quiet hints. Click to play. Includes a link to Escape (Houdini → Keys → Castle)." />
   <style>
     :root{
-      --bg:#0b0e12;
-      --ink:#eaf2ff;
-      --ink-dim:#c7d7f7;
-      --hint:#9db6ff;
-      --accent:#87a7ff;
-      --glass:rgba(255,255,255,0.08);
-      --glass-2:rgba(255,255,255,0.06);
-      --line:rgba(255,255,255,0.12);
-      --card:#0f1320;
-      --blue:#6fa8ff;
-      --violet:#a692ff;
-      --mint:#a8ffe6;
-      --ok:#9dffbf;
-      --fire:#ffb67f;
+      --bg:#0b0b10; --fg:#e9e9f2; --muted:#a7a7b8; --edge:#1b1b26; --accent:#b9a2ff;
+      --card:#12121a; --card2:#14141f; --ring:#2a2a3a;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0;
-      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,Apple Color Emoji,Segoe UI Emoji;
-      background:
-        radial-gradient(1200px 800px at 70% -10%, rgba(111,168,255,0.18), transparent 60%),
-        radial-gradient(800px 600px at -10% 20%, rgba(166,146,255,0.18), transparent 60%),
-        linear-gradient(180deg, #0a0c12 0%, #0b0e12 100%);
-      color:var(--ink);
-      -webkit-font-smoothing:antialiased;
-      text-rendering:optimizeLegibility;
+      margin:0; background:
+        radial-gradient(1200px 900px at 10% -10%, #17172a 0, transparent 55%),
+        radial-gradient(1000px 800px at 110% 10%, #1a152e 0, transparent 60%),
+        linear-gradient(180deg, #0a0a10, #0b0b10);
+      color:var(--fg); font:400 16px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
     }
-    header{
-      padding:32px 18px 10px;
-      position:sticky; top:0; z-index:10;
-      backdrop-filter:blur(8px);
-      background:linear-gradient(to bottom, rgba(11,14,18,0.85), rgba(11,14,18,0.55) 60%, transparent);
-      border-bottom:1px solid var(--line);
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .wrap{max-width:980px; margin:40px auto; padding:24px}
+    header{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:20px}
+    .brand{display:flex; align-items:center; gap:12px}
+    .glyph{
+      width:40px; height:40px; border-radius:10px;
+      background:conic-gradient(from 210deg, #b9a2ff, #6fe7ff, #b9a2ff);
+      filter:saturate(0.9) brightness(0.95); box-shadow:0 0 0 1px #ffffff10, 0 8px 24px #0006;
     }
-    .wrap{max-width:980px;margin:0 auto;}
-    h1{
-      margin:0 0 6px 0;
-      font-size:clamp(22px,3.2vw,34px);
-      letter-spacing:0.4px;
-      font-weight:700;
-      background:linear-gradient(90deg,var(--ink),var(--hint));
-      -webkit-background-clip:text;background-clip:text;color:transparent;
+    h1{font-size:20px; margin:0; letter-spacing:.4px}
+    .nav{display:flex; gap:8px; flex-wrap:wrap}
+    .btn{
+      display:inline-block; padding:10px 14px; border-radius:10px; background:var(--card);
+      border:1px solid var(--edge); color:var(--fg); text-decoration:none;
     }
-    .sub{color:var(--ink-dim);font-size:clamp(13px,1.8vw,15.5px);line-height:1.5;}
-    .toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;}
-    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:var(--glass);color:var(--ink);font-size:13px;cursor:pointer;user-select:none;}
-    .pill input{appearance:none;width:16px;height:16px;border-radius:4px;border:1px solid var(--line);background:var(--glass-2);}
-    .pill input:checked{background:var(--ok);border-color:transparent}
-    main{padding:24px 18px 80px;}
-    .grid{display:grid;gap:16px;grid-template-columns:repeat(12,1fr);}
-    .card{grid-column:span 12;background:linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.03));border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,0.32);}
-    @media(min-width:680px){.card{grid-column:span 6;}}
-    .card-head{padding:16px 16px 0 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
-    .track-meta{display:flex;align-items:center;gap:12px;flex:1;min-width:0;}
-    .dot{width:14px;height:14px;border-radius:50%;background:radial-gradient(circle at 30% 30%,var(--mint),var(--blue));box-shadow:0 0 26px rgba(111,168,255,0.6),inset 0 0 14px rgba(168,255,230,0.5);border:1px solid rgba(255,255,255,0.3);}
-    .title{font-weight:700;font-size:16px;letter-spacing:0.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .artist{font-size:12.5px;color:var(--ink-dim);}
-    .actions{display:flex;align-items:center;gap:8px;}
-    .btn{border:1px solid var(--line);background:var(--glass);color:var(--ink);padding:8px 12px;border-radius:12px;font-size:13px;cursor:pointer;text-decoration:none;}
-    .btn:hover{background:rgba(255,255,255,0.12);}
-    .player{width:100%;aspect-ratio:16/9;background:rgba(255,255,255,0.04);border-top:1px solid var(--line);display:grid;place-items:center;}
-    .playpad{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;padding:24px;}
-    .play{padding:10px 16px;border-radius:12px;background:var(--accent);color:#0a1020;font-weight:700;border:none;cursor:pointer;font-size:14px;}
-    .play:active{transform:translateY(1px);}
-    .tips{border-top:1px dashed var(--line);padding:12px 16px 16px;font-size:13.5px;line-height:1.5;color:var(--ink-dim);}
-    .tips.hidden{display:none;}
-    .tips b{color:var(--hint);}
-    footer{color:var(--ink-dim);text-align:center;padding:38px 18px;border-top:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,0.05),transparent);font-size:13px;position:relative;}
-    .fire-started{margin-top:12px;font-size:12.5px;color:var(--fire);opacity:0.9;animation:glow 6s ease-in-out infinite alternate;}
-    @keyframes glow{from{opacity:0.6;}to{opacity:1;}}
+    .btn:hover{border-color:#3a3a55}
+    .hero{
+      border:1px solid var(--edge); border-radius:16px; padding:18px 18px 10px 18px;
+      background:linear-gradient(180deg, #141423aa, #10101a), radial-gradient(800px 600px at 80% -20%, #2a2259aa, transparent 60%);
+      box-shadow:inset 0 0 0 1px #ffffff05, 0 20px 60px #0008;
+      margin-bottom:18px;
+    }
+    .hero h2{margin:0 0 8px 0; font-size:16px; color:#dcdcf5}
+    .hero p{margin:0 0 10px 0; color:var(--muted)}
+    .grid{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px}
+    @media (max-width:760px){ .grid{grid-template-columns:1fr} }
+    .card{
+      background:linear-gradient(180deg, #12121a, #0f0f17);
+      border:1px solid var(--edge); border-radius:14px; padding:14px;
+      box-shadow:inset 0 0 0 1px #ffffff08, 0 8px 28px #0007;
+    }
+    .row{display:flex; align-items:center; gap:12px}
+    .num{
+      width:30px; height:30px; display:grid; place-items:center; border-radius:8px;
+      background:linear-gradient(180deg, #1d1d2a, #161623); border:1px solid var(--ring); color:#cfcff6;
+      font-weight:600; font-size:13px;
+    }
+    .title{font-weight:600}
+    .note{color:var(--muted); font-size:13px; margin-top:6px}
+    .play{margin-top:10px; display:flex; gap:8px; flex-wrap:wrap}
+    .pill{
+      padding:8px 12px; border-radius:999px; border:1px solid var(--edge); background:var(--card2);
+      color:var(--fg); text-decoration:none; font-size:13px
+    }
+    .pill:hover{border-color:#3a3a55}
+    .yt{
+      width:100%; aspect-ratio:16/9; border:1px solid var(--edge); border-radius:12px; margin-top:10px;
+      background:#0c0c14; overflow:hidden
+    }
+    details.hint{margin-top:10px; border:1px dashed #2a2a3a; border-radius:10px; padding:8px 10px; background:#0f0f18}
+    details.hint summary{cursor:pointer; color:#cfcff6; font-size:13px}
+    details.hint div{color:var(--muted); font-size:13px; margin-top:6px}
+    footer{margin-top:24px; display:flex; justify-content:space-between; align-items:center; gap:12px; color:var(--muted)}
+    .tiny{font-size:12px}
   </style>
 </head>
 <body>
-  <header>
-    <div class="wrap">
-      <h1>four.plnt.earth — Taylor Ritual</h1>
-      <div class="sub">
-        Click to play each track. Flip on hints to discover why <i>Wonderland</i> is almost certainly not about John Mayer.
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="glyph" aria-hidden="true"></div>
+        <h1>FOUR · Taylor Ritual</h1>
       </div>
-      <div class="toolbar">
-        <label class="pill" aria-label="Toggle hints">
-          <input id="hintToggle" type="checkbox" checked />
-          <span>Show decode hints</span>
-        </label>
-        <div class="legend">
-          <span>1989 Deluxe focus</span>
-          <span>Context tracks for contrast</span>
-        </div>
-      </div>
-    </div>
-  </header>
+      <nav class="nav">
+        <a class="btn" href="/four/escape.html">🔓 ESCAPE — Keys → Castle</a>
+      </nav>
+    </header>
 
-  <main class="wrap">
-    <section class="grid">
-      <!-- Wonderland -->
-      <article class="card">
-        <div class="card-head">
-          <div class="track-meta">
-            <div class="dot" aria-hidden="true"></div>
-            <div>
-              <div class="title">Wonderland</div>
-              <div class="artist">Taylor Swift • 1989 (Deluxe)</div>
-            </div>
-          </div>
-          <div class="actions">
-            <a class="btn" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=JhICcmiIE80">Open on YouTube</a>
-          </div>
-        </div>
-        <div class="player" id="p1" data-video-id="JhICcmiIE80">
-          <div class="playpad">
-            <button class="play" data-target="p1">Play</button>
-            <div class="sub" style="font-size:12.5px; color:var(--ink-dim)">Privacy-enhanced embed loads on click</div>
+    <section class="hero" aria-labelledby="about">
+      <h2 id="about">A four-song pass (click to play)</h2>
+      <p>Quiet listening. One pass. Each card has a short hint. <em>“Dear John”</em> keeps the original notes — “stuff for John” stays.</p>
+    </section>
+
+    <section class="grid" id="tracks">
+      <!-- 1: Wonderland (Lyric) -->
+      <article class="card" data-id="JhICcmiIE80" data-url="https://www.youtube.com/watch?v=JhICcmiIE80">
+        <div class="row">
+          <div class="num">1</div>
+          <div>
+            <div class="title">Wonderland (Lyric)</div>
+            <div class="note">Through the looking-glass → curiosity as compass, not proof.</div>
           </div>
         </div>
-        <div class="tips">
-          <b>Plural grammar</b>: “We found,” “you and I” = shared world, not a single offender.<br/>
-          <b>Mythic setting</b>: rabbit hole, wonder, illusion → perception play, not confession.<br/>
-          <b>1989 context</b>: cinematic era. Less diary. More lens.
+        <div class="play">
+          <a class="pill" data-action="play">▶ Play here</a>
+          <a class="pill" href="https://www.youtube.com/watch?v=JhICcmiIE80" target="_blank" rel="noopener">↗ Open on YouTube</a>
         </div>
+        <div class="yt" hidden></div>
+        <details class="hint">
+          <summary>hint</summary>
+          <div>Let the metaphor bend without breaking. If the path tilts, stay curious, not dizzy.</div>
+        </details>
       </article>
 
-      <!-- You Are In Love -->
-      <article class="card">
-        <div class="card-head">
-          <div class="track-meta">
-            <div class="dot" aria-hidden="true" style="background: radial-gradient(circle at 30% 30%, var(--violet), var(--blue));"></div>
-            <div>
-              <div class="title">You Are In Love</div>
-              <div class="artist">Taylor Swift • 1989 (Deluxe)</div>
-            </div>
-          </div>
-          <div class="actions">
-            <a class="btn" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=M7ySK0keirY">Open on YouTube</a>
+      <!-- 2: You Are In Love (Lyric) -->
+      <article class="card" data-id="M7ySK0keirY" data-url="https://www.youtube.com/watch?v=M7ySK0keirY">
+        <div class="row">
+          <div class="num">2</div>
+          <div>
+            <div class="title">You Are In Love (Lyric)</div>
+            <div class="note">The everyday proof — small signals align when the noise is low.</div>
           </div>
         </div>
-        <div class="player" id="p2" data-video-id="M7ySK0keirY">
-          <div class="playpad">
-            <button class="play" data-target="p2">Play</button>
-            <div class="sub" style="font-size:12.5px; color:var(--ink-dim)">Click to load the lyric video</div>
-          </div>
+        <div class="play">
+          <a class="pill" data-action="play">▶ Play here</a>
+          <a class="pill" href="https://www.youtube.com/watch?v=M7ySK0keirY" target="_blank" rel="noopener">↗ Open on YouTube</a>
         </div>
-        <div class="tips">
-          <b>Observation mode</b>: small proofs of love → witness voice, not litigation.<br/>
-          <b>Tone match</b>: dream-pop texture. Same lens era as “Wonderland.”
-        </div>
+        <div class="yt" hidden></div>
+        <details class="hint">
+          <summary>hint</summary>
+          <div>Don’t force a sign. Let ordinary rooms become bright by consistency.</div>
+        </details>
       </article>
 
-      <!-- New Romantics -->
-      <article class="card">
-        <div class="card-head">
-          <div class="track-meta">
-            <div class="dot" aria-hidden="true" style="background: radial-gradient(circle at 30% 30%, var(--blue), var(--mint));"></div>
-            <div>
-              <div class="title">New Romantics</div>
-              <div class="artist">Taylor Swift • 1989 (Deluxe)</div>
-            </div>
-          </div>
-          <div class="actions">
-            <a class="btn" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=3-BcH7KowGE">Open on YouTube</a>
+      <!-- 3: New Romantics (Lyric) -->
+      <article class="card" data-id="3-BcH7KowGE" data-url="https://www.youtube.com/watch?v=3-BcH7KowGE">
+        <div class="row">
+          <div class="num">3</div>
+          <div>
+            <div class="title">New Romantics (Lyric)</div>
+            <div class="note">Make a castle from the bricks they threw — rebuild as art.</div>
           </div>
         </div>
-        <div class="player" id="p3" data-video-id="3-BcH7KowGE">
-          <div class="playpad">
-            <button class="play" data-target="p3">Play</button>
-            <div class="sub" style="font-size:12.5px; color:var(--ink-dim)">Click to load the lyric video</div>
-          </div>
+        <div class="play">
+          <a class="pill" data-action="play">▶ Play here</a>
+          <a class="pill" href="https://www.youtube.com/watch?v=3-BcH7KowGE" target="_blank" rel="noopener">↗ Open on YouTube</a>
         </div>
-        <div class="tips">
-          <b>Self-aware fantasy</b>: choosing the frame (“we are too busy dancing”) ≠ resentment.<br/>
-          <b>Era control</b>: anchors “Wonderland” in a project about perception, not biography.
-        </div>
+        <div class="yt" hidden></div>
+        <details class="hint">
+          <summary>hint</summary>
+          <div>Take what stung and stack it into signal. Height isn’t hollow if the mortar is honest.</div>
+        </details>
       </article>
 
-      <!-- Dear John (context) -->
-      <article class="card">
-        <div class="card-head">
-          <div class="track-meta">
-            <div class="dot" aria-hidden="true" style="background: radial-gradient(circle at 30% 30%, #ffb3b3, #ffc48f);"></div>
-            <div>
-              <div class="title">Dear John</div>
-              <div class="artist">Taylor Swift • Speak Now</div>
-            </div>
-          </div>
-          <div class="actions">
-            <a class="btn" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=N-FYySSy0rM">Open on YouTube</a>
+      <!-- 4: Dear John (Lyric) — keep the stuff for John -->
+      <article class="card" data-id="N-FYySSy0rM" data-url="https://www.youtube.com/watch?v=N-FYySSy0rM" data-john="true">
+        <div class="row">
+          <div class="num">4</div>
+          <div>
+            <div class="title">Dear John (Lyric)</div>
+            <div class="note">Handle gently. This is a mirror, not a trial. One pass tonight.</div>
           </div>
         </div>
-        <div class="player" id="p4" data-video-id="N-FYySSy0rM">
-          <div class="playpad">
-            <button class="play" data-target="p4">Play</button>
-            <div class="sub" style="font-size:12.5px; color:var(--ink-dim)">Click to load the lyric video</div>
+        <div class="play">
+          <a class="pill" data-action="play">▶ Play here</a>
+          <a class="pill" href="https://www.youtube.com/watch?v=N-FYySSy0rM" target="_blank" rel="noopener">↗ Open on YouTube</a>
+        </div>
+        <div class="yt" hidden></div>
+        <!-- Preserved “stuff for John”: a quiet, opt-in note block -->
+        <details class="hint" open>
+          <summary>john notes (kept)</summary>
+          <div>
+            - Breathe at the choruses. No rewinds.<br>
+            - Let meaning land without defense.<br>
+            - Archive the feeling, not the fight.
           </div>
-        </div>
-        <div class="tips">
-          <b>Direct address</b>: second-person accusation; named power imbalance.<br/>
-          <b>Contrast key</b>: this is how a Mayer-targeted song reads. “Wonderland” does not use this voice.
-        </div>
+        </details>
       </article>
     </section>
-  </main>
 
-  <footer>
-    four.plnt.earth — click, listen, compare grammar and tone. The timeline tells the truth.
-    <div style="margin-top:10px;font-size:12px;">Privacy-enhanced embeds load only when you press Play.</div>
-    <div class="fire-started">🔥 The fire isn’t danger — it’s the first light of understanding.</div>
-  </footer>
+    <footer>
+      <div class="tiny">Ritual path: wonder → proof → rebuild → reflection</div>
+      <div class="tiny">© FOUR · Illumina</div>
+    </footer>
+  </div>
 
   <script>
-    const toggle=document.getElementById('hintToggle');
-    const tips=Array.from(document.querySelectorAll('.tips'));
-    function syncTips(){for(const t of tips){toggle.checked?t.classList.remove('hidden'):t.classList.add('hidden');}}
-    toggle.addEventListener('change',syncTips);syncTips();
-
-    function injectIframe(host,videoId){
-      host.innerHTML='';
-      const iframe=document.createElement('iframe');
-      const params=new URLSearchParams({autoplay:'1',modestbranding:'1',rel:'0',color:'white'});
-      iframe.title='YouTube video';
-      iframe.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-      iframe.allowFullscreen=true;
-      iframe.style.width='100%';iframe.style.height='100%';iframe.style.border='0';
-      iframe.src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(videoId)+'?'+params.toString();
-      host.appendChild(iframe);
-    }
-
-    document.querySelectorAll('.play').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        const host=document.getElementById(btn.dataset.target);
-        if(!host) return;
-        injectIframe(host,host.dataset.videoId);
-      });
-    });
+    (function(){
+      var cards = document.querySelectorAll('.card');
+      function mountIframe(card){
+        var box = card.querySelector('.yt');
+        if(!box || !box.hasAttribute('hidden')) return;
+        var id = card.getAttribute('data-id');
+        var iframe = document.createElement('iframe');
+        iframe.setAttribute('allowfullscreen','');
+        iframe.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
+        iframe.setAttribute('allow','autoplay; encrypted-media; picture-in-picture');
+        iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?rel=0&modestbranding=1&playsinline=1&autoplay=1';
+        box.appendChild(iframe);
+        box.removeAttribute('hidden');
+      }
+      document.addEventListener('click', function(e){
+        var el = e.target;
+        if(el && el.matches('[data-action="play"]')){
+          var card = el.closest('.card');
+          if(card) mountIframe(card);
+        }
+      }, {passive:true});
+    })();
   </script>
 </body>
 </html>
