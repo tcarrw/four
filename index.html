@@ -37,7 +37,6 @@
       border:1px solid var(--edge); color:var(--fg); text-decoration:none;
     }
     .btn:hover{border-color:#3a3a55}
-    /* NEW badge */
     .badge-new{
       display:none; align-items:center; gap:6px;
       padding:6px 10px; border-radius:999px; border:1px solid var(--edge);
@@ -45,15 +44,11 @@
       color:#dff7ef; font-size:11px; letter-spacing:.3px;
       box-shadow:inset 0 0 0 1px #ffffff08;
     }
-    .dot{
-      width:8px; height:8px; border-radius:50%; background:var(--new); box-shadow:0 0 10px var(--new);
-    }
-
+    .dot{width:8px; height:8px; border-radius:50%; background:var(--new); box-shadow:0 0 10px var(--new);}
     .hero{
       border:1px solid var(--edge); border-radius:16px; padding:18px 18px 10px 18px;
       background:linear-gradient(180deg, #141423aa, #10101a), radial-gradient(800px 600px at 80% -20%, #2a2259aa, transparent 60%);
-      box-shadow:inset 0 0 0 1px #ffffff05, 0 20px 60px #0008;
-      margin-bottom:18px;
+      box-shadow:inset 0 0 0 1px #ffffff05, 0 20px 60px #0008; margin-bottom:18px;
     }
     .hero h2{margin:0 0 8px 0; font-size:16px; color:#dcdcf5}
     .hero p{margin:0 0 10px 0; color:var(--muted)}
@@ -87,6 +82,7 @@
     details.hint div{color:var(--muted); font-size:13px; margin-top:6px}
     footer{margin-top:24px; display:flex; justify-content:space-between; align-items:center; gap:12px; color:var(--muted)}
     .tiny{font-size:12px}
+    .soft{font-style:italic; color:#dcdcf5}
   </style>
 </head>
 <body>
@@ -125,6 +121,7 @@
         <details class="hint">
           <summary>hint</summary>
           <div>Let the metaphor bend without breaking. If the path tilts, stay curious, not dizzy.</div>
+          <div class="soft" style="margin-top:6px">“I’m ready to follow you through the looking-glass — not to lose myself, but to learn how to see.”</div>
         </details>
       </article>
 
@@ -168,8 +165,8 @@
         </details>
       </article>
 
-      <!-- 4: Dear John (Lyric) — keep the stuff for John -->
-      <article class="card" data-id="N-FYySSy0rM" data-url="https://www.youtube.com/watch?v=N-FYySSy0rM" data-john="true">
+      <!-- 4: Dear John (Lyric) — anchor added -->
+      <article id="dear-john" class="card" data-id="N-FYySSy0rM" data-url="https://www.youtube.com/watch?v=N-FYySSy0rM" data-john="true">
         <div class="row">
           <div class="num">4</div>
           <div>
@@ -182,7 +179,6 @@
           <a class="pill" href="https://www.youtube.com/watch?v=N-FYySSy0rM" target="_blank" rel="noopener">↗ Open on YouTube</a>
         </div>
         <div class="yt" hidden></div>
-        <!-- Preserved “stuff for John”: a quiet, opt-in note block -->
         <details class="hint" open>
           <summary>john notes (kept)</summary>
           <div>
@@ -233,7 +229,6 @@
       var show = (now - saved) < (24*60*60*1000);
       if(show && badge){ badge.style.display = 'inline-flex'; }
 
-      // if they click the ESCAPE button, start the 24h timer from that moment
       var escapeBtn = document.querySelector('a[href="/four/escape.html"]');
       if(escapeBtn){
         escapeBtn.addEventListener('click', function(){
