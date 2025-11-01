@@ -13,9 +13,10 @@
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; background:radial-gradient(1000px 1000px at 10% -10%, #17172a 0, transparent 50%),
-                 radial-gradient(800px 800px at 110% 10%, #1a152e 0, transparent 55%),
-                 linear-gradient(180deg, #0a0a10, #0b0b10);
+      margin:0; background:
+        radial-gradient(1200px 900px at 10% -10%, #17172a 0, transparent 55%),
+        radial-gradient(1000px 800px at 110% 10%, #1a152e 0, transparent 60%),
+        linear-gradient(180deg, #0a0a10, #0b0b10);
       color:var(--fg); font:400 16px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
       -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
     }
@@ -37,13 +38,13 @@
     }
     .btn:hover{border-color:#3a3a55}
     .hero{
-      border:1px solid var(--edge); border-radius:16px; padding:18px 18px 4px 18px;
+      border:1px solid var(--edge); border-radius:16px; padding:18px 18px 10px 18px;
       background:linear-gradient(180deg, #141423aa, #10101a), radial-gradient(800px 600px at 80% -20%, #2a2259aa, transparent 60%);
       box-shadow:inset 0 0 0 1px #ffffff05, 0 20px 60px #0008;
       margin-bottom:18px;
     }
     .hero h2{margin:0 0 8px 0; font-size:16px; color:#dcdcf5}
-    .hero p{margin:0 0 14px 0; color:var(--muted)}
+    .hero p{margin:0 0 10px 0; color:var(--muted)}
     .grid{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px}
     @media (max-width:760px){ .grid{grid-template-columns:1fr} }
     .card{
@@ -59,9 +60,7 @@
     }
     .title{font-weight:600}
     .note{color:var(--muted); font-size:13px; margin-top:6px}
-    .play{
-      margin-top:10px; display:flex; gap:8px; flex-wrap:wrap
-    }
+    .play{margin-top:10px; display:flex; gap:8px; flex-wrap:wrap}
     .pill{
       padding:8px 12px; border-radius:999px; border:1px solid var(--edge); background:var(--card2);
       color:var(--fg); text-decoration:none; font-size:13px
@@ -71,6 +70,9 @@
       width:100%; aspect-ratio:16/9; border:1px solid var(--edge); border-radius:12px; margin-top:10px;
       background:#0c0c14; overflow:hidden
     }
+    details.hint{margin-top:10px; border:1px dashed #2a2a3a; border-radius:10px; padding:8px 10px; background:#0f0f18}
+    details.hint summary{cursor:pointer; color:#cfcff6; font-size:13px}
+    details.hint div{color:var(--muted); font-size:13px; margin-top:6px}
     footer{margin-top:24px; display:flex; justify-content:space-between; align-items:center; gap:12px; color:var(--muted)}
     .tiny{font-size:12px}
   </style>
@@ -89,10 +91,7 @@
 
     <section class="hero" aria-labelledby="ritual">
       <h2 id="ritual">Houdini Thread · Keys → Castle</h2>
-      <p>
-        A four-song Taylor ritual that moves in one arc: <strong>escape</strong> → <strong>reclaim</strong> → <strong>rebuild</strong> → <strong>reign</strong>.
-        Click any track to play in the page, or open on YouTube. Quiet, focused, one pass.
-      </p>
+      <p>A four-song arc: <strong>escape</strong> → <strong>reclaim</strong> → <strong>rebuild</strong> → <strong>reign</strong>. Click to play in-page, or open on YouTube.</p>
     </section>
 
     <section class="grid" id="tracks">
@@ -110,6 +109,10 @@
           <a class="pill" href="https://www.youtube.com/watch?v=3tmd-ClpJxA" target="_blank" rel="noopener">↗ Open on YouTube</a>
         </div>
         <div class="yt" hidden></div>
+        <details class="hint">
+          <summary>hint</summary>
+          <div>Step 1: name the lock. If a gate isn’t yours, don’t beg for it — build the door you can open.</div>
+        </details>
       </article>
 
       <!-- 2 -->
@@ -126,6 +129,10 @@
           <a class="pill" href="https://www.youtube.com/watch?v=tCXGJQYZ9JA" target="_blank" rel="noopener">↗ Open on YouTube</a>
         </div>
         <div class="yt" hidden></div>
+        <details class="hint">
+          <summary>hint</summary>
+          <div>Step 2: accept the collapse. What falls may be the scaffolding you outgrew.</div>
+        </details>
       </article>
 
       <!-- 3 -->
@@ -142,6 +149,10 @@
           <a class="pill" href="https://www.youtube.com/watch?v=wyK7YuwUWsU" target="_blank" rel="noopener">↗ Open on YouTube</a>
         </div>
         <div class="yt" hidden></div>
+        <details class="hint">
+          <summary>hint</summary>
+          <div>Step 3: stack the bricks. Reuse every throw as structure; mortar = honesty.</div>
+        </details>
       </article>
 
       <!-- 4 -->
@@ -158,6 +169,10 @@
           <a class="pill" href="https://www.youtube.com/watch?v=nQmJ6R9xZ2o" target="_blank" rel="noopener">↗ Open on YouTube</a>
         </div>
         <div class="yt" hidden></div>
+        <details class="hint">
+          <summary>hint</summary>
+          <div>Step 4: reign differently. Keep the crown only if it fits the work, not the wound.</div>
+        </details>
       </article>
     </section>
 
