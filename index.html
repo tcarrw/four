@@ -45,6 +45,7 @@
       box-shadow:inset 0 0 0 1px #ffffff08;
     }
     .dot{width:8px; height:8px; border-radius:50%; background:var(--new); box-shadow:0 0 10px var(--new);}
+
     .hero{
       border:1px solid var(--edge); border-radius:16px; padding:18px 18px 10px 18px;
       background:linear-gradient(180deg, #141423aa, #10101a), radial-gradient(800px 600px at 80% -20%, #2a2259aa, transparent 60%);
@@ -70,7 +71,7 @@
     .play{margin-top:10px; display:flex; gap:8px; flex-wrap:wrap}
     .pill{
       padding:8px 12px; border-radius:999px; border:1px solid var(--edge); background:var(--card2);
-      color:var(--fg); text-decoration:none; font-size:13px
+      color:var(--fg); text-decoration:none; font-size:13px; cursor:pointer; user-select:none;
     }
     .pill:hover{border-color:#3a3a55}
     .yt{
@@ -80,9 +81,18 @@
     details.hint{margin-top:10px; border:1px dashed #2a2a3a; border-radius:10px; padding:8px 10px; background:#0f0f18}
     details.hint summary{cursor:pointer; color:#cfcff6; font-size:13px}
     details.hint div{color:var(--muted); font-size:13px; margin-top:6px}
-    footer{margin-top:24px; display:flex; justify-content:space-between; align-items:center; gap:12px; color:var(--muted)}
+    footer{margin-top:24px; display:flex; justify-content:space-between; align-items:center; gap:12px; color:var(--muted); flex-wrap:wrap}
     .tiny{font-size:12px}
     .soft{font-style:italic; color:#dcdcf5}
+
+    /* toast */
+    .toast{
+      position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(10px);
+      background:linear-gradient(180deg,#111822,#0c1118); color:#e9f7ff; border:1px solid #223042;
+      border-radius:10px; padding:10px 14px; font-size:13px; opacity:0; pointer-events:none;
+      box-shadow:0 10px 30px #0008; transition:opacity .2s ease, transform .2s ease;
+    }
+    .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
   </style>
 </head>
 <body>
@@ -121,7 +131,10 @@
         <details class="hint">
           <summary>hint</summary>
           <div>Let the metaphor bend without breaking. If the path tilts, stay curious, not dizzy.</div>
-          <div class="soft" style="margin-top:6px">“I’m ready to follow you through the looking-glass — not to lose myself, but to learn how to see.”</div>
+          <div class="soft" id="wonderWhisper" style="margin-top:6px">“I’m ready to follow you through the looking-glass — not to lose myself, but to learn how to see.”</div>
+          <div style="margin-top:8px">
+            <button class="pill" type="button" id="copyWhisper">Copy whisper</button>
+          </div>
         </details>
       </article>
 
@@ -197,6 +210,8 @@
     </footer>
   </div>
 
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true">Copied</div>
+
   <script>
     (function(){
       // click-to-play embeds
@@ -221,7 +236,7 @@
         }
       }, {passive:true});
 
-      // 24h NEW badge logic
+      // 24h NEW badge logic (for Escape button)
       var BADGE_KEY = 'four.escape.badge.ts';
       var badge = document.getElementById('newBadge');
       var now = Date.now();
@@ -229,12 +244,47 @@
       if(!saved){ localStorage.setItem(BADGE_KEY, String(now)); saved = now; }
       var show = (now - saved) < (24*60*60*1000);
       if(show && badge){ badge.style.display = 'inline-flex'; }
-
       var escapeBtn = document.querySelector('a[href="/four/escape.html"]');
       if(escapeBtn){
         escapeBtn.addEventListener('click', function(){
           localStorage.setItem(BADGE_KEY, String(Date.now()));
         }, {passive:true});
+      }
+
+      // copy whisper
+      var copyBtn = document.getElementById('copyWhisper');
+      var whisperEl = document.getElementById('wonderWhisper');
+      var toast = document.getElementById('toast');
+
+      function showToast(text){
+        if(!toast) return;
+        toast.textContent = text || 'Copied';
+        toast.classList.add('show');
+        setTimeout(function(){ toast.classList.remove('show'); }, 1800);
+      }
+
+      function copyText(text){
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(text).then(function(){ showToast('Copied'); }, function(){ fallbackCopy(text); });
+        } else {
+          fallbackCopy(text);
+        }
+      }
+
+      function fallbackCopy(text){
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly','');
+        ta.style.position='fixed'; ta.style.top='-1000px'; ta.style.opacity='0';
+        document.body.appendChild(ta);
+        ta.select(); ta.setSelectionRange(0, ta.value.length);
+        try{ document.execCommand('copy'); }catch(e){}
+        document.body.removeChild(ta);
+        showToast('Copied');
+      }
+
+      if(copyBtn && whisperEl){
+        copyBtn.addEventListener('click', function(){ copyText(whisperEl.textContent.trim()); });
       }
     })();
   </script>
