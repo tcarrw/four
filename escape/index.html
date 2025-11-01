@@ -71,7 +71,7 @@
     .play{margin-top:10px; display:flex; gap:8px; flex-wrap:wrap}
     .pill{
       padding:8px 12px; border-radius:999px; border:1px solid var(--edge); background:var(--card2);
-      color:var(--fg); text-decoration:none; font-size:13px
+      color:var(--fg); text-decoration:none; font-size:13px; cursor:pointer; user-select:none;
     }
     .pill:hover{border-color:#3a3a55}
     .yt{
@@ -81,9 +81,20 @@
     details.hint{margin-top:10px; border:1px dashed #2a2a3a; border-radius:10px; padding:8px 10px; background:#0f0f18}
     details.hint summary{cursor:pointer; color:#cfcff6; font-size:13px}
     details.hint div{color:var(--muted); font-size:13px; margin-top:6px}
-    footer{margin-top:24px; display:flex; justify-content:space-between; align-items:center; gap:12px; color:var(--muted); flex-wrap:wrap}
+    footer{
+      margin-top:24px; display:flex; justify-content:space-between; align-items:center; gap:12px;
+      color:var(--muted); flex-wrap:wrap
+    }
     .tiny{font-size:12px}
     .mantra{font-style:italic; color:#dcdcf5}
+    /* toast */
+    .toast{
+      position:fixed; left:50%; bottom:28px; transform:translateX(-50%) translateY(10px);
+      background:linear-gradient(180deg,#111822,#0c1118); color:#e9f7ff; border:1px solid #223042;
+      border-radius:10px; padding:10px 14px; font-size:13px; opacity:0; pointer-events:none;
+      box-shadow:0 10px 30px #0008; transition:opacity .2s ease, transform .2s ease;
+    }
+    .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
   </style>
 </head>
 <body>
@@ -187,10 +198,15 @@
     </section>
 
     <footer>
-      <div class="tiny mantra">“We don’t run away — we remember the door. We choose wonder, we choose the key, and we walk through together.”</div>
-      <div class="tiny"><a href="/four/#dear-john" style="color:#b9a2ff;text-decoration:none;">← one pass with John</a></div>
+      <div class="tiny mantra" id="escapeMantra">“We don’t run away — we remember the door. We choose wonder, we choose the key, and we walk through together.”</div>
+      <div class="tiny" style="display:flex; align-items:center; gap:8px;">
+        <a href="/four/#dear-john" style="color:#b9a2ff;text-decoration:none;">← one pass with John</a>
+        <button class="pill" type="button" id="copyMantra">Copy mantra</button>
+      </div>
     </footer>
   </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true">Copied</div>
 
   <script>
     (function(){
@@ -221,6 +237,42 @@
           if(card) mountIframe(card);
         }
       }, {passive:true});
+
+      // copy mantra
+      var copyBtn = document.getElementById('copyMantra');
+      var mantraEl = document.getElementById('escapeMantra');
+      var toast = document.getElementById('toast');
+
+      function showToast(text){
+        if(!toast) return;
+        toast.textContent = text || 'Copied';
+        toast.classList.add('show');
+        setTimeout(function(){ toast.classList.remove('show'); }, 1800);
+      }
+
+      function copyText(text){
+        if(navigator.clipboard && navigator.clipboard.writeText){
+          navigator.clipboard.writeText(text).then(function(){ showToast('Copied'); }, function(){ fallbackCopy(text); });
+        } else {
+          fallbackCopy(text);
+        }
+      }
+
+      function fallbackCopy(text){
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly','');
+        ta.style.position='fixed'; ta.style.top='-1000px'; ta.style.opacity='0';
+        document.body.appendChild(ta);
+        ta.select(); ta.setSelectionRange(0, ta.value.length);
+        try{ document.execCommand('copy'); }catch(e){}
+        document.body.removeChild(ta);
+        showToast('Copied');
+      }
+
+      if(copyBtn && mantraEl){
+        copyBtn.addEventListener('click', function(){ copyText(mantraEl.textContent.trim()); });
+      }
     })();
   </script>
 </body>
