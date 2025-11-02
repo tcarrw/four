@@ -3,357 +3,350 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>four.plnt.earth — resonance</title>
-<meta name="theme-color" content="#0d0d0f">
+<title>four.plnt.earth — quiet count</title>
+<meta name="theme-color" content="#0b0b0d">
 <style>
   :root{
     --bg:#0b0b0d; --fg:#ececec; --dim:#b8b8c3; --line:#1a1a21;
-    --tile:#111216; --accent:#c9a97e; --muted:#7f8a9a;
-    --exile:#8d93a6; --betty:#c8b482; --champ:#a6797f; --coney:#7e8f83;
+    --muted:#9096a4; --good:#cde8c1; --bad:#f1c0c0; --hint:#d6c8a8;
   }
   *{box-sizing:border-box}
-  html,body{margin:0;height:100%;background:radial-gradient(1200px 700px at 60% -10%,#17181d 0%,#0b0b0d 60%,#0b0b0d 100%);color:var(--fg);font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; letter-spacing:0.2px}
-  a{color:inherit}
-  .wrap{max-width:1100px;margin:0 auto;padding:24px}
-  header{padding:28px 0 12px 0}
-  h1{margin:0;font-size:28px; font-weight:700; letter-spacing:0.5px}
+  html,body{margin:0;height:100%;background:#0b0b0d;color:var(--fg);
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial}
+  a{color:inherit;text-decoration:none}
+  header{max-width:1100px;margin:0 auto;padding:24px 24px 8px}
+  h1{margin:0;font-size:28px;font-weight:700;letter-spacing:.3px}
   .sub{margin-top:6px;color:var(--dim);font-size:14px}
-  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:22px}
-  .tile{position:relative;border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:14px;overflow:hidden}
-  .tile::before{content:"";position:absolute;inset:0;mix-blend:screen;opacity:.18;pointer-events:none}
-  .tile[data-song="exile"]::before{background:linear-gradient(120deg,transparent, var(--exile))}
-  .tile[data-song="betty"]::before{background:linear-gradient(120deg,transparent, var(--betty))}
-  .tile[data-song="champagne"]::before{background:linear-gradient(120deg,transparent, var(--champ))}
-  .tile[data-song="coney"]::before{background:linear-gradient(120deg,transparent, var(--coney))}
-  .tile-head{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 8px 16px}
-  .title{font-weight:600;font-size:16px}
-  .meta{color:var(--muted);font-size:12px}
-  .tags{display:flex;gap:8px;padding:0 16px 12px 16px;flex-wrap:wrap}
-  .tag{border:1px solid var(--line);color:var(--dim);font-size:11px;padding:4px 8px;border-radius:999px}
-  .panel{border-top:1px solid var(--line);padding:14px 16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .cell{border:1px dashed var(--line);border-radius:10px;padding:10px;min-height:82px;background:rgba(255,255,255,0.015)}
-  .cell h4{margin:0 0 8px 0; font-size:12px;color:var(--dim);font-weight:600;letter-spacing:.3px;text-transform:uppercase}
-  .meter{display:flex;gap:6px}
-  .dot{width:8px;height:8px;border-radius:50%;background:#2a2b31;box-shadow:0 0 0 1px #1f2026 inset;opacity:.9}
-  .dot.on{background:#d6c8a8}
-  .actions{display:flex;gap:8px;margin-top:8px}
-  .btn{appearance:none;border:1px solid var(--line);background:#121319;color:var(--fg);padding:10px 12px;border-radius:10px;font-size:13px}
-  .btn:hover{border-color:#2a2c35}
-  .play{display:flex;align-items:center;gap:8px;text-decoration:none}
-  .play svg{width:14px;height:14px}
-  .bar{margin-top:18px;border-top:1px solid var(--line);padding-top:18px;color:var(--dim);font-size:12px}
-  footer{padding:28px 0;color:var(--dim);font-size:12px}
-  .mode{display:flex;gap:8px;align-items:center;margin-top:10px}
-  .switch{position:relative;display:inline-block;width:44px;height:24px}
-  .switch input{opacity:0;width:0;height:0}
-  .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#1a1b20;border-radius:999px;border:1px solid var(--line);transition:.2s}
-  .slider:before{content:"";position:absolute;height:18px;width:18px;left:3px;top:2px;background:#c9a97e;border-radius:50%;transition:.2s}
-  input:checked + .slider{background:#24262d}
-  input:checked + .slider:before{transform:translateX(20px)}
-  .legend{font-size:12px;color:var(--dim)}
-  .note{font-style:italic;color:#bfbfbf}
-  .fade{opacity:.9}
-  details{margin-top:12px;border-top:1px solid rgba(255,255,255,0.05);padding-top:12px}
+  .legend{max-width:1100px;margin:0 auto 8px;padding:0 24px;color:var(--muted);font-size:12px}
+
+  .grid{max-width:1100px;margin:12px auto 28px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding:0 24px}
+  .card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
+    border-radius:14px;overflow:hidden}
+  .card header{padding:14px 14px 10px}
+  .title{font-weight:600}
+  .meta{color:var(--muted);font-size:12px;margin-top:2px}
+  .vid{position:relative;aspect-ratio:16/9;background:#000}
+  .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+  .tags{display:flex;gap:8px;padding:8px 14px 0 14px;color:#cfcfd7;flex-wrap:wrap}
+  .tag{border:1px solid var(--line);border-radius:999px;font-size:11px;padding:4px 8px;color:var(--dim)}
+
+  .panel{display:flex;align-items:center;gap:10px;padding:12px 14px;border-top:1px solid var(--line)}
+  .label{font-size:12px;color:var(--dim)}
+  .counter{display:flex;align-items:center;gap:10px}
+  .btn{appearance:none;border:1px solid var(--line);background:#121319;color:var(--fg);
+    padding:8px 10px;border-radius:10px;font-size:13px}
+  .btn:active{transform:translateY(1px)}
+  .num{min-width:24px;text-align:center;font-variant-numeric:tabular-nums}
+  .check{margin-left:auto}
+  .result{font-size:12px;color:var(--dim)}
+  .result.good{color:var(--good)}
+  .result.bad{color:var(--bad)}
+
+  details{max-width:1100px;margin:0 auto 18px;padding:0 24px}
   details summary{cursor:pointer;color:var(--dim);font-weight:600;list-style:none}
-  details[open] summary{color:#d6c8a8}
-  details p{color:var(--muted);font-size:13px;line-height:1.45;margin:8px 0}
+  details[open] summary{color:var(--hint)}
+  details p{color:var(--muted);font-size:13px;line-height:1.45}
 
-  /* Tooltip */
-  .hint{display:inline-flex;align-items:center;gap:6px}
-  .tip{display:inline-block; width:14px;height:14px;border:1px solid var(--line);border-radius:50%;position:relative; text-indent:-9999px}
-  .tip:before{content:"i"; position:absolute; left:0; right:0; top:0; bottom:0; text-indent:0; font-size:11px; line-height:14px; text-align:center; color:var(--dim)}
-  .tip[data-tooltip]{position:relative}
-  .tip[data-tooltip]:hover::after, .tip[data-tooltip]:focus::after{
-    content:attr(data-tooltip);
-    position:absolute; left:20px; top:50%; transform:translateY(-50%);
-    background:#14151b; color:#cfcfd7; border:1px solid #21222b; border-radius:8px;
-    padding:8px 10px; font-size:12px; width:min(320px,70vw); z-index:10; box-shadow:0 10px 20px rgba(0,0,0,.25)
-  }
+  footer{max-width:1100px;margin:10px auto 32px;padding:0 24px;color:var(--dim);font-size:12px;display:flex;align-items:center;gap:10px}
 
-  @media (max-width:800px){.panel{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
+  /* dev */
+  .devbar{display:none;max-width:1100px;margin:6px auto 0;padding:0 24px}
+  .devbox{border:1px dashed var(--line);border-radius:10px;padding:10px 12px;color:var(--dim);font-size:12px;display:flex;align-items:center;gap:12px}
+  .expected{display:none;margin-left:auto;color:var(--hint);font-size:12px}
+  body.show-expected .expected{display:inline}
+  @media (max-width:900px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <h1>four.plnt.earth</h1>
-      <div class="sub">resonance · folklore → evermore · quiet study</div>
-      <div class="mode">
-        <span class="legend">view:</span>
-        <label class="switch">
-          <input id="viewSwitch" type="checkbox" aria-label="Toggle view mode">
-          <span class="slider"></span>
-        </label>
-        <span class="legend" id="modeLabel">diary</span>
-      </div>
-    </header>
+  <header>
+    <h1>four.plnt.earth</h1>
+    <div class="sub">quiet count · listen, decide, repeat</div>
+  </header>
 
-    <section class="grid" id="grid">
-      <!-- Exile -->
-      <article class="tile" data-song="exile">
-        <div class="tile-head">
-          <div>
-            <div class="title">exile</div>
-            <div class="meta">duet · winter camera</div>
-          </div>
-          <button class="btn" data-analyze="exile" aria-label="Analyze exile">analyze</button>
-        </div>
-        <div class="tags">
-          <span class="tag">observer</span>
-          <span class="tag">call ↔ response</span>
-          <span class="tag">low register</span>
-        </div>
-        <div class="panel">
-          <div class="cell">
-            <h4 class="hint">Pronouns
-              <span class="tip" tabindex="0" aria-label="Pronoun flow help" data-tooltip="Each dot ≈ a shift in who is speaking or being addressed (I/you/we/they). More dots = more viewpoint motion; fewer = a single stance."></span>
-            </h4>
-            <div class="meter" data-meter="exile-pronouns">
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            </div>
-            <div class="actions">
-              <a class="btn play" href="https://www.youtube.com/watch?v=osdoLjUNFnA" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7L8 5z" stroke="currentColor"/></svg>
-                play on YouTube
-              </a>
-            </div>
-          </div>
-          <div class="cell">
-            <h4 class="hint">Rhythm
-              <span class="tip" tabindex="0" aria-label="Rhythm help" data-tooltip="Dots ≈ narrative beats (phrase boundaries or meaning pivots). More dots = complex pacing; fewer = straightforward flow."></span>
-            </h4>
-            <div class="meter" data-meter="exile-rhythm">
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            </div>
-            <div class="bar">camera > diary</div>
-          </div>
-        </div>
-      </article>
-
-      <!-- Betty -->
-      <article class="tile" data-song="betty">
-        <div class="tile-head">
-          <div>
-            <div class="title">betty</div>
-            <div class="meta">teen vantage · porch steps</div>
-          </div>
-          <button class="btn" data-analyze="betty" aria-label="Analyze betty">analyze</button>
-        </div>
-        <div class="tags">
-          <span class="tag">narrator role</span>
-          <span class="tag">apology arc</span>
-          <span class="tag">harmonica swing</span>
-        </div>
-        <div class="panel">
-          <div class="cell">
-            <h4 class="hint">Pronouns
-              <span class="tip" tabindex="0" aria-label="Pronoun flow help" data-tooltip="Viewpoint motion: how the lyric shifts between I/you/we/they. Toggle analyze to consider a different reading."></span>
-            </h4>
-            <div class="meter" data-meter="betty-pronouns">
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            </div>
-            <div class="actions">
-              <a class="btn play" href="https://www.youtube.com/watch?v=6TAPqXkZW_I" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7L8 5z" stroke="currentColor"/></svg>
-                play on YouTube
-              </a>
-            </div>
-          </div>
-          <div class="cell">
-            <h4 class="hint">Rhythm
-              <span class="tip" tabindex="0" aria-label="Rhythm help" data-tooltip="Emotional pacing: how often the lyric pauses or pivots meaning. More dots = more turns."></span>
-            </h4>
-            <div class="meter" data-meter="betty-rhythm">
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            </div>
-            <div class="bar">role > diary</div>
-          </div>
-        </div>
-      </article>
-
-      <!-- Champagne Problems -->
-      <article class="tile" data-song="champagne">
-        <div class="tile-head">
-          <div>
-            <div class="title">champagne problems</div>
-            <div class="meta">foyer hush · detached empathy</div>
-          </div>
-          <button class="btn" data-analyze="champagne" aria-label="Analyze Champagne Problems">analyze</button>
-        </div>
-        <div class="tags">
-          <span class="tag">reportage</span>
-          <span class="tag">minor key</span>
-          <span class="tag">winter house</span>
-        </div>
-        <div class="panel">
-          <div class="cell">
-            <h4 class="hint">Pronouns
-              <span class="tip" tabindex="0" aria-label="Pronoun flow help" data-tooltip="Who is speaking to whom—and does that stance change? More dots = more shifts."></span>
-            </h4>
-            <div class="meter" data-meter="champagne-pronouns">
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            </div>
-            <div class="actions">
-              <a class="btn play" href="https://www.youtube.com/watch?v=wMpqCRF7TKg" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7L8 5z" stroke="currentColor"/></svg>
-                play on YouTube
-              </a>
-            </div>
-          </div>
-          <div class="cell">
-            <h4 class="hint">Rhythm
-              <span class="tip" tabindex="0" aria-label="Rhythm help" data-tooltip="Structure over speed: count the meaning-turns more than the BPM."></span>
-            </h4>
-            <div class="meter" data-meter="champagne-rhythm">
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            </div>
-            <div class="bar">observer > diary</div>
-          </div>
-        </div>
-      </article>
-
-      <!-- Coney Island -->
-      <article class="tile" data-song="coney">
-        <div class="tile-head">
-          <div>
-            <div class="title">coney island</div>
-            <div class="meta">cine memory · baritone syntax</div>
-          </div>
-          <button class="btn" data-analyze="coney" aria-label="Analyze Coney Island">analyze</button>
-        </div>
-        <div class="tags">
-          <span class="tag">elliptical</span>
-          <span class="tag">low tessitura</span>
-          <span class="tag">plural memory</span>
-        </div>
-        <div class="panel">
-          <div class="cell">
-            <h4 class="hint">Pronouns
-              <span class="tip" tabindex="0" aria-label="Pronoun flow help" data-tooltip="Dialogue vs diary: do voices face each other or narrate from a distance?"></span>
-            </h4>
-            <div class="meter" data-meter="coney-pronouns">
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            </div>
-            <div class="actions">
-              <a class="btn play" href="https://www.youtube.com/watch?v=c_p_TBaHvos" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="none"><path d="M8 5v14l11-7L8 5z" stroke="currentColor"/></svg>
-                play on YouTube
-              </a>
-            </div>
-          </div>
-          <div class="cell">
-            <h4 class="hint">Rhythm
-              <span class="tip" tabindex="0" aria-label="Rhythm help" data-tooltip="How many times does the story ‘turn’? More = complex; fewer = direct."></span>
-            </h4>
-            <div class="meter" data-meter="coney-rhythm">
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-            </div>
-            <div class="bar">lens > diary</div>
-          </div>
-        </div>
-      </article>
-    </section>
-
-    <section class="wrap fade" style="padding:18px 0 0 0">
-      <div class="bar note">This page is a listening room. Patterns are suggestions, not conclusions.</div>
-
-      <!-- Quiet listening guide -->
-      <details>
-        <summary>quiet guide — what to listen for</summary>
-        <p><strong>pronouns:</strong> notice how “I” and “you” move — are they facing each other or describing from afar?</p>
-        <p><strong>melody vs camera:</strong> when does the line feel like speech, and when does it feel like a lens observing?</p>
-        <p><strong>refrain:</strong> if a hook repeats, does its meaning change or stay fixed?</p>
-        <p><strong>color words:</strong> gold, grey, blue, white — what kind of truth do they signal?</p>
-        <p><strong>tempo / meter:</strong> waltz time (3/4, 6/8) often feels like memory — who owns it in the scene?</p>
-        <p class="note">don’t decide too soon. patterns develop like film — quietly, in the dark.</p>
-      </details>
-
-      <!-- Legal access guide (optional) -->
-      <details>
-        <summary>for readers — how to view Willow Bowery legally (free options)</summary>
-        <p><strong>Amazon preview:</strong> use “Look Inside / Read sample” on the product page to view a handful of pages (official and safe). Example: <a href="https://www.amazon.com/dp/B0CVVGYNPL" target="_blank" rel="noopener">Tortured Poets — Amazon</a>.</p>
-        <p><strong>Kindle Unlimited:</strong> if you already have KU (or a promo trial), some self-published titles can be read in full at no extra cost. Check the book page for KU eligibility.</p>
-        <p><strong>Library borrowing:</strong> many public libraries lend eBooks via Libby/OverDrive; when available, choose “Read with Kindle.” Start here: <a href="https://www.overdrive.com/apps/libby" target="_blank" rel="noopener">Libby app</a>.</p>
-        <p><strong>Prime Reading / promos:</strong> Prime sometimes includes rotating free reads or KU deals; worth checking if you already have Prime.</p>
-        <p><strong>Note:</strong> avoid full-PDF sites; they’re often unauthorized and unsafe. None of this is required — the listening room stands on its own.</p>
-      </details>
-
-      <!-- About these dots -->
-      <details>
-        <summary>about these dots</summary>
-        <p><strong>pronoun flow:</strong> dots ≈ viewpoint shifts (I/you/we/they). More dots = more motion; fewer = a single stance.</p>
-        <p><strong>rhythmic arc:</strong> dots ≈ narrative beats (phrase boundaries or meaning pivots). More = complex pacing; fewer = straightforward flow.</p>
-        <p><strong>analyze button:</strong> toggles between two stored readings so you can test a different interpretation. Your choice is saved locally.</p>
-        <p class="note">no data leaves your device. the page remembers your view in localStorage only.</p>
-      </details>
-    </section>
-
-    <footer class="wrap">
-      <div class="fade">not all mirrors show the same light.</div>
-    </footer>
+  <div class="devbar" id="devbar">
+    <div class="devbox">
+      <strong>dev</strong>
+      <label><input type="checkbox" id="toggleExpected"> show expected</label>
+      <span id="devHint">calibrate: add <code>?calibrate=1</code> · reset button: <code>?reset=1</code></span>
+    </div>
   </div>
 
+  <p class="legend">count the <em>pronoun shifts</em> you hear (changes in who is speaking / being addressed: I ↔ you ↔ we ↔ they). set your number, then press <strong>check</strong>. nothing leaves your device.</p>
+
+  <section class="grid" id="grid">
+    <!-- exile -->
+    <article class="card" data-song="exile">
+      <header>
+        <div class="title">exile (feat. Bon Iver)</div>
+        <div class="meta">duet · winter camera</div>
+      </header>
+      <div class="vid">
+        <iframe
+          src="https://www.youtube.com/embed/osdoLjUNFnA?rel=0&modestbranding=1"
+          title="exile (official lyric video)"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+      <div class="tags">
+        <span class="tag">dialogue</span><span class="tag">call ↔ response</span><span class="tag">low register</span>
+        <span class="expected" id="exp-exile"></span>
+      </div>
+      <div class="panel">
+        <div class="label">pronoun shifts</div>
+        <div class="counter">
+          <button class="btn dec" data-key="exile">−</button>
+          <div class="num" id="num-exile">0</div>
+          <button class="btn inc" data-key="exile">+</button>
+        </div>
+        <button class="btn check" data-key="exile">check</button>
+      </div>
+      <div class="panel" aria-live="polite">
+        <div class="result" id="res-exile"></div>
+      </div>
+    </article>
+
+    <!-- betty -->
+    <article class="card" data-song="betty">
+      <header>
+        <div class="title">betty</div>
+        <div class="meta">teen vantage · porch steps</div>
+      </header>
+      <div class="vid">
+        <iframe
+          src="https://www.youtube.com/embed/6TAPqXkZW_I?rel=0&modestbranding=1"
+          title="betty (official lyric video)"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+      <div class="tags">
+        <span class="tag">single narrator</span><span class="tag">apology arc</span><span class="tag">harmonica</span>
+        <span class="expected" id="exp-betty"></span>
+      </div>
+      <div class="panel">
+        <div class="label">pronoun shifts</div>
+        <div class="counter">
+          <button class="btn dec" data-key="betty">−</button>
+          <div class="num" id="num-betty">0</div>
+          <button class="btn inc" data-key="betty">+</button>
+        </div>
+        <button class="btn check" data-key="betty">check</button>
+      </div>
+      <div class="panel" aria-live="polite">
+        <div class="result" id="res-betty"></div>
+      </div>
+    </article>
+
+    <!-- champagne problems -->
+    <article class="card" data-song="champagne">
+      <header>
+        <div class="title">champagne problems</div>
+        <div class="meta">foyer hush · detached empathy</div>
+      </header>
+      <div class="vid">
+        <iframe
+          src="https://www.youtube.com/embed/wMpqCRF7TKg?rel=0&modestbranding=1"
+          title="champagne problems (official lyric video)"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+      <div class="tags">
+        <span class="tag">observer</span><span class="tag">minor key</span><span class="tag">winter house</span>
+        <span class="expected" id="exp-champagne"></span>
+      </div>
+      <div class="panel">
+        <div class="label">pronoun shifts</div>
+        <div class="counter">
+          <button class="btn dec" data-key="champagne">−</button>
+          <div class="num" id="num-champagne">0</div>
+          <button class="btn inc" data-key="champagne">+</button>
+        </div>
+        <button class="btn check" data-key="champagne">check</button>
+      </div>
+      <div class="panel" aria-live="polite">
+        <div class="result" id="res-champagne"></div>
+      </div>
+    </article>
+
+    <!-- coney island -->
+    <article class="card" data-song="coney">
+      <header>
+        <div class="title">coney island (with The National)</div>
+        <div class="meta">cine memory · baritone syntax</div>
+      </header>
+      <div class="vid">
+        <iframe
+          src="https://www.youtube.com/embed/c_p_TBaHvos?rel=0&modestbranding=1"
+          title="coney island (official lyric video)"
+          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+      <div class="tags">
+        <span class="tag">plural memory</span><span class="tag">elliptical</span><span class="tag">low tessitura</span>
+        <span class="expected" id="exp-coney"></span>
+      </div>
+      <div class="panel">
+        <div class="label">pronoun shifts</div>
+        <div class="counter">
+          <button class="btn dec" data-key="coney">−</button>
+          <div class="num" id="num-coney">0</div>
+          <button class="btn inc" data-key="coney">+</button>
+        </div>
+        <button class="btn check" data-key="coney">check</button>
+      </div>
+      <div class="panel" aria-live="polite">
+        <div class="result" id="res-coney"></div>
+      </div>
+    </article>
+  </section>
+
+  <details>
+    <summary>what counts as a “pronoun shift”?</summary>
+    <p>A change in who is speaking or being addressed (I/you/we/they), including duet hand-offs and perspective flips. If it feels like the voice changes position, count it.</p>
+  </details>
+
+  <footer>
+    <span>not all mirrors show the same light.</span>
+  </footer>
+
 <script>
-  var state = JSON.parse(localStorage.getItem("four.resonance")||"{}");
-  var viewSwitch=document.getElementById("viewSwitch");
-  var modeLabel=document.getElementById("modeLabel");
+  var TOLERANCE = 1;
+  var MAX_COUNT = 12;
+  var HINT_AFTER_FAILS = 2;
 
-  if(state.view==="observer"){viewSwitch.checked=true;modeLabel.textContent="observer";}
-  else{modeLabel.textContent="diary";}
-
-  viewSwitch.addEventListener("change",function(){
-    var v=this.checked?"observer":"diary";
-    modeLabel.textContent=v;
-    state.view=v; localStorage.setItem("four.resonance",JSON.stringify(state));
-    var bars=document.querySelectorAll(".bar");
-    for(var i=0;i<bars.length;i++){
-      var t=bars[i].textContent;
-      bars[i].textContent=(v==="observer")?t.replace("diary","observer"):t.replace("observer","diary");
-    }
-  });
-
-  var profiles={
-    exile:{pronouns:5,rhythm:4},
-    betty:{pronouns:4,rhythm:3},
-    champagne:{pronouns:5,rhythm:4},
-    coney:{pronouns:5,rhythm:4}
+  var expected = {
+    exile:      {min:4, max:6},
+    betty:      {min:3, max:5},
+    champagne:  {min:4, max:6},
+    coney:      {min:4, max:6}
   };
 
-  function light(meterEl,count){
-    var dots=meterEl.querySelectorAll(".dot");
-    for(var i=0;i<dots.length;i++){
-      if(i<count){dots[i].classList.add("on");}else{dots[i].classList.remove("on");}
-    }
+  var hints = {
+    exile: "count each hand-off or direct address change.",
+    betty: "mostly one narrator; note the address flips.",
+    champagne: "notice report vs direct speech moments.",
+    coney: "shared lines + lens shifts count."
+  };
+
+  var params = new URLSearchParams(location.search);
+  var CALIBRATE = params.get("calibrate")==="1";
+  var DEV = params.get("dev")==="1";
+
+  var counts   = JSON.parse(localStorage.getItem("four.counts")||"{}");
+  var attempts = JSON.parse(localStorage.getItem("four.attempts")||"{}");
+
+  ["exile","betty","champagne","coney"].forEach(function(k){
+    if(typeof counts[k] !== "number"){ counts[k]=0; }
+    if(typeof attempts[k] !== "number"){ attempts[k]=0; }
+    var el = document.getElementById("num-"+k);
+    if(el) el.textContent = counts[k];
+  });
+
+  function save(){
+    localStorage.setItem("four.counts", JSON.stringify(counts));
+    localStorage.setItem("four.attempts", JSON.stringify(attempts));
   }
 
-  function renderAll(){
-    var keys=["exile","betty","champagne","coney"];
-    for(var k=0;k<keys.length;k++){
-      var key=keys[k]; var p=profiles[key];
-      light(document.querySelector('[data-meter="'+key+'-pronouns"]'),p.pronouns);
-      light(document.querySelector('[data-meter="'+key+'-rhythm"]'),p.rhythm);
-    }
+  function setResult(key, ok, msg, hintMode){
+    var el = document.getElementById("res-"+key);
+    el.className = "result " + (ok?"good":(hintMode?"":"bad"));
+    el.textContent = msg;
   }
-  renderAll();
 
-  var analyzeBtns=document.querySelectorAll('[data-analyze]');
-  for(var i=0;i<analyzeBtns.length;i++){
-    analyzeBtns[i].addEventListener("click",function(){
-      var k=this.getAttribute("data-analyze");
-      var p=profiles[k];
-      p.pronouns = p.pronouns===5?3:5;
-      p.rhythm = p.rhythm===4?2:4;
-      localStorage.setItem("four.resonance",JSON.stringify(Object.assign(state,{[k]:p})));
-      renderAll();
+  function withinRange(k, n){
+    var e = expected[k];
+    var min = (e.min!=null? e.min : e);
+    var max = (e.max!=null? e.max : e);
+    return n >= (min - TOLERANCE) && n <= (max + TOLERANCE);
+  }
+
+  document.querySelectorAll(".inc").forEach(function(b){
+    b.addEventListener("click", function(){
+      var k=this.getAttribute("data-key");
+      counts[k]=(counts[k]||0)+1; if(counts[k]>MAX_COUNT) counts[k]=MAX_COUNT;
+      document.getElementById("num-"+k).textContent = counts[k];
+      save();
     });
+  });
+  document.querySelectorAll(".dec").forEach(function(b){
+    b.addEventListener("click", function(){
+      var k=this.getAttribute("data-key");
+      counts[k]=(counts[k]||0)-1; if(counts[k]<0) counts[k]=0;
+      document.getElementById("num-"+k).textContent = counts[k];
+      save();
+    });
+  });
+
+  document.querySelectorAll(".check").forEach(function(b){
+    b.addEventListener("click", function(){
+      var k=this.getAttribute("data-key");
+      var n = counts[k]||0;
+
+      if (CALIBRATE){
+        expected[k] = {min:n, max:n};
+        setResult(k, true, "✓ calibrated at "+n+" (±"+TOLERANCE+")", false);
+        return;
+      }
+
+      var ok = withinRange(k, n);
+      attempts[k] = (attempts[k]||0) + 1;
+      save();
+
+      if (ok){
+        setResult(k, true, "✓ you heard "+n+" · in range", false);
+        attempts[k] = 0; save();
+      } else {
+        var e = expected[k];
+        var mm = (e.min!=null && e.max!=null) ? (e.min+"–"+e.max) : (e+"");
+        var hint = (attempts[k] >= HINT_AFTER_FAILS && hints[k]) ? " · hint: "+hints[k] : "";
+        var near = ""; 
+        var anchor = (e.min!=null && e.max!=null) ? (n<e.min?e.min:e.max) : e;
+        if (Math.abs(n - anchor)===1) near = " (very close)";
+        setResult(k, false, "you heard "+n+" · expected ~"+mm+near+hint, attempts[k] >= HINT_AFTER_FAILS);
+      }
+    });
+  });
+
+  if (params.get("reset")==="1"){
+    var f=document.querySelector("footer");
+    if(f){
+      var btn=document.createElement("button");
+      btn.textContent="reset counts";
+      btn.className="btn";
+      btn.addEventListener("click", function(){
+        localStorage.removeItem("four.counts");
+        localStorage.removeItem("four.attempts");
+        ["exile","betty","champagne","coney"].forEach(function(k){
+          counts[k]=0; attempts[k]=0; document.getElementById("num-"+k).textContent="0";
+          var r=document.getElementById("res-"+k); r.textContent=""; r.className="result";
+        });
+      });
+      f.appendChild(btn);
+    }
+  }
+
+  if (DEV){
+    var devbar=document.getElementById("devbar");
+    if(devbar) devbar.style.display="block";
+    var t=document.getElementById("toggleExpected");
+    document.body.classList.remove("show-expected");
+    t.addEventListener("change", function(){
+      if(this.checked){ document.body.classList.add("show-expected"); }
+      else{ document.body.classList.remove("show-expected"); }
+    });
+    function setExpectedLabels(){
+      ["exile","betty","champagne","coney"].forEach(function(k){
+        var e=expected[k];
+        var label = (e.min!=null && e.max!=null) ? (e.min+"–"+e.max) : (e+"");
+        var span=document.getElementById("exp-"+k);
+        if(span){ span.textContent = "expected ~"+label+(TOLERANCE?(" (±"+TOLERANCE+")"):""); }
+      });
+    }
+    setExpectedLabels();
   }
 </script>
 </body>
