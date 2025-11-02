@@ -55,7 +55,23 @@
   .devbox{border:1px dashed var(--line);border-radius:10px;padding:10px 12px;color:var(--dim);font-size:12px;display:flex;align-items:center;gap:12px}
   .expected{display:none;margin-left:auto;color:var(--hint);font-size:12px}
   body.show-expected .expected{display:inline}
-  @media (max-width:900px){.grid{grid-template-columns:1fr}}
+
+  /* compare section */
+  .compare{max-width:1100px;margin:6px auto 26px;padding:0 24px}
+  .compare .row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .compare .item{border:1px solid var(--line);border-radius:12px;padding:12px;background:rgba(255,255,255,.02)}
+  .compare .item h3{margin:0 0 6px 0;font-size:14px}
+  .compare .item p{margin:0 0 10px 0;font-size:12px;color:var(--muted)}
+  .compare .item a{display:inline-block;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13px;background:#121319}
+  .paste{margin-top:16px;border:1px solid var(--line);border-radius:12px;padding:12px;background:rgba(255,255,255,.02)}
+  .paste h4{margin:0 0 8px 0;font-size:14px}
+  textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:10px;background:#0e0f13;color:var(--fg);padding:10px;font-size:13px}
+  .minirow{display:flex;align-items:center;gap:8px;margin-top:8px}
+  .minirow .mini{font-size:12px;color:var(--muted)}
+  .pill{display:inline-block;padding:2px 6px;border-radius:6px;border:1px solid var(--line);font-size:11px;color:var(--dim)}
+  .pronouns{margin-top:6px;font-size:13px}
+  .pronouns mark{background:#2a2f3a;color:#e9eaf0;border-radius:4px;padding:0 3px}
+  @media (max-width:900px){.grid{grid-template-columns:1fr} .compare .row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -68,7 +84,7 @@
     <div class="devbox">
       <strong>dev</strong>
       <label><input type="checkbox" id="toggleExpected"> show expected</label>
-      <span id="devHint">calibrate: add <code>?calibrate=1</code> · reset button: <code>?reset=1</code></span>
+      <span id="devHint">calibrate: <code>?calibrate=1</code> · reset: <code>?reset=1</code></span>
     </div>
   </div>
 
@@ -204,6 +220,46 @@
     </article>
   </section>
 
+  <!-- OPTIONAL: Compare with Willow Bowery previews (legal/free) -->
+  <section class="compare">
+    <h2 style="font-size:16px;margin:0 0 10px 0;color:#dcdce5;">compare (optional)</h2>
+    <div class="row">
+      <div class="item">
+        <h3>Tortured Poets (2024)</h3>
+        <p>Open Amazon’s “Look Inside” preview. Read a few lines, then paste below.</p>
+        <a href="https://www.amazon.com/dp/B0CVVGYNPL" target="_blank" rel="noopener">Open preview</a>
+      </div>
+      <div class="item">
+        <h3>Clownerie (2024)</h3>
+        <p>Open preview and scan for “I / you / we / they” movement.</p>
+        <a href="https://www.amazon.com/dp/B0D2HBDDQ5" target="_blank" rel="noopener">Open preview</a>
+      </div>
+      <div class="item">
+        <h3>The Death of a Showgirl (2025)</h3>
+        <p>If preview available, read a page for stance changes.</p>
+        <a href="https://www.amazon.com/dp/B0DJ2VCP4H" target="_blank" rel="noopener">Open preview</a>
+      </div>
+      <div class="item">
+        <h3>Author page</h3>
+        <p>See all titles; choose any preview to sample tone.</p>
+        <a href="https://www.amazon.com/stores/author/B0D2HBDDQ5/allbooks" target="_blank" rel="noopener">Open author</a>
+      </div>
+    </div>
+
+    <div class="paste">
+      <h4>paste a few lines (from any preview)</h4>
+      <textarea id="boweryInput" placeholder="Paste 2–8 lines here…"></textarea>
+      <div class="minirow">
+        <button class="btn" id="analyzeText">analyze pronouns</button>
+        <span class="mini">This highlights pronouns and estimates <span class="pill">pronoun shifts</span>. Nothing is saved.</span>
+      </div>
+      <div class="pronouns" id="boweryOutput"></div>
+      <div class="minirow">
+        <span class="mini" id="boweryCount"></span>
+      </div>
+    </div>
+  </section>
+
   <details>
     <summary>what counts as a “pronoun shift”?</summary>
     <p>A change in who is speaking or being addressed (I/you/we/they), including duet hand-offs and perspective flips. If it feels like the voice changes position, count it.</p>
@@ -214,6 +270,7 @@
   </footer>
 
 <script>
+  /* ---------- SETTINGS ---------- */
   var TOLERANCE = 1;
   var MAX_COUNT = 12;
   var HINT_AFTER_FAILS = 2;
@@ -311,6 +368,7 @@
     });
   });
 
+  /* reset helper via ?reset=1 */
   if (params.get("reset")==="1"){
     var f=document.querySelector("footer");
     if(f){
@@ -324,11 +382,15 @@
           counts[k]=0; attempts[k]=0; document.getElementById("num-"+k).textContent="0";
           var r=document.getElementById("res-"+k); r.textContent=""; r.className="result";
         });
+        document.getElementById("boweryInput").value="";
+        document.getElementById("boweryOutput").innerHTML="";
+        document.getElementById("boweryCount").textContent="";
       });
       f.appendChild(btn);
     }
   }
 
+  /* dev view */
   if (DEV){
     var devbar=document.getElementById("devbar");
     if(devbar) devbar.style.display="block";
@@ -348,6 +410,40 @@
     }
     setExpectedLabels();
   }
+
+  /* --------- simple pronoun highlighter for pasted Bowery text --------- */
+  var pronounList = ["i","me","my","mine","myself","you","your","yours","yourself","we","us","our","ours","ourselves","they","them","their","theirs","themselves"];
+  function analyzeBowery(){
+    var ta = document.getElementById("boweryInput");
+    var out = document.getElementById("boweryOutput");
+    var cnt = document.getElementById("boweryCount");
+    var text = (ta.value||"").trim();
+    if(!text){ out.innerHTML=""; cnt.textContent=""; return; }
+
+    // split into tokens; highlight pronouns
+    var tokens = text.split(/(\b)/);
+    var lastP = null, shifts = 0;
+    var html = "";
+    for(var i=0;i<tokens.length;i++){
+      var t = tokens[i];
+      var low = t.toLowerCase();
+      if(pronounList.indexOf(low)>=0){
+        html += "<mark>"+t+"</mark>";
+        // crude grouping: map to class (I/you/we/they)
+        var group = (["i","me","my","mine","myself"].indexOf(low)>=0) ? "I" :
+                    (["you","your","yours","yourself"].indexOf(low)>=0) ? "you" :
+                    (["we","us","our","ours","ourselves"].indexOf(low)>=0) ? "we" : "they";
+        if(lastP && group!==lastP){ shifts++; }
+        lastP = group;
+      } else {
+        html += t;
+      }
+    }
+    out.innerHTML = html.replace(/\n/g,"<br>");
+    cnt.textContent = "estimated pronoun shifts in pasted excerpt: " + shifts + " (approx)";
+  }
+  var btnAnalyze = document.getElementById("analyzeText");
+  if(btnAnalyze){ btnAnalyze.addEventListener("click", analyzeBowery); }
 </script>
 </body>
 </html>
