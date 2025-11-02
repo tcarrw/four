@@ -57,6 +57,19 @@
   details summary{cursor:pointer;color:var(--dim);font-weight:600;list-style:none}
   details[open] summary{color:#d6c8a8}
   details p{color:var(--muted);font-size:13px;line-height:1.45;margin:8px 0}
+
+  /* Tooltip */
+  .hint{display:inline-flex;align-items:center;gap:6px}
+  .tip{display:inline-block; width:14px;height:14px;border:1px solid var(--line);border-radius:50%;position:relative; text-indent:-9999px}
+  .tip:before{content:"i"; position:absolute; left:0; right:0; top:0; bottom:0; text-indent:0; font-size:11px; line-height:14px; text-align:center; color:var(--dim)}
+  .tip[data-tooltip]{position:relative}
+  .tip[data-tooltip]:hover::after, .tip[data-tooltip]:focus::after{
+    content:attr(data-tooltip);
+    position:absolute; left:20px; top:50%; transform:translateY(-50%);
+    background:#14151b; color:#cfcfd7; border:1px solid #21222b; border-radius:8px;
+    padding:8px 10px; font-size:12px; width:min(320px,70vw); z-index:10; box-shadow:0 10px 20px rgba(0,0,0,.25)
+  }
+
   @media (max-width:800px){.panel{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -92,7 +105,9 @@
         </div>
         <div class="panel">
           <div class="cell">
-            <h4>Pronouns</h4>
+            <h4 class="hint">Pronouns
+              <span class="tip" tabindex="0" aria-label="Pronoun flow help" data-tooltip="Each dot ≈ a shift in who is speaking or being addressed (I/you/we/they). More dots = more viewpoint motion; fewer = a single stance."></span>
+            </h4>
             <div class="meter" data-meter="exile-pronouns">
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -105,7 +120,9 @@
             </div>
           </div>
           <div class="cell">
-            <h4>Rhythm</h4>
+            <h4 class="hint">Rhythm
+              <span class="tip" tabindex="0" aria-label="Rhythm help" data-tooltip="Dots ≈ narrative beats (phrase boundaries or meaning pivots). More dots = complex pacing; fewer = straightforward flow."></span>
+            </h4>
             <div class="meter" data-meter="exile-rhythm">
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -131,7 +148,9 @@
         </div>
         <div class="panel">
           <div class="cell">
-            <h4>Pronouns</h4>
+            <h4 class="hint">Pronouns
+              <span class="tip" tabindex="0" aria-label="Pronoun flow help" data-tooltip="Viewpoint motion: how the lyric shifts between I/you/we/they. Toggle analyze to consider a different reading."></span>
+            </h4>
             <div class="meter" data-meter="betty-pronouns">
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -144,7 +163,9 @@
             </div>
           </div>
           <div class="cell">
-            <h4>Rhythm</h4>
+            <h4 class="hint">Rhythm
+              <span class="tip" tabindex="0" aria-label="Rhythm help" data-tooltip="Emotional pacing: how often the lyric pauses or pivots meaning. More dots = more turns."></span>
+            </h4>
             <div class="meter" data-meter="betty-rhythm">
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -170,7 +191,9 @@
         </div>
         <div class="panel">
           <div class="cell">
-            <h4>Pronouns</h4>
+            <h4 class="hint">Pronouns
+              <span class="tip" tabindex="0" aria-label="Pronoun flow help" data-tooltip="Who is speaking to whom—and does that stance change? More dots = more shifts."></span>
+            </h4>
             <div class="meter" data-meter="champagne-pronouns">
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -183,7 +206,9 @@
             </div>
           </div>
           <div class="cell">
-            <h4>Rhythm</h4>
+            <h4 class="hint">Rhythm
+              <span class="tip" tabindex="0" aria-label="Rhythm help" data-tooltip="Structure over speed: count the meaning-turns more than the BPM."></span>
+            </h4>
             <div class="meter" data-meter="champagne-rhythm">
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -209,7 +234,9 @@
         </div>
         <div class="panel">
           <div class="cell">
-            <h4>Pronouns</h4>
+            <h4 class="hint">Pronouns
+              <span class="tip" tabindex="0" aria-label="Pronoun flow help" data-tooltip="Dialogue vs diary: do voices face each other or narrate from a distance?"></span>
+            </h4>
             <div class="meter" data-meter="coney-pronouns">
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -222,7 +249,9 @@
             </div>
           </div>
           <div class="cell">
-            <h4>Rhythm</h4>
+            <h4 class="hint">Rhythm
+              <span class="tip" tabindex="0" aria-label="Rhythm help" data-tooltip="How many times does the story ‘turn’? More = complex; fewer = direct."></span>
+            </h4>
             <div class="meter" data-meter="coney-rhythm">
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
               <span class="dot"></span><span class="dot"></span><span class="dot"></span>
@@ -255,6 +284,15 @@
         <p><strong>Library borrowing:</strong> many public libraries lend eBooks via Libby/OverDrive; when available, choose “Read with Kindle.” Start here: <a href="https://www.overdrive.com/apps/libby" target="_blank" rel="noopener">Libby app</a>.</p>
         <p><strong>Prime Reading / promos:</strong> Prime sometimes includes rotating free reads or KU deals; worth checking if you already have Prime.</p>
         <p><strong>Note:</strong> avoid full-PDF sites; they’re often unauthorized and unsafe. None of this is required — the listening room stands on its own.</p>
+      </details>
+
+      <!-- About these dots -->
+      <details>
+        <summary>about these dots</summary>
+        <p><strong>pronoun flow:</strong> dots ≈ viewpoint shifts (I/you/we/they). More dots = more motion; fewer = a single stance.</p>
+        <p><strong>rhythmic arc:</strong> dots ≈ narrative beats (phrase boundaries or meaning pivots). More = complex pacing; fewer = straightforward flow.</p>
+        <p><strong>analyze button:</strong> toggles between two stored readings so you can test a different interpretation. Your choice is saved locally.</p>
+        <p class="note">no data leaves your device. the page remembers your view in localStorage only.</p>
       </details>
     </section>
 
