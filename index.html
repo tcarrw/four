@@ -48,7 +48,7 @@
   details[open] summary{color:var(--hint)}
   details p{color:var(--muted);font-size:13px;line-height:1.45}
 
-  footer{max-width:1100px;margin:10px auto 32px;padding:0 24px;color:var(--dim);font-size:12px;display:flex;align-items:center;gap:10px}
+  footer{max-width:1100px;margin:10px auto 32px;padding:0 24px;color:var(--dim);font-size:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 
   /* dev */
   .devbar{display:none;max-width:1100px;margin:6px auto 0;padding:0 24px}
@@ -66,7 +66,7 @@
   .paste{margin-top:16px;border:1px solid var(--line);border-radius:12px;padding:12px;background:rgba(255,255,255,.02)}
   .paste h4{margin:0 0 8px 0;font-size:14px}
   textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:10px;background:#0e0f13;color:var(--fg);padding:10px;font-size:13px}
-  .minirow{display:flex;align-items:center;gap:8px;margin-top:8px}
+  .minirow{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
   .minirow .mini{font-size:12px;color:var(--muted)}
   .pill{display:inline-block;padding:2px 6px;border-radius:6px;border:1px solid var(--line);font-size:11px;color:var(--dim)}
   .pronouns{margin-top:6px;font-size:13px}
@@ -117,6 +117,7 @@
           <button class="btn inc" data-key="exile">+</button>
         </div>
         <button class="btn check" data-key="exile">check</button>
+        <button class="btn copyOne" data-key="exile">copy</button>
       </div>
       <div class="panel" aria-live="polite">
         <div class="result" id="res-exile"></div>
@@ -149,6 +150,7 @@
           <button class="btn inc" data-key="betty">+</button>
         </div>
         <button class="btn check" data-key="betty">check</button>
+        <button class="btn copyOne" data-key="betty">copy</button>
       </div>
       <div class="panel" aria-live="polite">
         <div class="result" id="res-betty"></div>
@@ -181,6 +183,7 @@
           <button class="btn inc" data-key="champagne">+</button>
         </div>
         <button class="btn check" data-key="champagne">check</button>
+        <button class="btn copyOne" data-key="champagne">copy</button>
       </div>
       <div class="panel" aria-live="polite">
         <div class="result" id="res-champagne"></div>
@@ -213,6 +216,7 @@
           <button class="btn inc" data-key="coney">+</button>
         </div>
         <button class="btn check" data-key="coney">check</button>
+        <button class="btn copyOne" data-key="coney">copy</button>
       </div>
       <div class="panel" aria-live="polite">
         <div class="result" id="res-coney"></div>
@@ -257,6 +261,16 @@
       <div class="minirow">
         <span class="mini" id="boweryCount"></span>
       </div>
+      <div class="minirow">
+        <label class="mini"><input type="checkbox" id="extPronouns"> include extended pronouns</label>
+      </div>
+      <div class="minirow">
+        <span class="mini" id="boweryList"></span>
+      </div>
+      <div class="minirow">
+        <button class="btn" id="copyPronounList">copy pronoun list</button>
+        <button class="btn" id="copyExcerptSummary">copy excerpt summary</button>
+      </div>
     </div>
   </section>
 
@@ -267,6 +281,7 @@
 
   <footer>
     <span>not all mirrors show the same light.</span>
+    <button class="btn" id="copyAll">copy all counts</button>
   </footer>
 
 <script>
@@ -368,6 +383,39 @@
     });
   });
 
+  /* per-song copy */
+  function copyText(txt){
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(txt);
+    } else {
+      // fallback
+      var ta=document.createElement("textarea");
+      ta.value=txt; document.body.appendChild(ta);
+      ta.select(); try{ document.execCommand("copy"); }catch(e){}
+      document.body.removeChild(ta);
+      return Promise.resolve();
+    }
+  }
+  document.querySelectorAll(".copyOne").forEach(function(b){
+    b.addEventListener("click", function(){
+      var k=this.getAttribute("data-key");
+      var n=counts[k]||0;
+      var labelMap={exile:"exile", betty:"betty", champagne:"champagne problems", coney:"coney island"};
+      var txt = labelMap[k]+": "+n+" pronoun shift"+(n===1?"":"s");
+      copyText(txt);
+      var r=document.getElementById("res-"+k);
+      if(r){ r.textContent="copied: "+txt; r.className="result"; }
+    });
+  });
+
+  /* copy all counts */
+  document.getElementById("copyAll").addEventListener("click", function(){
+    var txt = "exile: "+(counts.exile||0)+" · betty: "+(counts.betty||0)+" · champagne problems: "+(counts.champagne||0)+" · coney island: "+(counts.coney||0);
+    copyText(txt);
+    this.textContent="copied ✓";
+    setTimeout(()=>{ this.textContent="copy all counts"; },1200);
+  });
+
   /* reset helper via ?reset=1 */
   if (params.get("reset")==="1"){
     var f=document.querySelector("footer");
@@ -385,6 +433,7 @@
         document.getElementById("boweryInput").value="";
         document.getElementById("boweryOutput").innerHTML="";
         document.getElementById("boweryCount").textContent="";
+        document.getElementById("boweryList").textContent="";
       });
       f.appendChild(btn);
     }
@@ -411,39 +460,143 @@
     setExpectedLabels();
   }
 
-  /* --------- simple pronoun highlighter for pasted Bowery text --------- */
-  var pronounList = ["i","me","my","mine","myself","you","your","yours","yourself","we","us","our","ours","ourselves","they","them","their","theirs","themselves"];
+  /* --------- pronoun highlighter + list/counts + copy --------- */
+  var basePronouns = [
+    "i","me","my","mine","myself",
+    "you","your","yours","yourself","yourselves",
+    "he","him","his","himself",
+    "she","her","hers","herself",
+    "it","its","itself",
+    "we","us","our","ours","ourselves",
+    "they","them","their","theirs","themselves"
+  ];
+  var extendedPronouns = [
+    "this","that","these","those",
+    "anyone","someone","everyone","noone","no-one","nobody","somebody","everybody",
+    "anything","something","everything","nothing",
+    "each","either","neither","none","both","another","others","other","many","few","several",
+    "all","some","any","much","more","most","such","one"
+  ];
+  function canonicalGroup(token){
+    var t = token.toLowerCase();
+    if (["i","me","my","mine","myself"].includes(t)) return "I";
+    if (["you","your","yours","yourself","yourselves"].includes(t)) return "you";
+    if (["he","him","his","himself"].includes(t)) return "he";
+    if (["she","her","hers","herself"].includes(t)) return "she";
+    if (["it","its","itself"].includes(t)) return "it";
+    if (["we","us","our","ours","ourselves"].includes(t)) return "we";
+    if (["they","them","their","theirs","themselves"].includes(t)) return "they";
+    return "extended";
+  }
   function analyzeBowery(){
     var ta = document.getElementById("boweryInput");
     var out = document.getElementById("boweryOutput");
     var cnt = document.getElementById("boweryCount");
-    var text = (ta.value||"").trim();
-    if(!text){ out.innerHTML=""; cnt.textContent=""; return; }
+    var list = document.getElementById("boweryList");
+    var includeExt = document.getElementById("extPronouns")?.checked;
 
-    // split into tokens; highlight pronouns
+    var text = (ta.value||"").trim();
+    if(!text){ out.innerHTML=""; cnt.textContent=""; if(list) list.textContent=""; return; }
+
+    var pronounSet = new Set(basePronouns);
+    if(includeExt){ extendedPronouns.forEach(p=>pronounSet.add(p)); }
+
     var tokens = text.split(/(\b)/);
-    var lastP = null, shifts = 0;
+    var lastGroup = null, shifts = 0;
+
+    var formCounts = Object.create(null);
+    var groupCounts = {I:0,you:0,he:0,she:0,it:0,we:0,they:0,extended:0};
+
     var html = "";
     for(var i=0;i<tokens.length;i++){
       var t = tokens[i];
       var low = t.toLowerCase();
-      if(pronounList.indexOf(low)>=0){
+
+      if (pronounSet.has(low)){
         html += "<mark>"+t+"</mark>";
-        // crude grouping: map to class (I/you/we/they)
-        var group = (["i","me","my","mine","myself"].indexOf(low)>=0) ? "I" :
-                    (["you","your","yours","yourself"].indexOf(low)>=0) ? "you" :
-                    (["we","us","our","ours","ourselves"].indexOf(low)>=0) ? "we" : "they";
-        if(lastP && group!==lastP){ shifts++; }
-        lastP = group;
+        formCounts[low] = (formCounts[low]||0) + 1;
+        var g = canonicalGroup(low);
+        if(groupCounts[g]!=null) groupCounts[g] += 1; else groupCounts[g]=1;
+
+        if (g!=="extended"){
+          if(lastGroup && g!==lastGroup){ shifts++; }
+          lastGroup = g;
+        }
       } else {
         html += t;
       }
     }
+
     out.innerHTML = html.replace(/\n/g,"<br>");
     cnt.textContent = "estimated pronoun shifts in pasted excerpt: " + shifts + " (approx)";
+
+    var forms = Object.keys(formCounts)
+      .sort(function(a,b){ return formCounts[b]-formCounts[a] || a.localeCompare(b); })
+      .map(function(f){ return f + " × " + formCounts[f]; });
+
+    var groups = Object.keys(groupCounts)
+      .filter(function(k){ return groupCounts[k]>0 && k!=="extended"; })
+      .map(function(k){ return k + " × " + groupCounts[k]; });
+
+    var extras = (groupCounts["extended"]>0) ? (" · extended × "+groupCounts["extended"]) : "";
+
+    if(list){
+      list.textContent = (forms.length? ("found: " + forms.join(" · ")) : "found: (none)") +
+                         (groups.length? ("  |  groups: " + groups.join(" · ")) : "") +
+                         extras;
+    }
+
+    // prepare copy payloads
+    window.__lastPronounListText = list.textContent;
+    window.__lastExcerptSummary = "excerpt shifts: "+shifts+
+      (forms.length? (" | forms: "+forms.join(", ")):"")+
+      (groups.length? (" | groups: "+groups.join(", ")):"")+
+      (extras? (" | "+extras):"");
   }
   var btnAnalyze = document.getElementById("analyzeText");
   if(btnAnalyze){ btnAnalyze.addEventListener("click", analyzeBowery); }
+  var extToggle = document.getElementById("extPronouns");
+  if(extToggle){ extToggle.addEventListener("change", analyzeBowery); }
+
+  // copy buttons for compare section
+  document.getElementById("copyPronounList").addEventListener("click", function(){
+    var txt = window.__lastPronounListText || "";
+    if(!txt){ txt = document.getElementById("boweryList").textContent || "found: (none)"; }
+    copyText(txt);
+    this.textContent="copied ✓"; setTimeout(()=>{ this.textContent="copy pronoun list"; },1200);
+  });
+  document.getElementById("copyExcerptSummary").addEventListener("click", function(){
+    var txt = window.__lastExcerptSummary || "";
+    if(!txt){
+      // build from current DOM if needed
+      var list = document.getElementById("boweryList").textContent.trim();
+      var shifts = document.getElementById("boweryCount").textContent.replace(/^.*?:\s*/,"").trim();
+      txt = (shifts?("excerpt "+shifts):"excerpt shifts: 0") + (list?(" | "+list):"");
+    }
+    copyText(txt);
+    this.textContent="copied ✓"; setTimeout(()=>{ this.textContent="copy excerpt summary"; },1200);
+  });
+
+  // dev view
+  if (DEV){
+    var devbar=document.getElementById("devbar");
+    if(devbar) devbar.style.display="block";
+    var t=document.getElementById("toggleExpected");
+    document.body.classList.remove("show-expected");
+    t.addEventListener("change", function(){
+      if(this.checked){ document.body.classList.add("show-expected"); }
+      else{ document.body.classList.remove("show-expected"); }
+    });
+    function setExpectedLabels(){
+      ["exile","betty","champagne","coney"].forEach(function(k){
+        var e=expected[k];
+        var label = (e.min!=null && e.max!=null) ? (e.min+"–"+e.max) : (e+"");
+        var span=document.getElementById("exp-"+k);
+        if(span){ span.textContent = "expected ~"+label+(TOLERANCE?(" (±"+TOLERANCE+")"):""); }
+      });
+    }
+    setExpectedLabels();
+  }
 </script>
 </body>
 </html>
