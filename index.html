@@ -17,8 +17,8 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
 .lock{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.7));z-index:10}
 .card{width:min(640px,92vw);background:var(--veil);border:1px solid var(--line);border-radius:16px;padding:18px;backdrop-filter:blur(10px);text-align:center}
 .hint{opacity:.8}
-.input{background:transparent;border:none;border-bottom:1px solid var(--ink);outline:none;color:var(--ink);padding:6px 4px;width:100%;font-size:1rem;text-align:center}
-.btn{background:var(--pane);border:1px solid var(--line);border-radius:10px;padding:10px 14px;color:var(--ink);cursor:pointer}
+.input{background:transparent;border:none;border-bottom:1px solid var(--ink);outline:none;color:#fff;padding:6px 4px;width:100%;font-size:1rem;text-align:center}
+.btn{background:var(--pane);border:1px solid var(--line);border-radius:10px;padding:10px 14px;color:#fff;cursor:pointer}
 .app{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px}
 .inner{width:min(900px,96vw)}
 .header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin-bottom:12px}
@@ -36,7 +36,11 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
 .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.2);border:1px solid var(--line)}
 .dot.on{background:var(--mint)}
 .cta{display:none;margin-top:12px;justify-content:center;gap:8px}
+.holderBadge{position:fixed;right:16px;bottom:16px;background:linear-gradient(180deg,#a6ffe6,#7fe3ff);color:#0c1a17;border:1px solid rgba(0,0,0,.25);border-radius:999px;padding:10px 14px;cursor:pointer;display:flex;gap:8px;align-items:center;z-index:20}
+.panelHL{position:fixed;inset:0;display:none;align-items:flex-end;justify-content:center;background:linear-gradient(180deg,transparent,rgba(0,0,0,.45));z-index:30}
+.sheetHL{width:100%;max-width:640px;background:var(--veil);border:1px solid var(--line);border-radius:18px 18px 0 0;padding:16px 16px 22px}
 .footer{position:fixed;left:14px;bottom:14px;font-size:.85rem;opacity:.65}
+.note{background:rgba(12,12,18,.6);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:left}
 </style>
 </head>
 <body>
@@ -46,7 +50,7 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
 </div>
 <div class="topright">
   <a id="xBadge" href="https://x.com/illuminatnotes" target="_blank">✖️ @illuminatnotes</a>
-  <a id="igBadge" href="https://instagram.com/harry_espookies" target="_blank">🟣 @harry_espookies</a>
+  <a id="igBadge" href="https://instagram.com/harry_spookies" target="_blank">🟣 @harry_spookies</a>
 </div>
 <div class="tunnel"></div>
 
@@ -56,17 +60,27 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
     <p class="hint">This rabbit hole opens with a link from MirrorHoney, or with a phrase.</p>
     <div style="margin:12px 0"><input id="keyInput" class="input" placeholder="enter key"></div>
     <button id="unlockBtn" class="btn">unlock</button>
-    <p class="hint" style="margin-top:10px">Clues live on <a href="https://instagram.com/harry_espookies" target="_blank" style="color:#fff;text-decoration:underline">Instagram</a>.</p>
+    <p class="hint" style="margin-top:10px">Clues live on <a href="https://instagram.com/harry_spookies" target="_blank" style="color:#fff;text-decoration:underline">@harry_spookies</a>.</p>
   </div>
 </div>
 
 <div id="app" class="app" style="display:none">
   <div class="inner">
     <div class="header">
-      <div class="key">🔑 Alice</div>
+      <div class="key">🔑 Architect: Alice</div>
       <div class="pill">holder: Kendyl (@kenneljustine)</div>
       <div class="pill" id="srcTag"></div>
     </div>
+
+    <div class="note">
+      <h3 style="margin:0 0 6px 0">Boundary Storyteller</h3>
+      <div class="rule"></div>
+      <p class="hint" style="margin:6px 0 0 0">
+        Alice, you and Taylor write the line between wonder and order.
+        Every key you hand out is a story about how to cross it.
+      </p>
+    </div>
+
     <div class="rule"></div>
 
     <div class="stage">
@@ -112,21 +126,44 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
       <button id="centerBtn" class="btn">→ center</button>
       <button id="sigridBtn" class="btn">← back to sigrid</button>
     </div>
+
+    <div class="cta" style="justify-content:center;margin-top:8px">
+      <a class="btn" href="https://garlic.plnt.earth" style="text-decoration:none;opacity:.9">← seek the field of clarity</a>
+    </div>
+  </div>
+</div>
+
+<div class="holderBadge" id="holderBadge">🗝️ holder</div>
+<div class="panelHL" id="panelHL">
+  <div class="sheetHL">
+    <div class="row" style="display:flex;justify-content:space-between;align-items:center">
+      <div style="font-weight:600">Holder tools</div>
+      <button id="closeHL" class="btn">close</button>
+    </div>
+    <div class="row" style="display:flex;gap:8px;align-items:center;margin-top:8px">
+      <input id="holderWho" class="input" placeholder="type: alice" style="flex:1">
+      <button id="holderGo" class="btn">enter</button>
+    </div>
+    <div id="holderOps" style="display:none;margin-top:10px">
+      <div class="row" style="display:flex;gap:8px;align-items:center">
+        <button id="giftMH" class="btn">copy “gift a mirror” link</button>
+        <span id="giftMsg" class="hint"></span>
+      </div>
+      <div class="hint" style="margin-top:6px">share this link with anyone curious; it opens MirrorHoney (token). the next key is learned inside.</div>
+    </div>
   </div>
 </div>
 
 <div class="footer">“If you knew Time as well as I do, you wouldn’t talk about wasting it.”</div>
 
-<!-- Secret module: hashes only; no phrases in source -->
 <script>
 function norm(s){return String(s||"").toLowerCase().trim()}
 function fnv1a(t){var h=0x811c9dc5;for(var i=0;i<t.length;i++){h^=t.charCodeAt(i);h=(h*0x01000193)>>>0}return h>>>0}
-const H={mh_master:0x18608d89,mh_alt:0x05bf6449,sg_pass:0xc2ff6315,four_kj:0x5d6a1e70,four_al:0x872213e7}
+const H={four_al:0x872213e7} /* “alice” */
 function matchHash(val,hex){return fnv1a(norm(val))===hex}
 function genCode(){return Math.random().toString(36).slice(2,6)+"-"+Math.random().toString(36).slice(2,6)+"-"+Math.random().toString(36).slice(2,6)}
 </script>
 
-<!-- Arrival consumer (token + source), no phrases -->
 <script>
 (function(){
   function pick(s,pat){var m=String(s||"").match(pat);return m?decodeURIComponent(m[1]):""}
@@ -143,10 +180,11 @@ const keyInput=document.getElementById("keyInput"),unlockBtn=document.getElement
 const dots=[document.getElementById("d1"),document.getElementById("d2"),document.getElementById("d3")]
 const steps=[].slice.call(document.querySelectorAll(".panel[data-step]"))
 const ctaWrap=document.getElementById("ctaWrap"),schoolBtn=document.getElementById("schoolBtn"),centerBtn=document.getElementById("centerBtn"),sigridBtn=document.getElementById("sigridBtn")
+const holderBadge=document.getElementById("holderBadge"),panelHL=document.getElementById("panelHL"),closeHL=document.getElementById("closeHL"),holderWho=document.getElementById("holderWho"),holderGo=document.getElementById("holderGo"),holderOps=document.getElementById("holderOps"),giftMH=document.getElementById("giftMH"),giftMsg=document.getElementById("giftMsg")
 
 function jget(k,def){try{return JSON.parse(localStorage.getItem(k)||def)}catch(e){return JSON.parse(def)}}
 function show(){lock.style.display="none";app.style.display="flex";srcTag.textContent=jget("four.src","\"mh.four\"")}
-function allowManual(v){return matchHash(v,H.four_kj)||matchHash(v,H.four_al)}
+function allowManual(v){var n=norm(v);if(n.charAt(0)==="#")n=n.slice(1);return matchHash(n,H.four_al)}
 function tryUnlock(v){var expect=jget("four.key","");if((expect&&v===expect)||allowManual(v)){localStorage.setItem("four.unlock","true");show();return true}return false}
 
 function mark(i,on){dots[i-1].classList.toggle("on",on)}
@@ -168,6 +206,15 @@ function schoolUrl(k){return "https://school.plnt.earth/?s=four.rabbit#k="+encod
 schoolBtn.addEventListener("click",function(){var k=genCode();location.href=schoolUrl(k)})
 if(centerBtn) centerBtn.onclick=function(){location.href="https://center.plnt.earth/?s=four.exit"}
 if(sigridBtn) sigridBtn.onclick=function(){location.href="https://garlic.plnt.earth/?s=four.return#echo="+encodeURIComponent("permission, not force")}
+
+holderBadge.addEventListener("click",function(){panelHL.style.display="flex"})
+closeHL.addEventListener("click",function(){panelHL.style.display="none"})
+panelHL.addEventListener("click",function(e){if(e.target===panelHL)panelHL.style.display="none"})
+holderGo.addEventListener("click",function(){if(norm(holderWho.value)==="alice"){holderOps.style.display="block";holderWho.value=""}})
+giftMH.addEventListener("click",function(){
+  var u="https://mirrorhoney.plnt.earth/", q="?s="+encodeURIComponent("four.gift"), h="#k="+encodeURIComponent(genCode());
+  navigator.clipboard.writeText(u+q+h); giftMsg.textContent="copied";
+})
 
 window.addEventListener("load",function(){
   if(localStorage.getItem("four.unlock")) show();
