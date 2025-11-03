@@ -10,6 +10,8 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
 .nav{position:fixed;left:14px;top:14px;display:flex;gap:8px;z-index:60}
 .nav a{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px);padding:8px 10px;border-radius:999px;color:#fff;text-decoration:none}
 #schoolBadge{display:none}
+.topright a{position:fixed;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px);padding:8px 10px;border-radius:999px;color:#fff;text-decoration:none;z-index:70}
+#xBadge{top:14px}#igBadge{top:54px}
 .tunnel{position:fixed;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:screen;background:radial-gradient(ellipse at center,rgba(127,227,255,.08),transparent 60%),repeating-radial-gradient(circle at 50% 45%,rgba(134,255,214,.06),rgba(134,255,214,.06) 6px,transparent 6px,transparent 12px);animation:descend 9s linear infinite}
 @keyframes descend{0%{transform:translateY(0)}100%{transform:translateY(40px)}}
 .lock{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.7));z-index:10}
@@ -42,14 +44,19 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
   <a href="https://center.plnt.earth" target="_blank">⬅️ Center</a>
   <a href="https://school.plnt.earth" target="_blank" id="schoolBadge">🎓 School</a>
 </div>
+<div class="topright">
+  <a id="xBadge" href="https://x.com/illuminatnotes" target="_blank">✖️ @illuminatnotes</a>
+  <a id="igBadge" href="https://instagram.com/harry_espookies" target="_blank">🟣 @harry_espookies</a>
+</div>
 <div class="tunnel"></div>
 
 <div id="lock" class="lock">
   <div class="card">
     <h2>Alice Key</h2>
-    <p class="hint">This rabbit hole opens with a link from MirrorHoney. If you have the key, enter it.</p>
-    <div style="margin:12px 0"><input id="keyInput" class="input" placeholder="enter key"></div>
+    <p class="hint">This rabbit hole opens with a link from MirrorHoney, or with a phrase.</p>
+    <div style="margin:12px 0"><input id="keyInput" class="input" placeholder="enter key (kenneljustine or ALICE)"></div>
     <button id="unlockBtn" class="btn">unlock</button>
+    <p class="hint" style="margin-top:10px">Clues on <a href="https://instagram.com/harry_espookies" target="_blank" style="color:#fff;text-decoration:underline">Instagram</a> to find @kenneljustine.</p>
   </div>
 </div>
 
@@ -67,9 +74,9 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
         <div class="title">Trial 1 — Time</div>
         <div class="hint">Pick the phrase that keeps time honest.</div>
         <div class="opts">
-          <div class="opt" data-a="wrong">“We have time to waste.”</div>
-          <div class="opt" data-a="correct">“I won’t spend time I don’t have.”</div>
-          <div class="opt" data-a="wrong">“Time works for me.”</div>
+          <div class="opt" data-a="wrong">We have time to waste.</div>
+          <div class="opt" data-a="correct">I won’t spend time I don’t have.</div>
+          <div class="opt" data-a="wrong">Time works for me.</div>
         </div>
       </div>
 
@@ -87,9 +94,9 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
         <div class="title">Trial 3 — Mirror</div>
         <div class="hint">Choose the reflection that returns warmth.</div>
         <div class="opts">
-          <div class="opt" data-a="wrong">“Say it louder.”</div>
-          <div class="opt" data-a="correct">“Cut clean. Set warm.”</div>
-          <div class="opt" data-a="wrong">“No mirrors.”</div>
+          <div class="opt" data-a="wrong">Say it louder.</div>
+          <div class="opt" data-a="correct">Cut clean. Set warm.</div>
+          <div class="opt" data-a="wrong">No mirrors.</div>
         </div>
       </div>
     </div>
@@ -129,8 +136,10 @@ const dots=[document.getElementById("d1"),document.getElementById("d2"),document
 const steps=[].slice.call(document.querySelectorAll(".panel[data-step]"))
 const ctaWrap=document.getElementById("ctaWrap"),schoolBtn=document.getElementById("schoolBtn")
 function jget(k,def){try{return JSON.parse(localStorage.getItem(k)||def)}catch(e){return JSON.parse(def)}}
+function norm(s){return String(s||"").toLowerCase().trim()}
 function show(){lock.style.display="none";app.style.display="flex";srcTag.textContent=jget("four.src","\"mh.four\"")}
-function tryUnlock(v){var expect=jget("four.key","");if(expect&&v===expect){localStorage.setItem("four.unlock","true");show();return true}return false}
+function allow(v){v=norm(v);return v==="kenneljustine"||v==="alice"}
+function tryUnlock(v){var expect=jget("four.key","");if((expect&&v===expect)||allow(v)){localStorage.setItem("four.unlock","true");show();return true}return false}
 function mark(i,on){dots[i-1].classList.toggle("on",on)}
 function setStepDone(i){localStorage.setItem("four.step."+i,"true");mark(i,true)}
 function isDone(i){return localStorage.getItem("four.step."+i)==="true"}
@@ -150,9 +159,7 @@ window.addEventListener("load",function(){
   [1,2,3].forEach(function(i){if(isDone(i))mark(i,true)});
   if(localStorage.getItem("four.hole.done")){ctaWrap.style.display="flex";try{document.getElementById("schoolBadge").style.display="inline-flex"}catch(e){} }
 })
-schoolBtn.addEventListener("click",function(){
-  var k=genCode();location.href=schoolUrl(k)
-})
+schoolBtn.addEventListener("click",function(){var k=genCode();location.href=schoolUrl(k)})
 </script>
 </body>
 </html>
