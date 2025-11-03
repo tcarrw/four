@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>four · Castle · For Good — The Forgiveness Gate</title>
+  <meta name="theme-color" content="#7d66ff" />
+  <meta name="description" content="Interactive castle gate for For Good — fog the glass and slide it open to reveal the inscription." />
+  <style>
+    :root{
+      --violet-0:#0f0b1a;
+      --violet-1:#1a1230;
+      --violet-2:#241c44;
+      --violet-3:#5a48b6;
+      --pearl:#eef;
+      --ink:#dad7ff;
+      --ink-dim:#c9c5ff;
+      --accent:#a48cff;
+      --door-edge:#ffffff2a;
+      --door-fill:#ffffff12;
+      --sheen:#ffffff14;
+      --fog-a:#ffffff12;
+      --fog-b:#ffffff0a;
+      --glow:#bfaeff;
+      --good:#c4ffef;
+    }
+
+    html,body{height:100%;margin:0}
+    body{
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Helvetica Neue", Helvetica;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 800px at 70% 10%, #2d225d 0%, var(--violet-2) 38%, var(--violet-1) 64%, var(--violet-0) 100%),
+        conic-gradient(from 220deg at 60% 8%, #181334, #221b45, #151028, #181334);
+      background-blend-mode: screen, normal;
+      -webkit-font-smoothing: antialiased;
+      letter-spacing:.15px;
+    }
+
+    .wrap{
+      min-height:100%;
+      display:grid;
+      grid-template-rows: auto 1fr auto;
+    }
+
+    header, footer{
+      display:flex; align-items:center; justify-content:space-between;
+      padding: clamp(12px, 3vw, 20px);
+      color: var(--ink-dim);
+    }
+
+    .crumbs a{
+      color: var(--ink-dim);
+      text-decoration: none;
+      border-bottom: 1px dotted #cfc9ff66;
+    }
+
+    .hint{
+      font-size: 13px;
+      opacity:.95;
+      display:flex; align-items:center; gap:10px;
+      padding:8px 12px; border-radius:999px;
+      border:1px solid #ffffff22;
+      background: linear-gradient(180deg, #ffffff10, #ffffff06);
+    }
+    .dot{width:10px;height:10px;border-radius:999px;background:var(--accent);box-shadow:0 0 16px var(--accent)}
+
+    .stage{
+      position:relative;
+      display:grid; place-items:center;
+      padding: clamp(12px, 3vw, 24px);
+    }
+
+    /* Back wall with the inscription behind the door */
+    .wall{
+      position:relative;
+      width:min(1100px, 94vw);
+      height: min(70vh, 720px);
+      border-radius: 24px;
+      overflow:hidden;
+      box-shadow: 0 30px 90px #00000080, inset 0 0 0 1px #ffffff18;
+      background:
+        radial-gradient(800px 420px at 70% -10%, #e7e3ff0a 0%, transparent 60%),
+        linear-gradient(180deg, #ffffff08, #ffffff03);
+      backdrop-filter: blur(6px) saturate(115%);
+      -webkit-backdrop-filter: blur(6px) saturate(115%);
+      isolation:isolate;
+    }
+
+    /* Inscription on the wall (revealed once the door opens) */
+    .inscription{
+      position:absolute; inset:0;
+      display:flex; align-items:center; justify-content:center;
+      padding: clamp(14px, 3.6vw, 28px);
+      opacity:.0; transform: translateY(6px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+    .wall.open .inscription{ opacity:1; transform: translateY(0) }
+
+    .inscription .card{
+      max-width: 780px;
+      width: 92%;
+      padding: clamp(14px, 2.8vw, 22px);
+      border-radius: 16px;
+      border:1px solid #ffffff22;
+      background: linear-gradient(180deg, #ffffff10, #ffffff06);
+      box-shadow: inset 0 0 60px #c9bfff10, 0 10px 24px #00000055;
+      color: var(--ink);
+      text-align: left;
+    }
+    h1{
+      margin: 0 0 8px;
+      font-size: clamp(22px, 3.4vw, 32px);
+      color: var(--pearl);
+      text-shadow: 0 6px 22px #a48cff26;
+    }
+    .subtitle{
+      margin: 0 0 12px;
+      font-size: clamp(14px, 2vw, 16px);
+      color: var(--ink-dim);
+    }
+    blockquote{
+      margin: 6px 0 14px;
+      font-size: clamp(16px, 2.3vw, 18px);
+      color: var(--pearl);
+      text-wrap: balance;
+    }
+    .doortext{
+      margin: 0;
+      font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+      font-size: clamp(17px, 2.5vw, 19px);
+      line-height: 1.7;
+      color: var(--ink);
+      text-wrap: pretty;
+    }
+
+    /* Sliding glass door sitting above the wall */
+    .door{
+      position:absolute; inset:0;
+      pointer-events:auto;
+      display:flex; align-items:center; justify-content:center;
+      overflow:visible;
+      will-change: transform;
+    }
+    .panel{
+      position:absolute;
+      height: 86%;
+      width: min(720px, 86vw);
+      border-radius: 18px;
+      border: 1px solid var(--door-edge);
+      background: linear-gradient(180deg, var(--door-fill), #ffffff08);
+      box-shadow:
+        0 18px 60px #00000088,
+        inset 0 0 0 1px #ffffff24,
+        inset 0 0 120px #a48cff10;
+      backdrop-filter: blur(10px) saturate(115%);
+      -webkit-backdrop-filter: blur(10px) saturate(115%);
+      transition: box-shadow .3s ease;
+      isolation:isolate;
+      touch-action: none;
+    }
+    /* Sheen */
+    .panel::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        linear-gradient(118deg, transparent 0 38%, var(--sheen) 40%, #ffffff08 43%, transparent 46 100%),
+        radial-gradient(800px 360px at 70% -14%, #e7e3ff10 0%, transparent 62%);
+      mix-blend-mode: screen;
+      pointer-events:none;
+      animation: driftSheen 14s ease-in-out infinite;
+    }
+    @keyframes driftSheen {
+      0%,100% { transform: translateX(-1%); opacity: .9; }
+      50%     { transform: translateX(1%);  opacity: 1; }
+    }
+
+    /* Handle */
+    .handle{
+      position:absolute; right: clamp(12px, 2.2vw, 18px); top: 50%;
+      transform: translateY(-50%);
+      width: 46px; height: 46px; border-radius: 999px;
+      border: 1px solid #ffffff33;
+      background:
+        radial-gradient(circle at 30% 30%, #fff, #d9d1ff 40%, #9b86ff 72%, #5f4fb9);
+      box-shadow: 0 10px 24px #00000060, inset 0 0 22px #ffffff80;
+    }
+
+    /* Breath fog painted onto the door with CSS layers, animated on press */
+    .fog{
+      position:absolute; inset:-2px; border-radius: 18px;
+      background:
+        radial-gradient(200px 120px at 30% 30%, var(--fog-a) 0%, transparent 70%),
+        radial-gradient(240px 150px at 70% 30%, var(--fog-b) 0%, transparent 72%),
+        radial-gradient(320px 200px at 50% 60%, var(--fog-b) 0%, transparent 75%);
+      filter: blur(6px) saturate(105%);
+      opacity: 0; pointer-events:none;
+      transition: opacity .6s ease;
+    }
+    .panel.breathing .fog{ opacity: .95 }
+
+    /* Open state: slide the panel aside */
+    .panel.open{
+      transform: translateX(46%);
+      box-shadow:
+        0 18px 60px #00000088,
+        inset 0 0 0 1px #ffffff24,
+        inset 0 0 160px #9bd7ff18;
+    }
+
+    /* Instruction label */
+    .label{
+      position:absolute; bottom: clamp(10px, 2.6vw, 16px); left: 50%;
+      transform: translateX(-50%);
+      font-size: clamp(12px, 2vw, 14px);
+      color: var(--ink-dim);
+      padding: 8px 12px; border-radius: 999px;
+      border:1px solid #ffffff24;
+      background: linear-gradient(180deg, #ffffff10, #ffffff06);
+      backdrop-filter: blur(6px);
+    }
+    .label .key{ color: var(--good) }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .panel::before{ animation: none }
+      .panel, .wall .inscription{ transition: none }
+    }
+
+    footer .link{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 14px; border-radius:12px;
+      text-decoration:none; color: var(--ink);
+      background: linear-gradient(180deg, #ffffff12, #ffffff07);
+      border:1px solid #ffffff22;
+    }
+    footer .link:hover{ filter: brightness(1.05) saturate(1.04) }
+    .keyicon{ width:16px; height:16px; border-radius:3px; background: radial-gradient(circle at 30% 30%, #fff, #d9d1ff 40%, #9b86ff 72%, #5f4fb9) }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="crumbs">
+        <a href="/">four</a> / <a href="/castle">castle</a> / for-good
+      </div>
+      <div class="hint"><span class="dot" aria-hidden="true"></span><span id="mode">Touch and hold to fog. Then slide the door.</span></div>
+    </header>
+
+    <section class="stage">
+      <div class="wall" id="wall">
+        <div class="inscription" aria-hidden="true" id="inscription">
+          <div class="card">
+            <h1>For Good — The Forgiveness Gate</h1>
+            <p class="subtitle">You can leave and still keep the light.</p>
+            <blockquote>“We were each other’s spell, and breaking it set us free.”</blockquote>
+            <p class="doortext">
+              This door does not lock.<br/>
+              It remembers the shape of hands that once tried to hold it shut.<br/><br/>
+              Step through, and what hurt you will become air.<br/>
+              Step through, and what you loved will remain light.<br/><br/>
+              Leave your name on the threshold,<br/>
+              so the next traveler knows you learned the word enough.
+            </p>
+          </div>
+        </div>
+
+        <div class="door" id="door" aria-label="Glass door, slide to open">
+          <div class="panel" id="panel">
+            <div class="fog"></div>
+            <div class="handle" aria-hidden="true"></div>
+            <div class="label" id="label"><span class="key">Touch and hold</span> to fog · slide right to open</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <a class="link" href="https://school.plnt.earth/keys/for-good"><span class="keyicon" aria-hidden="true"></span> Read the Canon</a>
+      <a class="link" href="/castle"><span class="keyicon" aria-hidden="true"></span> Back to Castle</a>
+    </footer>
+  </div>
+
+  <script>
+    /* Gate logic: press to breathe, drag to open. Works with mouse, touch, pen. */
+    (function(){
+      var panel = document.getElementById('panel');
+      var wall = document.getElementById('wall');
+      var label = document.getElementById('label');
+      var mode = document.getElementById('mode');
+      var inscription = document.getElementById('inscription');
+
+      var pressed = false;
+      var startX = 0;
+      var currentX = 0;
+      var opened = false;
+
+      var hasLesson = false;
+      try{ hasLesson = localStorage.getItem('castle.key.for_good') === 'true'; }catch(_){}
+      if(!hasLesson){
+        mode.textContent = "Practice mode — you can still open. The canon lives at School.";
+      }else{
+        mode.textContent = "Touch and hold to fog. Then slide the door.";
+      }
+
+      function setBreathing(on){
+        if(on){ panel.classList.add('breathing'); }
+        else{ panel.classList.remove('breathing'); }
+      }
+
+      function setOpen(on){
+        opened = on;
+        if(on){
+          panel.classList.add('open');
+          wall.classList.add('open');
+          label.textContent = "Gate open";
+          try{ localStorage.setItem('castle.gate.for_good.open','true'); }catch(_){}
+        }else{
+          panel.classList.remove('open');
+          wall.classList.remove('open');
+          label.innerHTML = '<span class="key">Touch and hold</span> to fog · slide right to open';
+        }
+      }
+
+      function onDown(x){
+        if(opened) return;
+        pressed = true;
+        startX = x;
+        currentX = x;
+        setBreathing(true);
+      }
+      function onMove(x){
+        if(!pressed || opened) return;
+        currentX = x;
+        var dx = Math.max(0, currentX - startX);
+        var pct = Math.min(1, dx / (window.innerWidth * 0.24));
+        panel.style.transform = 'translateX(' + (pct * 46) + '%)';
+        if(pct > 0.62){
+          setOpen(true);
+          pressed = false;
+          setBreathing(false);
+        }
+      }
+      function onUp(){
+        if(!pressed || opened) return;
+        pressed = false;
+        setBreathing(false);
+        panel.style.transform = '';
+      }
+
+      panel.addEventListener('pointerdown', function(e){ panel.setPointerCapture(e.pointerId); onDown(e.clientX); });
+      panel.addEventListener('pointermove', function(e){ onMove(e.clientX); });
+      panel.addEventListener('pointerup', function(){ onUp(); });
+      panel.addEventListener('pointercancel', function(){ onUp(); });
+
+      /* Keyboard support: Enter to fog, ArrowRight to open */
+      panel.setAttribute('tabindex','0');
+      panel.addEventListener('keydown', function(e){
+        if(e.key === 'Enter'){ setBreathing(true); }
+        if(e.key === 'ArrowRight'){ setOpen(true); }
+      });
+      panel.addEventListener('keyup', function(e){
+        if(e.key === 'Enter'){ setBreathing(false); }
+      });
+
+      /* Respect reduced motion by disabling sliding animation feedback */
+      var prefersReduced = false;
+      try{ prefersReduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(_){}
+      if(prefersReduced){
+        panel.style.transition = "none";
+      }
+    })();
+  </script>
+</body>
+</html>
