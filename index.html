@@ -36,7 +36,7 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
 .badge.ok{border-color:rgba(134,255,214,.5)}
 .badge.need{border-color:rgba(255,204,112,.5)}
 .cta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.holderBadge{position:fixed;right:16px;bottom:16px;background:linear-gradient(180deg,#a6ffe6,#7fe3ff);color:#0c1a17;border:1px solid rgba(0,0,0,.25);border-radius:999px;padding:10px 14px;cursor:pointer;display:flex;gap:8px;align-items:center;z-index:20}
+.holderBadge{position:fixed;right:16px;bottom:16px;background:linear-gradient(180deg,#a6ffe6,#7fe3ff);color:#0c1a17;border:1px solid rgba(0,0,0,.25);border-radius:999px;padding:10px 14px;cursor:pointer;display:none;gap:8px;align-items:center;z-index:20}
 .panelHL{position:fixed;inset:0;display:none;align-items:flex-end;justify-content:center;background:linear-gradient(180deg,transparent,rgba(0,0,0,.45));z-index:30}
 .sheetHL{width:100%;max-width:680px;background:var(--veil);border:1px solid var(--line);border-radius:18px 18px 0 0;padding:16px 16px 22px}
 .note{background:rgba(12,12,18,.6);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:left}
@@ -93,7 +93,7 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
         <div id="quizMsg" class="hint" style="margin-top:8px">tap each line when you know it</div>
       </div>
 
-      <!-- Videos -->
+      <!-- Videos (auto/preset) -->
       <div class="panel">
         <div class="title">Videos</div>
         <div id="vWrap" style="display:grid;gap:10px">
@@ -117,7 +117,7 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
       <div class="status" id="keyStatus"></div>
       <div class="cta">
         <button id="needGarlic" class="btn">get the castle key</button>
-        <button id="needMirror" class="btn">open the mirror</button>
+        <button id="needMirror" class="btn" disabled>open the mirror (finish quiz)</button>
         <button id="toSchool" class="btn" style="display:none;background:linear-gradient(180deg,#a6ffe6,#7fe3ff);color:#0c1a17;border:1px solid rgba(0,0,0,.25)">proceed to school</button>
       </div>
       <div class="hint" style="margin-top:6px">you’ll need both before the door to school opens.</div>
@@ -129,7 +129,7 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
   </div>
 </div>
 
-<!-- Holder Tools -->
+<!-- Holder Tools (hidden unless #keeper) -->
 <div class="holderBadge" id="holderBadge">🗝️ holder</div>
 <div class="panelHL" id="panelHL">
   <div class="sheetHL">
@@ -137,22 +137,22 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
       <div style="font-weight:600">Holder tools</div>
       <button id="closeHL" class="btn">close</button>
     </div>
-    <div style="display:flex;gap:8px;align-items:center;margin-top:8px">
-      <input id="holderWho" class="input" placeholder="type: alice" style="flex:1">
-      <button id="holderGo" class="btn">enter</button>
+
+    <!-- Presets save -->
+    <div style="margin-top:10px" class="hint">save a preset (id + two youtube ids). special ids: <b>needG</b>, <b>needM</b>, <b>default</b></div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px">
+      <input id="pId" class="input" placeholder="preset id (e.g., aliceDrop)">
+      <input id="pV1" class="input" placeholder="youtube id 1">
+      <input id="pV2" class="input" placeholder="youtube id 2">
+      <button id="savePreset" class="btn">save preset</button>
     </div>
-    <div id="holderOps" style="display:none;margin-top:10px">
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-        <input id="v1set" class="input" placeholder="youtube id 1">
-        <input id="v2set" class="input" placeholder="youtube id 2">
-        <button id="saveV" class="btn">save videos</button>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center;margin-top:10px">
-        <button id="giftMH" class="btn">copy “gift a mirror” link</button>
-        <span id="giftMsg" class="hint"></span>
-      </div>
-      <div class="hint" style="margin-top:6px">share this link with anyone curious; it opens MirrorHoney (token). next key is learned inside.</div>
+
+    <!-- Gift mirror -->
+    <div style="display:flex;gap:8px;align-items:center;margin-top:12px">
+      <button id="giftMH" class="btn">copy “gift a mirror” link</button>
+      <span id="giftMsg" class="hint"></span>
     </div>
+    <div class="hint" style="margin-top:6px">share this link with anyone curious; it opens MirrorHoney (token). next key is learned inside.</div>
   </div>
 </div>
 
@@ -162,20 +162,17 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
 function norm(s){return String(s||"").toLowerCase().trim()}
 function fnv1a(t){var h=0x811c9dc5;for(var i=0;i<t.length;i++){h^=t.charCodeAt(i);h=(h*0x01000193)>>>0}return h>>>0}
 function genCode(){return Math.random().toString(36).slice(2,6)+"-"+Math.random().toString(36).slice(2,6)+"-"+Math.random().toString(36).slice(2,6)}
+function pick(name){var m=String(location.search).match(new RegExp("[?&]"+name+"=([^&]+)"));return m?decodeURIComponent(m[1]):""}
 </script>
 
-<!-- Arrival: require Marina token; read tokens from query (g,m) -->
+<!-- Arrival: require Marina token; read tokens from query (g,m); session-scoped unlock -->
 <script>
 (function(){
-  function pick(s,pat){var m=String(s||"").match(pat);return m?decodeURIComponent(m[1]):""}
-  var src=pick(location.search,/[\?&]s=([^&]+)/),
-      g=pick(location.search,/[\?&]g=([^&]+)/),
-      m=pick(location.search,/[\?&]m=([^&]+)/),
-      k=pick(location.hash,/[#?&]k=([^&]+)/);
-  if(src) localStorage.setItem("four.src",JSON.stringify(src));
+  var src=pick("s"), g=pick("g"), m=pick("m"), k=(String(location.hash).match(/[#?&]k=([^&]+)/)||[])[1];
+  if(src) sessionStorage.setItem("four.src",src);
   if(g) localStorage.setItem("four.token.g",JSON.stringify(g));
   if(m) localStorage.setItem("four.token.m",JSON.stringify(m));
-  if(k){ localStorage.setItem("four.unlock","true") }
+  if(k){ sessionStorage.setItem("four.unlock","true") }
   history.replaceState({},document.title,location.pathname);
 })();
 </script>
@@ -185,61 +182,89 @@ const lock=document.getElementById("lock"),app=document.getElementById("app"),sr
 const keyStatus=document.getElementById("keyStatus"),needGarlic=document.getElementById("needGarlic"),needMirror=document.getElementById("needMirror"),toSchool=document.getElementById("toSchool")
 const vid1=document.getElementById("vid1"),vid2=document.getElementById("vid2"),v1empty=document.getElementById("v1empty"),v2empty=document.getElementById("v2empty")
 const holderBadge=document.getElementById("holderBadge"),panelHL=document.getElementById("panelHL"),closeHL=document.getElementById("closeHL")
-const holderWho=document.getElementById("holderWho"),holderGo=document.getElementById("holderGo"),holderOps=document.getElementById("holderOps"),giftMH=document.getElementById("giftMH"),giftMsg=document.getElementById("giftMsg")
-const v1set=document.getElementById("v1set"),v2set=document.getElementById("v2set"),saveV=document.getElementById("saveV")
-const dots=[document.createElement("div"),document.createElement("div"),document.createElement("div")]
-let done={1:false,2:false,3:false}
+const pId=document.getElementById("pId"),pV1=document.getElementById("pV1"),pV2=document.getElementById("pV2"),savePreset=document.getElementById("savePreset"),giftMH=document.getElementById("giftMH"),giftMsg=document.getElementById("giftMsg")
+const dots=[false,false,false];let done={1:false,2:false,3:false}
 
 function jget(k,def){try{return JSON.parse(localStorage.getItem(k)||def)}catch(e){return JSON.parse(def)}}
 function jset(k,v){localStorage.setItem(k,JSON.stringify(v))}
-function show(){lock.style.display="none";app.style.display="flex";srcTag.textContent=jget("four.src","\"mh.four\"")}
+function show(){lock.style.display="none";app.style.display="flex";srcTag.textContent=sessionStorage.getItem("four.src")||"mh.four"}
+
 function haveG(){return !!jget("four.token.g","\"\"")}
 function haveM(){return !!jget("four.token.m","\"\"")}
+
+function badge(text,ok){var d=document.createElement("div");d.className="badge "+(ok?"ok":"need");d.textContent=text+(ok?" ✔":" •");return d}
+
+function quizComplete(){return done[1]&&done[2]&&done[3]}
+
 function renderStatus(){
-  keyStatus.innerHTML=""
-  const g=document.createElement("div");g.className="badge "+(haveG()?"ok":"need");g.textContent="garlic · castle key "+(haveG()?"✔":"•")
-  const m=document.createElement("div");m.className="badge "+(haveM()?"ok":"need");m.textContent="mirror · door key "+(haveM()?"✔":"•")
-  keyStatus.appendChild(g);keyStatus.appendChild(m)
-  needGarlic.style.display = haveG() ? "none" : "inline-flex"
-  needMirror.style.display = haveM() ? "none" : "inline-flex"
-  toSchool.style.display = (haveG() && haveM() && done[1] && done[2] && done[3]) ? "inline-flex" : "none"
+  keyStatus.innerHTML="";
+  keyStatus.appendChild(badge("garlic · castle key",haveG()));
+  keyStatus.appendChild(badge("mirror · door key",haveM()));
+  needGarlic.style.display = haveG() ? "none" : "inline-flex";
+  needMirror.disabled = !( !haveM() && quizComplete() );
+  needMirror.textContent = (!haveM() && quizComplete()) ? "open the mirror" : "open the mirror (finish quiz)";
+  toSchool.style.display = (haveG() && haveM() && quizComplete()) ? "inline-flex" : "none";
 }
+
 function yt(id){return "https://www.youtube.com/embed/"+id+"?rel=0&modestbranding=1&playsinline=1"}
-function loadVideos(){
-  const a=jget("four.taylor.v1","\"\""),b=jget("four.taylor.v2","\"\"")
-  if(a){vid1.src=yt(a);vid1.style.display="block";v1empty.style.display="none"}
-  if(b){vid2.src=yt(b);vid2.style.display="block";v2empty.style.display="none"}
+function getVsets(){return JSON.parse(localStorage.getItem("four.vsets")||"{}")}
+function saveVset(id,v1,v2){var all=getVsets();all[id]={v1:v1||"",v2:v2||""};localStorage.setItem("four.vsets",JSON.stringify(all))}
+function getVset(id){var all=getVsets();return all[id]||null}
+
+function preloadVideosByNeed(){
+  var wanted=pick("vset"), p=null;
+  if(wanted){ p=getVset(wanted) }
+  if(!p){
+    if(!haveG()) p=getVset("needG");
+    else if(!haveM()) p=getVset("needM");
+    else p=getVset("default");
+  }
+  if(p){
+    if(p.v1){ vid1.src=yt(p.v1); vid1.style.display="block"; v1empty.style.display="none" }
+    if(p.v2){ vid2.src=yt(p.v2); vid2.style.display="block"; v2empty.style.display="none" }
+  }
 }
-function markQuiz(n){
-  done[n]=true
-  const msg=document.getElementById("quizMsg")
-  const finished = done[1]&&done[2]&&done[3]
-  msg.textContent = finished ? "quiz complete" : "keep going"
-  renderStatus()
-}
+
 document.getElementById("quiz").addEventListener("click",function(e){
-  const t=e.target;if(!t.classList.contains("opt"))return
-  const q=t.getAttribute("data-q")
-  if(q==="1" && t.textContent.includes("permission")){t.classList.add("correct");markQuiz(1)}
-  else if(q==="2" && t.textContent.includes("set warm")){t.classList.add("correct");markQuiz(2)}
-  else if(q==="3" && t.textContent.includes("don’t spend")){t.classList.add("correct");markQuiz(3)}
+  var t=e.target;if(!t.classList.contains("opt"))return;
+  var q=t.getAttribute("data-q");
+  if(q==="1" && t.textContent.toLowerCase().indexOf("permission")>=0){t.classList.add("correct");done[1]=true}
+  else if(q==="2" && t.textContent.toLowerCase().indexOf("set warm")>=0){t.classList.add("correct");done[2]=true}
+  else if(q==="3" && t.textContent.toLowerCase().indexOf("don’t spend")>=0){t.classList.add("correct");done[3]=true}
   else{t.classList.add("wrong")}
+  document.getElementById("quizMsg").textContent = quizComplete() ? "quiz complete" : "keep going";
+  renderStatus();
 })
+
 needGarlic.onclick=function(){location.href="https://garlic.plnt.earth/?s=four.need.g"}
-needMirror.onclick=function(){location.href="https://mirrorhoney.plnt.earth/?s=four.need.m"}
-toSchool.onclick=function(){
-  const g=jget("four.token.g","\"g\""), m=jget("four.token.m","\"m\""), f=genCode()
-  location.href="https://school.plnt.earth/?s=four.rabbit&g="+encodeURIComponent(g)+"&m="+encodeURIComponent(m)+"&f="+encodeURIComponent(f)+"#k="+encodeURIComponent(genCode())
+needMirror.onclick=function(){
+  if(needMirror.disabled) return;
+  var u="https://mirrorhoney.plnt.earth/", q="?s="+encodeURIComponent("four.gift"), h="#k="+encodeURIComponent(genCode());
+  location.href=u+q+h;
 }
-holderBadge.onclick=function(){panelHL.style.display="flex"}
-closeHL.onclick=function(){panelHL.style.display="none"}
-panelHL.addEventListener("click",function(e){if(e.target===panelHL)panelHL.style.display="none"})
-holderGo.onclick=function(){if(norm(holderWho.value)==="alice"){holderOps.style.display="block";holderWho.value=""}}
-saveV.onclick=function(){const a=norm(v1set.value),b=norm(v2set.value);if(a)jset("four.taylor.v1",a);if(b)jset("four.taylor.v2",b);loadVideos()}
-giftMH.onclick=function(){var u="https://mirrorhoney.plnt.earth/",q="?s="+encodeURIComponent("four.gift"),h="#k="+encodeURIComponent(genCode());navigator.clipboard.writeText(u+q+h);giftMsg.textContent="copied"}
+toSchool.onclick=function(){
+  var g=jget("four.token.g","\"g\""), m=jget("four.token.m","\"m\""), f=genCode();
+  location.href="https://school.plnt.earth/?s=four.rabbit&g="+encodeURIComponent(g)+"&m="+encodeURIComponent(m)+"&f="+encodeURIComponent(f)+"#k="+encodeURIComponent(genCode());
+}
+
+savePreset.onclick=function(){
+  var id=(pId.value||"").trim(); if(!id) return;
+  saveVset(id,(pV1.value||"").trim(),(pV2.value||"").trim());
+  pId.value=""; pV1.value=""; pV2.value="";
+}
+
+giftMH.onclick=function(){
+  var u="https://mirrorhoney.plnt.earth/", q="?s="+encodeURIComponent("four.gift"), h="#k="+encodeURIComponent(genCode());
+  navigator.clipboard.writeText(u+q+h); giftMsg.textContent="copied";
+}
+
 window.addEventListener("load",function(){
-  if(localStorage.getItem("four.unlock")){show();loadVideos();renderStatus()}
+  if(location.hash.indexOf("#keeper")>=0){ document.getElementById("holderBadge").style.display="flex" }
+  if(sessionStorage.getItem("four.unlock")){ show(); renderStatus(); preloadVideosByNeed() }
 })
+document.getElementById("holderBadge").onclick=function(){ document.getElementById("panelHL").style.display="flex" }
+document.getElementById("closeHL").onclick=function(){ document.getElementById("panelHL").style.display="none" }
+document.getElementById("panelHL").addEventListener("click",function(e){ if(e.target.id==="panelHL") e.currentTarget.style.display="none" })
 </script>
 </body>
 </html>
