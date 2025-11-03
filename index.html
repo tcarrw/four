@@ -1,602 +1,158 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>four.plnt.earth — quiet count</title>
-<meta name="theme-color" content="#0b0b0d">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Four · Rabbit Hole</title>
 <style>
-  :root{
-    --bg:#0b0b0d; --fg:#ececec; --dim:#b8b8c3; --line:#1a1a21;
-    --muted:#9096a4; --good:#cde8c1; --bad:#f1c0c0; --hint:#d6c8a8;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;height:100%;background:#0b0b0d;color:var(--fg);
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial}
-  a{color:inherit;text-decoration:none}
-  header{max-width:1100px;margin:0 auto;padding:24px 24px 8px}
-  h1{margin:0;font-size:28px;font-weight:700;letter-spacing:.3px}
-  .sub{margin-top:6px;color:var(--dim);font-size:14px}
-  .legend{max-width:1100px;margin:0 auto 8px;padding:0 24px;color:var(--muted);font-size:12px}
-
-  .grid{max-width:1100px;margin:12px auto 28px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px;padding:0 24px}
-  .card{border:1px solid var(--line);background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.015));
-    border-radius:14px;overflow:hidden}
-  .card header{padding:14px 14px 10px}
-  .title{font-weight:600}
-  .meta{color:var(--muted);font-size:12px;margin-top:2px}
-  .vid{position:relative;aspect-ratio:16/9;background:#000}
-  .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-
-  .tags{display:flex;gap:8px;padding:8px 14px 0 14px;color:#cfcfd7;flex-wrap:wrap}
-  .tag{border:1px solid var(--line);border-radius:999px;font-size:11px;padding:4px 8px;color:var(--dim)}
-
-  .panel{display:flex;align-items:center;gap:10px;padding:12px 14px;border-top:1px solid var(--line)}
-  .label{font-size:12px;color:var(--dim)}
-  .counter{display:flex;align-items:center;gap:10px}
-  .btn{appearance:none;border:1px solid var(--line);background:#121319;color:var(--fg);
-    padding:8px 10px;border-radius:10px;font-size:13px}
-  .btn:active{transform:translateY(1px)}
-  .num{min-width:24px;text-align:center;font-variant-numeric:tabular-nums}
-  .check{margin-left:auto}
-  .result{font-size:12px;color:var(--dim)}
-  .result.good{color:var(--good)}
-  .result.bad{color:var(--bad)}
-
-  details{max-width:1100px;margin:0 auto 18px;padding:0 24px}
-  details summary{cursor:pointer;color:var(--dim);font-weight:600;list-style:none}
-  details[open] summary{color:var(--hint)}
-  details p{color:var(--muted);font-size:13px;line-height:1.45}
-
-  footer{max-width:1100px;margin:10px auto 32px;padding:0 24px;color:var(--dim);font-size:12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-
-  /* dev */
-  .devbar{display:none;max-width:1100px;margin:6px auto 0;padding:0 24px}
-  .devbox{border:1px dashed var(--line);border-radius:10px;padding:10px 12px;color:var(--dim);font-size:12px;display:flex;align-items:center;gap:12px}
-  .expected{display:none;margin-left:auto;color:var(--hint);font-size:12px}
-  body.show-expected .expected{display:inline}
-
-  /* compare section */
-  .compare{max-width:1100px;margin:6px auto 26px;padding:0 24px}
-  .compare .row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-  .compare .item{border:1px solid var(--line);border-radius:12px;padding:12px;background:rgba(255,255,255,.02)}
-  .compare .item h3{margin:0 0 6px 0;font-size:14px}
-  .compare .item p{margin:0 0 10px 0;font-size:12px;color:var(--muted)}
-  .compare .item a{display:inline-block;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13px;background:#121319}
-  .paste{margin-top:16px;border:1px solid var(--line);border-radius:12px;padding:12px;background:rgba(255,255,255,.02)}
-  .paste h4{margin:0 0 8px 0;font-size:14px}
-  textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:10px;background:#0e0f13;color:var(--fg);padding:10px;font-size:13px}
-  .minirow{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
-  .minirow .mini{font-size:12px;color:var(--muted)}
-  .pill{display:inline-block;padding:2px 6px;border-radius:6px;border:1px solid var(--line);font-size:11px;color:var(--dim)}
-  .pronouns{margin-top:6px;font-size:13px}
-  .pronouns mark{background:#2a2f3a;color:#e9eaf0;border-radius:4px;padding:0 3px}
-  @media (max-width:900px){.grid{grid-template-columns:1fr} .compare .row{grid-template-columns:1fr}}
+:root{--bg:#07080c;--ink:#fff;--line:rgba(255,255,255,.12);--pane:rgba(255,255,255,.08);--veil:rgba(12,12,18,.9);--accent:#7fe3ff;--mint:#86ffd6}
+html,body{height:100%}
+body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:radial-gradient(1000px 700px at 50% 20%,#0f1324,#07080c 70%)}
+.nav{position:fixed;left:14px;top:14px;display:flex;gap:8px;z-index:60}
+.nav a{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px);padding:8px 10px;border-radius:999px;color:#fff;text-decoration:none}
+#schoolBadge{display:none}
+.tunnel{position:fixed;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:screen;background:radial-gradient(ellipse at center,rgba(127,227,255,.08),transparent 60%),repeating-radial-gradient(circle at 50% 45%,rgba(134,255,214,.06),rgba(134,255,214,.06) 6px,transparent 6px,transparent 12px);animation:descend 9s linear infinite}
+@keyframes descend{0%{transform:translateY(0)}100%{transform:translateY(40px)}}
+.lock{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.7));z-index:10}
+.card{width:min(640px,92vw);background:var(--veil);border:1px solid var(--line);border-radius:16px;padding:18px;backdrop-filter:blur(10px);text-align:center}
+.hint{opacity:.8}
+.input{background:transparent;border:none;border-bottom:1px solid var(--ink);outline:none;color:var(--ink);padding:6px 4px;width:100%;font-size:1rem;text-align:center}
+.btn{background:var(--pane);border:1px solid var(--line);border-radius:10px;padding:10px 14px;color:var(--ink);cursor:pointer}
+.app{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px}
+.inner{width:min(900px,96vw)}
+.header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin-bottom:12px}
+.key{display:inline-flex;gap:6px;align-items:center;background:rgba(127,227,255,.15);border:1px solid rgba(127,227,255,.35);border-radius:999px;padding:6px 10px}
+.pill{background:var(--pane);border:1px solid var(--line);border-radius:999px;padding:6px 10px}
+.rule{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);margin:10px 0}
+.stage{display:grid;grid-template-columns:1fr;gap:12px}
+.panel{background:rgba(12,12,18,.6);border:1px solid var(--line);border-radius:14px;padding:14px}
+.title{font-weight:600;margin-bottom:6px}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.opt{padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--pane);cursor:pointer}
+.opt.correct{border-color:rgba(134,255,214,.65);box-shadow:0 0 0 2px rgba(134,255,214,.25) inset}
+.opt.wrong{opacity:.6}
+.progress{display:flex;gap:8px;justify-content:center;margin-top:10px}
+.dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.2);border:1px solid var(--line)}
+.dot.on{background:var(--mint)}
+.cta{display:none;margin-top:12px;justify-content:center}
+.footer{position:fixed;left:14px;bottom:14px;font-size:.85rem;opacity:.65}
 </style>
 </head>
 <body>
-  <header>
-    <h1>four.plnt.earth</h1>
-    <div class="sub">quiet count · listen, decide, repeat</div>
-  </header>
+<div class="nav">
+  <a href="https://center.plnt.earth" target="_blank">⬅️ Center</a>
+  <a href="https://school.plnt.earth" target="_blank" id="schoolBadge">🎓 School</a>
+</div>
+<div class="tunnel"></div>
 
-  <div class="devbar" id="devbar">
-    <div class="devbox">
-      <strong>dev</strong>
-      <label><input type="checkbox" id="toggleExpected"> show expected</label>
-      <span id="devHint">calibrate: <code>?calibrate=1</code> · reset: <code>?reset=1</code></span>
+<div id="lock" class="lock">
+  <div class="card">
+    <h2>Alice Key</h2>
+    <p class="hint">This rabbit hole opens with a link from MirrorHoney. If you have the key, enter it.</p>
+    <div style="margin:12px 0"><input id="keyInput" class="input" placeholder="enter key"></div>
+    <button id="unlockBtn" class="btn">unlock</button>
+  </div>
+</div>
+
+<div id="app" class="app" style="display:none">
+  <div class="inner">
+    <div class="header">
+      <div class="key">🔑 Alice</div>
+      <div class="pill">holder: Kendyl (@kenneljustine)</div>
+      <div class="pill" id="srcTag"></div>
+    </div>
+    <div class="rule"></div>
+
+    <div class="stage">
+      <div class="panel" data-step="1">
+        <div class="title">Trial 1 — Time</div>
+        <div class="hint">Pick the phrase that keeps time honest.</div>
+        <div class="opts">
+          <div class="opt" data-a="wrong">“We have time to waste.”</div>
+          <div class="opt" data-a="correct">“I won’t spend time I don’t have.”</div>
+          <div class="opt" data-a="wrong">“Time works for me.”</div>
+        </div>
+      </div>
+
+      <div class="panel" data-step="2">
+        <div class="title">Trial 2 — Door</div>
+        <div class="hint">Which opens a door without breaking it?</div>
+        <div class="opts">
+          <div class="opt" data-a="wrong">Force</div>
+          <div class="opt" data-a="correct">Permission</div>
+          <div class="opt" data-a="wrong">Trick</div>
+        </div>
+      </div>
+
+      <div class="panel" data-step="3">
+        <div class="title">Trial 3 — Mirror</div>
+        <div class="hint">Choose the reflection that returns warmth.</div>
+        <div class="opts">
+          <div class="opt" data-a="wrong">“Say it louder.”</div>
+          <div class="opt" data-a="correct">“Cut clean. Set warm.”</div>
+          <div class="opt" data-a="wrong">“No mirrors.”</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress">
+      <div class="dot" id="d1"></div>
+      <div class="dot" id="d2"></div>
+      <div class="dot" id="d3"></div>
+    </div>
+
+    <div class="cta" id="ctaWrap">
+      <button id="schoolBtn" class="btn" style="background:linear-gradient(180deg,#a6ffe6,#7fe3ff);color:#0c1a17;border:1px solid rgba(0,0,0,.25)">follow the white rabbit → school</button>
     </div>
   </div>
+</div>
 
-  <p class="legend">count the <em>pronoun shifts</em> you hear (changes in who is speaking / being addressed: I ↔ you ↔ we ↔ they). set your number, then press <strong>check</strong>. nothing leaves your device.</p>
-
-  <section class="grid" id="grid">
-    <!-- exile -->
-    <article class="card" data-song="exile">
-      <header>
-        <div class="title">exile (feat. Bon Iver)</div>
-        <div class="meta">duet · winter camera</div>
-      </header>
-      <div class="vid">
-        <iframe
-          src="https://www.youtube.com/embed/osdoLjUNFnA?rel=0&modestbranding=1"
-          title="exile (official lyric video)"
-          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen></iframe>
-      </div>
-      <div class="tags">
-        <span class="tag">dialogue</span><span class="tag">call ↔ response</span><span class="tag">low register</span>
-        <span class="expected" id="exp-exile"></span>
-      </div>
-      <div class="panel">
-        <div class="label">pronoun shifts</div>
-        <div class="counter">
-          <button class="btn dec" data-key="exile">−</button>
-          <div class="num" id="num-exile">0</div>
-          <button class="btn inc" data-key="exile">+</button>
-        </div>
-        <button class="btn check" data-key="exile">check</button>
-        <button class="btn copyOne" data-key="exile">copy</button>
-      </div>
-      <div class="panel" aria-live="polite">
-        <div class="result" id="res-exile"></div>
-      </div>
-    </article>
-
-    <!-- betty -->
-    <article class="card" data-song="betty">
-      <header>
-        <div class="title">betty</div>
-        <div class="meta">teen vantage · porch steps</div>
-      </header>
-      <div class="vid">
-        <iframe
-          src="https://www.youtube.com/embed/6TAPqXkZW_I?rel=0&modestbranding=1"
-          title="betty (official lyric video)"
-          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen></iframe>
-      </div>
-      <div class="tags">
-        <span class="tag">single narrator</span><span class="tag">apology arc</span><span class="tag">harmonica</span>
-        <span class="expected" id="exp-betty"></span>
-      </div>
-      <div class="panel">
-        <div class="label">pronoun shifts</div>
-        <div class="counter">
-          <button class="btn dec" data-key="betty">−</button>
-          <div class="num" id="num-betty">0</div>
-          <button class="btn inc" data-key="betty">+</button>
-        </div>
-        <button class="btn check" data-key="betty">check</button>
-        <button class="btn copyOne" data-key="betty">copy</button>
-      </div>
-      <div class="panel" aria-live="polite">
-        <div class="result" id="res-betty"></div>
-      </div>
-    </article>
-
-    <!-- champagne problems -->
-    <article class="card" data-song="champagne">
-      <header>
-        <div class="title">champagne problems</div>
-        <div class="meta">foyer hush · detached empathy</div>
-      </header>
-      <div class="vid">
-        <iframe
-          src="https://www.youtube.com/embed/wMpqCRF7TKg?rel=0&modestbranding=1"
-          title="champagne problems (official lyric video)"
-          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen></iframe>
-      </div>
-      <div class="tags">
-        <span class="tag">observer</span><span class="tag">minor key</span><span class="tag">winter house</span>
-        <span class="expected" id="exp-champagne"></span>
-      </div>
-      <div class="panel">
-        <div class="label">pronoun shifts</div>
-        <div class="counter">
-          <button class="btn dec" data-key="champagne">−</button>
-          <div class="num" id="num-champagne">0</div>
-          <button class="btn inc" data-key="champagne">+</button>
-        </div>
-        <button class="btn check" data-key="champagne">check</button>
-        <button class="btn copyOne" data-key="champagne">copy</button>
-      </div>
-      <div class="panel" aria-live="polite">
-        <div class="result" id="res-champagne"></div>
-      </div>
-    </article>
-
-    <!-- coney island -->
-    <article class="card" data-song="coney">
-      <header>
-        <div class="title">coney island (with The National)</div>
-        <div class="meta">cine memory · baritone syntax</div>
-      </header>
-      <div class="vid">
-        <iframe
-          src="https://www.youtube.com/embed/c_p_TBaHvos?rel=0&modestbranding=1"
-          title="coney island (official lyric video)"
-          allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen></iframe>
-      </div>
-      <div class="tags">
-        <span class="tag">plural memory</span><span class="tag">elliptical</span><span class="tag">low tessitura</span>
-        <span class="expected" id="exp-coney"></span>
-      </div>
-      <div class="panel">
-        <div class="label">pronoun shifts</div>
-        <div class="counter">
-          <button class="btn dec" data-key="coney">−</button>
-          <div class="num" id="num-coney">0</div>
-          <button class="btn inc" data-key="coney">+</button>
-        </div>
-        <button class="btn check" data-key="coney">check</button>
-        <button class="btn copyOne" data-key="coney">copy</button>
-      </div>
-      <div class="panel" aria-live="polite">
-        <div class="result" id="res-coney"></div>
-      </div>
-    </article>
-  </section>
-
-  <!-- OPTIONAL: Compare with Willow Bowery previews (legal/free) -->
-  <section class="compare">
-    <h2 style="font-size:16px;margin:0 0 10px 0;color:#dcdce5;">compare (optional)</h2>
-    <div class="row">
-      <div class="item">
-        <h3>Tortured Poets (2024)</h3>
-        <p>Open Amazon’s “Look Inside” preview. Read a few lines, then paste below.</p>
-        <a href="https://www.amazon.com/dp/B0CVVGYNPL" target="_blank" rel="noopener">Open preview</a>
-      </div>
-      <div class="item">
-        <h3>Clownerie (2024)</h3>
-        <p>Open preview and scan for “I / you / we / they” movement.</p>
-        <a href="https://www.amazon.com/dp/B0D2HBDDQ5" target="_blank" rel="noopener">Open preview</a>
-      </div>
-      <div class="item">
-        <h3>The Death of a Showgirl (2025)</h3>
-        <p>If preview available, read a page for stance changes.</p>
-        <a href="https://www.amazon.com/dp/B0DJ2VCP4H" target="_blank" rel="noopener">Open preview</a>
-      </div>
-      <div class="item">
-        <h3>Author page</h3>
-        <p>See all titles; choose any preview to sample tone.</p>
-        <a href="https://www.amazon.com/stores/author/B0D2HBDDQ5/allbooks" target="_blank" rel="noopener">Open author</a>
-      </div>
-    </div>
-
-    <div class="paste">
-      <h4>paste a few lines (from any preview)</h4>
-      <textarea id="boweryInput" placeholder="Paste 2–8 lines here…"></textarea>
-      <div class="minirow">
-        <button class="btn" id="analyzeText">analyze pronouns</button>
-        <span class="mini">This highlights pronouns and estimates <span class="pill">pronoun shifts</span>. Nothing is saved.</span>
-      </div>
-      <div class="pronouns" id="boweryOutput"></div>
-      <div class="minirow">
-        <span class="mini" id="boweryCount"></span>
-      </div>
-      <div class="minirow">
-        <label class="mini"><input type="checkbox" id="extPronouns"> include extended pronouns</label>
-      </div>
-      <div class="minirow">
-        <span class="mini" id="boweryList"></span>
-      </div>
-      <div class="minirow">
-        <button class="btn" id="copyPronounList">copy pronoun list</button>
-        <button class="btn" id="copyExcerptSummary">copy excerpt summary</button>
-      </div>
-    </div>
-  </section>
-
-  <details>
-    <summary>what counts as a “pronoun shift”?</summary>
-    <p>A change in who is speaking or being addressed (I/you/we/they), including duet hand-offs and perspective flips. If it feels like the voice changes position, count it.</p>
-  </details>
-
-  <footer>
-    <span>not all mirrors show the same light.</span>
-    <button class="btn" id="copyAll">copy all counts</button>
-  </footer>
+<div class="footer">“If you knew Time as well as I do, you wouldn’t talk about wasting it.”</div>
 
 <script>
-  /* ---------- SETTINGS ---------- */
-  var TOLERANCE = 1;
-  var MAX_COUNT = 12;
-  var HINT_AFTER_FAILS = 2;
-
-  var expected = {
-    exile:      {min:4, max:6},
-    betty:      {min:3, max:5},
-    champagne:  {min:4, max:6},
-    coney:      {min:4, max:6}
-  };
-
-  var hints = {
-    exile: "count each hand-off or direct address change.",
-    betty: "mostly one narrator; note the address flips.",
-    champagne: "notice report vs direct speech moments.",
-    coney: "shared lines + lens shifts count."
-  };
-
-  var params = new URLSearchParams(location.search);
-  var CALIBRATE = params.get("calibrate")==="1";
-  var DEV = params.get("dev")==="1";
-
-  var counts   = JSON.parse(localStorage.getItem("four.counts")||"{}");
-  var attempts = JSON.parse(localStorage.getItem("four.attempts")||"{}");
-
-  ["exile","betty","champagne","coney"].forEach(function(k){
-    if(typeof counts[k] !== "number"){ counts[k]=0; }
-    if(typeof attempts[k] !== "number"){ attempts[k]=0; }
-    var el = document.getElementById("num-"+k);
-    if(el) el.textContent = counts[k];
-  });
-
-  function save(){
-    localStorage.setItem("four.counts", JSON.stringify(counts));
-    localStorage.setItem("four.attempts", JSON.stringify(attempts));
+(function(){
+  function pick(s,pat){var m=String(s||"").match(pat);return m?decodeURIComponent(m[1]):""}
+  var src=pick(location.search,/[\?&]s=([^&]+)/), k=pick(location.hash,/[#?&]k=([^&]+)/);
+  if(src) localStorage.setItem("four.src",JSON.stringify(src));
+  if(k){
+    if(!localStorage.getItem("four.key")) localStorage.setItem("four.key",JSON.stringify(k));
+    localStorage.setItem("four.key.set","true");
+    localStorage.setItem("four.unlock","true");
   }
+  history.replaceState({},document.title,location.pathname);
+})();
+</script>
 
-  function setResult(key, ok, msg, hintMode){
-    var el = document.getElementById("res-"+key);
-    el.className = "result " + (ok?"good":(hintMode?"":"bad"));
-    el.textContent = msg;
-  }
-
-  function withinRange(k, n){
-    var e = expected[k];
-    var min = (e.min!=null? e.min : e);
-    var max = (e.max!=null? e.max : e);
-    return n >= (min - TOLERANCE) && n <= (max + TOLERANCE);
-  }
-
-  document.querySelectorAll(".inc").forEach(function(b){
-    b.addEventListener("click", function(){
-      var k=this.getAttribute("data-key");
-      counts[k]=(counts[k]||0)+1; if(counts[k]>MAX_COUNT) counts[k]=MAX_COUNT;
-      document.getElementById("num-"+k).textContent = counts[k];
-      save();
-    });
-  });
-  document.querySelectorAll(".dec").forEach(function(b){
-    b.addEventListener("click", function(){
-      var k=this.getAttribute("data-key");
-      counts[k]=(counts[k]||0)-1; if(counts[k]<0) counts[k]=0;
-      document.getElementById("num-"+k).textContent = counts[k];
-      save();
-    });
-  });
-
-  document.querySelectorAll(".check").forEach(function(b){
-    b.addEventListener("click", function(){
-      var k=this.getAttribute("data-key");
-      var n = counts[k]||0;
-
-      if (CALIBRATE){
-        expected[k] = {min:n, max:n};
-        setResult(k, true, "✓ calibrated at "+n+" (±"+TOLERANCE+")", false);
-        return;
-      }
-
-      var ok = withinRange(k, n);
-      attempts[k] = (attempts[k]||0) + 1;
-      save();
-
-      if (ok){
-        setResult(k, true, "✓ you heard "+n+" · in range", false);
-        attempts[k] = 0; save();
-      } else {
-        var e = expected[k];
-        var mm = (e.min!=null && e.max!=null) ? (e.min+"–"+e.max) : (e+"");
-        var hint = (attempts[k] >= HINT_AFTER_FAILS && hints[k]) ? " · hint: "+hints[k] : "";
-        var near = ""; 
-        var anchor = (e.min!=null && e.max!=null) ? (n<e.min?e.min:e.max) : e;
-        if (Math.abs(n - anchor)===1) near = " (very close)";
-        setResult(k, false, "you heard "+n+" · expected ~"+mm+near+hint, attempts[k] >= HINT_AFTER_FAILS);
-      }
-    });
-  });
-
-  /* per-song copy */
-  function copyText(txt){
-    if (navigator.clipboard && window.isSecureContext) {
-      return navigator.clipboard.writeText(txt);
-    } else {
-      // fallback
-      var ta=document.createElement("textarea");
-      ta.value=txt; document.body.appendChild(ta);
-      ta.select(); try{ document.execCommand("copy"); }catch(e){}
-      document.body.removeChild(ta);
-      return Promise.resolve();
-    }
-  }
-  document.querySelectorAll(".copyOne").forEach(function(b){
-    b.addEventListener("click", function(){
-      var k=this.getAttribute("data-key");
-      var n=counts[k]||0;
-      var labelMap={exile:"exile", betty:"betty", champagne:"champagne problems", coney:"coney island"};
-      var txt = labelMap[k]+": "+n+" pronoun shift"+(n===1?"":"s");
-      copyText(txt);
-      var r=document.getElementById("res-"+k);
-      if(r){ r.textContent="copied: "+txt; r.className="result"; }
-    });
-  });
-
-  /* copy all counts */
-  document.getElementById("copyAll").addEventListener("click", function(){
-    var txt = "exile: "+(counts.exile||0)+" · betty: "+(counts.betty||0)+" · champagne problems: "+(counts.champagne||0)+" · coney island: "+(counts.coney||0);
-    copyText(txt);
-    this.textContent="copied ✓";
-    setTimeout(()=>{ this.textContent="copy all counts"; },1200);
-  });
-
-  /* reset helper via ?reset=1 */
-  if (params.get("reset")==="1"){
-    var f=document.querySelector("footer");
-    if(f){
-      var btn=document.createElement("button");
-      btn.textContent="reset counts";
-      btn.className="btn";
-      btn.addEventListener("click", function(){
-        localStorage.removeItem("four.counts");
-        localStorage.removeItem("four.attempts");
-        ["exile","betty","champagne","coney"].forEach(function(k){
-          counts[k]=0; attempts[k]=0; document.getElementById("num-"+k).textContent="0";
-          var r=document.getElementById("res-"+k); r.textContent=""; r.className="result";
-        });
-        document.getElementById("boweryInput").value="";
-        document.getElementById("boweryOutput").innerHTML="";
-        document.getElementById("boweryCount").textContent="";
-        document.getElementById("boweryList").textContent="";
-      });
-      f.appendChild(btn);
-    }
-  }
-
-  /* dev view */
-  if (DEV){
-    var devbar=document.getElementById("devbar");
-    if(devbar) devbar.style.display="block";
-    var t=document.getElementById("toggleExpected");
-    document.body.classList.remove("show-expected");
-    t.addEventListener("change", function(){
-      if(this.checked){ document.body.classList.add("show-expected"); }
-      else{ document.body.classList.remove("show-expected"); }
-    });
-    function setExpectedLabels(){
-      ["exile","betty","champagne","coney"].forEach(function(k){
-        var e=expected[k];
-        var label = (e.min!=null && e.max!=null) ? (e.min+"–"+e.max) : (e+"");
-        var span=document.getElementById("exp-"+k);
-        if(span){ span.textContent = "expected ~"+label+(TOLERANCE?(" (±"+TOLERANCE+")"):""); }
-      });
-    }
-    setExpectedLabels();
-  }
-
-  /* --------- pronoun highlighter + list/counts + copy --------- */
-  var basePronouns = [
-    "i","me","my","mine","myself",
-    "you","your","yours","yourself","yourselves",
-    "he","him","his","himself",
-    "she","her","hers","herself",
-    "it","its","itself",
-    "we","us","our","ours","ourselves",
-    "they","them","their","theirs","themselves"
-  ];
-  var extendedPronouns = [
-    "this","that","these","those",
-    "anyone","someone","everyone","noone","no-one","nobody","somebody","everybody",
-    "anything","something","everything","nothing",
-    "each","either","neither","none","both","another","others","other","many","few","several",
-    "all","some","any","much","more","most","such","one"
-  ];
-  function canonicalGroup(token){
-    var t = token.toLowerCase();
-    if (["i","me","my","mine","myself"].includes(t)) return "I";
-    if (["you","your","yours","yourself","yourselves"].includes(t)) return "you";
-    if (["he","him","his","himself"].includes(t)) return "he";
-    if (["she","her","hers","herself"].includes(t)) return "she";
-    if (["it","its","itself"].includes(t)) return "it";
-    if (["we","us","our","ours","ourselves"].includes(t)) return "we";
-    if (["they","them","their","theirs","themselves"].includes(t)) return "they";
-    return "extended";
-  }
-  function analyzeBowery(){
-    var ta = document.getElementById("boweryInput");
-    var out = document.getElementById("boweryOutput");
-    var cnt = document.getElementById("boweryCount");
-    var list = document.getElementById("boweryList");
-    var includeExt = document.getElementById("extPronouns")?.checked;
-
-    var text = (ta.value||"").trim();
-    if(!text){ out.innerHTML=""; cnt.textContent=""; if(list) list.textContent=""; return; }
-
-    var pronounSet = new Set(basePronouns);
-    if(includeExt){ extendedPronouns.forEach(p=>pronounSet.add(p)); }
-
-    var tokens = text.split(/(\b)/);
-    var lastGroup = null, shifts = 0;
-
-    var formCounts = Object.create(null);
-    var groupCounts = {I:0,you:0,he:0,she:0,it:0,we:0,they:0,extended:0};
-
-    var html = "";
-    for(var i=0;i<tokens.length;i++){
-      var t = tokens[i];
-      var low = t.toLowerCase();
-
-      if (pronounSet.has(low)){
-        html += "<mark>"+t+"</mark>";
-        formCounts[low] = (formCounts[low]||0) + 1;
-        var g = canonicalGroup(low);
-        if(groupCounts[g]!=null) groupCounts[g] += 1; else groupCounts[g]=1;
-
-        if (g!=="extended"){
-          if(lastGroup && g!==lastGroup){ shifts++; }
-          lastGroup = g;
-        }
-      } else {
-        html += t;
-      }
-    }
-
-    out.innerHTML = html.replace(/\n/g,"<br>");
-    cnt.textContent = "estimated pronoun shifts in pasted excerpt: " + shifts + " (approx)";
-
-    var forms = Object.keys(formCounts)
-      .sort(function(a,b){ return formCounts[b]-formCounts[a] || a.localeCompare(b); })
-      .map(function(f){ return f + " × " + formCounts[f]; });
-
-    var groups = Object.keys(groupCounts)
-      .filter(function(k){ return groupCounts[k]>0 && k!=="extended"; })
-      .map(function(k){ return k + " × " + groupCounts[k]; });
-
-    var extras = (groupCounts["extended"]>0) ? (" · extended × "+groupCounts["extended"]) : "";
-
-    if(list){
-      list.textContent = (forms.length? ("found: " + forms.join(" · ")) : "found: (none)") +
-                         (groups.length? ("  |  groups: " + groups.join(" · ")) : "") +
-                         extras;
-    }
-
-    // prepare copy payloads
-    window.__lastPronounListText = list.textContent;
-    window.__lastExcerptSummary = "excerpt shifts: "+shifts+
-      (forms.length? (" | forms: "+forms.join(", ")):"")+
-      (groups.length? (" | groups: "+groups.join(", ")):"")+
-      (extras? (" | "+extras):"");
-  }
-  var btnAnalyze = document.getElementById("analyzeText");
-  if(btnAnalyze){ btnAnalyze.addEventListener("click", analyzeBowery); }
-  var extToggle = document.getElementById("extPronouns");
-  if(extToggle){ extToggle.addEventListener("change", analyzeBowery); }
-
-  // copy buttons for compare section
-  document.getElementById("copyPronounList").addEventListener("click", function(){
-    var txt = window.__lastPronounListText || "";
-    if(!txt){ txt = document.getElementById("boweryList").textContent || "found: (none)"; }
-    copyText(txt);
-    this.textContent="copied ✓"; setTimeout(()=>{ this.textContent="copy pronoun list"; },1200);
-  });
-  document.getElementById("copyExcerptSummary").addEventListener("click", function(){
-    var txt = window.__lastExcerptSummary || "";
-    if(!txt){
-      // build from current DOM if needed
-      var list = document.getElementById("boweryList").textContent.trim();
-      var shifts = document.getElementById("boweryCount").textContent.replace(/^.*?:\s*/,"").trim();
-      txt = (shifts?("excerpt "+shifts):"excerpt shifts: 0") + (list?(" | "+list):"");
-    }
-    copyText(txt);
-    this.textContent="copied ✓"; setTimeout(()=>{ this.textContent="copy excerpt summary"; },1200);
-  });
-
-  // dev view
-  if (DEV){
-    var devbar=document.getElementById("devbar");
-    if(devbar) devbar.style.display="block";
-    var t=document.getElementById("toggleExpected");
-    document.body.classList.remove("show-expected");
-    t.addEventListener("change", function(){
-      if(this.checked){ document.body.classList.add("show-expected"); }
-      else{ document.body.classList.remove("show-expected"); }
-    });
-    function setExpectedLabels(){
-      ["exile","betty","champagne","coney"].forEach(function(k){
-        var e=expected[k];
-        var label = (e.min!=null && e.max!=null) ? (e.min+"–"+e.max) : (e+"");
-        var span=document.getElementById("exp-"+k);
-        if(span){ span.textContent = "expected ~"+label+(TOLERANCE?(" (±"+TOLERANCE+")"):""); }
-      });
-    }
-    setExpectedLabels();
-  }
+<script>
+const lock=document.getElementById("lock"),app=document.getElementById("app"),srcTag=document.getElementById("srcTag"),schoolBadge=document.getElementById("schoolBadge")
+const keyInput=document.getElementById("keyInput"),unlockBtn=document.getElementById("unlockBtn")
+const dots=[document.getElementById("d1"),document.getElementById("d2"),document.getElementById("d3")]
+const steps=[].slice.call(document.querySelectorAll(".panel[data-step]"))
+const ctaWrap=document.getElementById("ctaWrap"),schoolBtn=document.getElementById("schoolBtn")
+function jget(k,def){try{return JSON.parse(localStorage.getItem(k)||def)}catch(e){return JSON.parse(def)}}
+function show(){lock.style.display="none";app.style.display="flex";srcTag.textContent=jget("four.src","\"mh.four\"")}
+function tryUnlock(v){var expect=jget("four.key","");if(expect&&v===expect){localStorage.setItem("four.unlock","true");show();return true}return false}
+function mark(i,on){dots[i-1].classList.toggle("on",on)}
+function setStepDone(i){localStorage.setItem("four.step."+i,"true");mark(i,true)}
+function isDone(i){return localStorage.getItem("four.step."+i)==="true"}
+function checkAll(){var ok=isDone(1)&&isDone(2)&&isDone(3);if(ok){ctaWrap.style.display="flex";localStorage.setItem("four.hole.done","true");try{document.getElementById("schoolBadge").style.display="inline-flex"}catch(e){} }}
+function genCode(){return Math.random().toString(36).slice(2,6)+"-"+Math.random().toString(36).slice(2,6)+"-"+Math.random().toString(36).slice(2,6)}
+function schoolUrl(k){return "https://school.plnt.earth/?s=four.rabbit#k="+encodeURIComponent(k)}
+steps.forEach(function(panel){
+  panel.addEventListener("click",function(e){
+    var t=e.target;if(!t.classList.contains("opt"))return;
+    if(t.getAttribute("data-a")==="correct"){t.classList.add("correct");setStepDone(Number(panel.getAttribute("data-step")));checkAll()}
+    else{t.classList.add("wrong")}
+  })
+})
+unlockBtn.addEventListener("click",function(){var v=(keyInput.value||"").trim();if(tryUnlock(v)){keyInput.value=""}})
+window.addEventListener("load",function(){
+  if(localStorage.getItem("four.unlock")) show();
+  [1,2,3].forEach(function(i){if(isDone(i))mark(i,true)});
+  if(localStorage.getItem("four.hole.done")){ctaWrap.style.display="flex";try{document.getElementById("schoolBadge").style.display="inline-flex"}catch(e){} }
+})
+schoolBtn.addEventListener("click",function(){
+  var k=genCode();location.href=schoolUrl(k)
+})
 </script>
 </body>
 </html>
