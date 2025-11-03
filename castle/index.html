@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>four · Castle</title>
+<meta name="theme-color" content="#7d66ff" />
+<meta name="description" content="The castle map: four keys, four gates." />
+<style>
+  :root{
+    --bg0:#0f0b1a; --bg1:#181334; --bg2:#231c44;
+    --ink:#e8e6ff; --inkd:#cfcaff; --pearl:#faf8ff; --accent:#a48cff;
+  }
+  html,body{height:100%;margin:0}
+  body{
+    min-height:100%;
+    background:
+      radial-gradient(900px 600px at 70% 10%, #2d225d 0%, var(--bg2) 38%, var(--bg1) 64%, var(--bg0) 100%),
+      linear-gradient(180deg, #0b0916, #0f0b1a);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Helvetica Neue", Helvetica;
+    color:var(--ink); -webkit-font-smoothing:antialiased; letter-spacing:.15px;
+    display:flex; flex-direction:column;
+  }
+  header, footer{
+    padding: clamp(12px, 3vw, 22px);
+    color: var(--inkd);
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .brand{font-weight:700; color:var(--pearl)}
+  .crumbs a{color:var(--inkd); text-decoration:none; border-bottom:1px dotted #cfc9ff66}
+
+  .grid{
+    width:min(1100px, 94vw);
+    margin: 0 auto;
+    display:grid; gap: clamp(12px, 2.4vw, 22px);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    padding: clamp(12px, 3vw, 28px);
+  }
+
+  /* tile */
+  .tile{
+    position:relative; border-radius:20px; padding:18px;
+    background: linear-gradient(180deg, #ffffff10, #ffffff07);
+    border:1px solid #ffffff1f;
+    box-shadow: 0 18px 60px #00000085, inset 0 0 0 1px #ffffff16, inset 0 0 120px #a48cff12;
+    backdrop-filter: blur(8px) saturate(115%); -webkit-backdrop-filter: blur(8px) saturate(115%);
+    overflow:hidden; isolation:isolate;
+  }
+  .tile::before{
+    content:""; position:absolute; inset:0;
+    background:
+      linear-gradient(118deg, transparent 0 38%, #ffffff14 40%, #ffffff08 43%, transparent 46% 100%),
+      radial-gradient(800px 360px at 70% -14%, #e7e3ff0f 0%, transparent 62%);
+    mix-blend-mode: screen; pointer-events:none;
+    animation: sheen 14s ease-in-out infinite;
+  }
+  @keyframes sheen{0%,100%{transform:translateX(-1%)}50%{transform:translateX(1%)}}
+
+  .row{display:flex; align-items:center; justify-content:space-between; gap:10px}
+  .name{font-weight:700; font-size: clamp(16px, 2.8vw, 20px); color:var(--pearl); text-shadow:0 6px 20px #a48cff2a}
+  .tag{font-size:12px; padding:6px 10px; border-radius:999px; border:1px solid #ffffff33; background:linear-gradient(180deg,#ffffff14,#ffffff08)}
+  .hint{margin:8px 0 0; color:var(--inkd); font-size:13px}
+  .plate{
+    margin-top:14px; position:relative; height:160px; border-radius:16px;
+    border:1px solid #ffffff26;
+    background: radial-gradient(110% 100% at 60% 10%, #ffffff10 0%, #ffffff05 45%, transparent 70%),
+                linear-gradient(180deg,#ffffff0f,#ffffff06);
+    overflow:hidden;
+  }
+  .aura{
+    position:absolute; inset:0; pointer-events:none; opacity:0;
+    background:
+      radial-gradient(160px 120px at 30% 38%, #b9a9ff33 0%, transparent 70%),
+      radial-gradient(220px 160px at 70% 32%, #9fe7ff33 0%, transparent 72%);
+    filter: blur(6px) saturate(110%); transition: opacity .45s ease;
+  }
+  .gate{
+    position:absolute; bottom:10px; right:10px;
+    display:inline-flex; align-items:center; gap:10px;
+    padding:10px 14px; border-radius:12px;
+    border:1px solid #ffffff2a; background: linear-gradient(180deg,#ffffff16,#ffffff09);
+    color:var(--ink); text-decoration:none; user-select:none;
+  }
+  .keyicon{ width:16px; height:16px; border-radius:3px;
+    background: radial-gradient(circle at 30% 30%, #fff, #d9d1ff 40%, #9b86ff 72%, #5f4fb9);
+    box-shadow:0 2px 10px #a48cff55;
+  }
+
+  /* Locked overlay */
+  .lock{
+    position:absolute; inset:0; display:grid; place-items:center;
+    background: linear-gradient(180deg, #0a0715aa, #0a071577);
+    transition: opacity .35s ease;
+  }
+  .lock .msg{
+    padding:10px 14px; border-radius:12px; border:1px solid #ffffff2a;
+    background: linear-gradient(180deg,#ffffff12,#ffffff07);
+    font-size:14px; color:var(--ink); text-align:center; max-width:280px;
+  }
+  .lock a{color:var(--ink); text-decoration:none; border-bottom:1px dotted #cfc9ff8a}
+
+  /* states */
+  .bright .aura{ opacity:1 }
+  .unlocked .lock{ opacity:0; pointer-events:none }
+  .unlocked .tag{ border-color:#9fe7ff88; box-shadow:0 0 18px #9fe7ff44 inset }
+
+  /* badge */
+  .badge{
+    position:fixed; right:14px; bottom:14px; z-index:30;
+    font-size:12px; color:var(--ink);
+    padding:8px 12px; border-radius:999px;
+    border:1px solid #ffffff2a;
+    background:linear-gradient(180deg,#ffffff18,#ffffff0b);
+    box-shadow:0 10px 30px #00000066;
+    opacity:.9;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="brand">four · Castle</div>
+    <div class="crumbs"><a href="/">four</a> / castle</div>
+  </header>
+
+  <main class="grid" aria-label="Castle keys">
+    <!-- For Good -->
+    <article class="tile" id="k-forgood" aria-label="For Good — Forgiveness Gate">
+      <div class="row">
+        <div class="name">For Good</div>
+        <span class="tag" id="t-forgood">Locked</span>
+      </div>
+      <p class="hint" id="h-forgood">Touch the lesson once at School. The gate will remember.</p>
+      <div class="plate">
+        <div class="aura" id="a-forgood" aria-hidden="true"></div>
+        <div class="lock" id="l-forgood">
+          <div class="msg">Learn it at <a href="https://school.plnt.earth/keys/for-good">School</a>.</div>
+        </div>
+        <a class="gate" id="g-forgood" href="https://four.plnt.earth/castle/for-good">
+          <span class="keyicon" aria-hidden="true"></span> Open Gate
+        </a>
+      </div>
+    </article>
+
+    <!-- Wonderland -->
+    <article class="tile" id="k-wonderland" aria-label="Wonderland — Curiosity Gate">
+      <div class="row">
+        <div class="name">Wonderland</div>
+        <span class="tag" id="t-wonderland">Locked</span>
+      </div>
+      <p class="hint" id="h-wonderland">When you learn it at School, the gate will glow.</p>
+      <div class="plate">
+        <div class="aura" id="a-wonderland" aria-hidden="true"></div>
+        <div class="lock" id="l-wonderland">
+          <div class="msg">Learn it at <a href="https://school.plnt.earth/keys/wonderland">School</a>.</div>
+        </div>
+        <a class="gate" id="g-wonderland" href="https://four.plnt.earth/castle/wonderland">
+          <span class="keyicon" aria-hidden="true"></span> Open Gate
+        </a>
+      </div>
+    </article>
+
+    <!-- Dear John -->
+    <article class="tile" id="k-dearjohn" aria-label="Dear John — Reckoning Gate">
+      <div class="row">
+        <div class="name">Dear John</div>
+        <span class="tag" id="t-dearjohn">Locked</span>
+      </div>
+      <p class="hint" id="h-dearjohn">Learn the lesson; the gate brightens.</p>
+      <div class="plate">
+        <div class="aura" id="a-dearjohn" aria-hidden="true"></div>
+        <div class="lock" id="l-dearjohn">
+          <div class="msg">Learn it at <a href="https://school.plnt.earth/keys/dear-john">School</a>.</div>
+        </div>
+        <a class="gate" id="g-dearjohn" href="https://four.plnt.earth/castle/dear-john">
+          <span class="keyicon" aria-hidden="true"></span> Open Gate
+        </a>
+      </div>
+    </article>
+
+    <!-- New Romantics -->
+    <article class="tile" id="k-newromantics" aria-label="New Romantics — Freedom Gate">
+      <div class="row">
+        <div class="name">New Romantics</div>
+        <span class="tag" id="t-newromantics">Locked</span>
+      </div>
+      <p class="hint" id="h-newromantics">Touch the lesson; the lights come on.</p>
+      <div class="plate">
+        <div class="aura" id="a-newromantics" aria-hidden="true"></div>
+        <div class="lock" id="l-newromantics">
+          <div class="msg">Learn it at <a href="https://school.plnt.earth/keys/new-romantics">School</a>.</div>
+        </div>
+        <a class="gate" id="g-newromantics" href="https://four.plnt.earth/castle/new-romantics">
+          <span class="keyicon" aria-hidden="true"></span> Open Gate
+        </a>
+      </div>
+    </article>
+  </main>
+
+  <div class="badge">Castle · Map</div>
+
+  <footer>
+    <div>© four · Castle</div>
+    <div>Violet-pearl mode</div>
+  </footer>
+
+<script>
+(function(){
+  // Helper: read flags for each key
+  function flags(slug){
+    var f = {school:false, gate:false};
+    try{
+      f.school = localStorage.getItem('castle.key.' + slug) === 'true';
+      f.gate   = localStorage.getItem('castle.gate.' + slug + '.open') === 'true';
+    }catch(_){}
+    return f;
+  }
+  function wire(slug){
+    var tile = document.getElementById('k-'+slug);
+    var tag  = document.getElementById('t-'+slug);
+    var hint = document.getElementById('h-'+slug);
+    var lock = document.getElementById('l-'+slug);
+    var aura = document.getElementById('a-'+slug);
+
+    var f = flags(slug);
+    var bright   = f.school || f.gate;      // aura on if any progress
+    var unlocked = f.school || f.gate;      // hide lock when learned or opened
+
+    if(bright)  { tile.classList.add('bright');  aura.style.opacity='1'; }
+    if(unlocked){
+      tile.classList.add('unlocked');
+      tag.textContent = 'Unlocked';
+      hint.textContent = 'Gate remembers you.';
+      lock.style.opacity='0'; lock.style.pointerEvents='none';
+    }else{
+      tag.textContent = 'Locked';
+    }
+
+    // curiosity nudge
+    var nudged=false;
+    tile.addEventListener('pointerenter', function(){
+      if(nudged) return; nudged=true;
+      aura.style.opacity = bright ? '1' : '.65';
+      setTimeout(function(){ aura.style.opacity = bright ? '1' : '0'; }, 1400);
+    });
+  }
+
+  // Wire all four
+  wire('forgood');
+  wire('wonderland');
+  wire('dearjohn');
+  wire('newromantics');
+})();
+</script>
+</body>
+</html>
