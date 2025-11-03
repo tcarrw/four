@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>four · Castle · Wonderland — The Curiosity Gate</title>
+<meta name="theme-color" content="#7d66ff"/>
+<meta name="description" content="Wonderland — fog the glass and slide it open to reveal the curiosity key."/>
+<style>
+:root{--bg0:#0f0b1a;--bg1:#181334;--bg2:#231c44;--ink:#dad7ff;--inkd:#c9c5ff;--pearl:#eef;--accent:#a48cff;--edge:#ffffff2a;--fill:#ffffff12;--sheen:#ffffff14;--fogA:#ffffff12;--fogB:#ffffff0a}
+html,body{height:100%;margin:0}
+body{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,"Helvetica Neue",Helvetica;color:var(--ink);
+background:radial-gradient(1200px 800px at 70% 10%,#2d225d 0%,var(--bg2) 38%,var(--bg1) 64%,var(--bg0) 100%),conic-gradient(from 220deg at 60% 8%,#181334,#221b45,#151028,#181334);
+background-blend-mode:screen,normal;-webkit-font-smoothing:antialiased;letter-spacing:.15px}
+.wrap{min-height:100%;display:grid;grid-template-rows:auto 1fr auto}
+header,footer{display:flex;align-items:center;justify-content:space-between;padding:clamp(12px,3vw,20px);color:var(--inkd)}
+.crumbs a{color:var(--inkd);text-decoration:none;border-bottom:1px dotted #cfc9ff66}
+.stage{position:relative;display:grid;place-items:center;padding:clamp(12px,3vw,24px)}
+.wall{position:relative;width:min(1100px,94vw);height:min(70vh,720px);border-radius:24px;overflow:hidden;box-shadow:0 30px 90px #0008,inset 0 0 0 1px #fff3;background:radial-gradient(800px 420px at 70% -10%,#e7e3ff0a 0%,transparent 60%),linear-gradient(180deg,#fff8,#fff3);backdrop-filter:blur(6px) saturate(115%);-webkit-backdrop-filter:blur(6px) saturate(115%);isolation:isolate}
+.inscription{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:clamp(14px,3.6vw,28px);opacity:0;transform:translateY(6px);transition:opacity .8s ease,transform .8s ease}
+.wall.open .inscription{opacity:1;transform:translateY(0)}
+.card{max-width:780px;width:92%;padding:clamp(14px,2.8vw,22px);border-radius:16px;border:1px solid #ffffff22;background:linear-gradient(180deg,#ffffff10,#ffffff06);box-shadow:inset 0 0 60px #c9bfff10,0 10px 24px #0008;color:var(--ink);text-align:left}
+h1{margin:0 0 8px;font-size:clamp(22px,3.4vw,32px);color:var(--pearl);text-shadow:0 6px 22px #a48cff26}
+.subtitle{margin:0 0 12px;font-size:clamp(14px,2vw,16px);color:var(--inkd)}
+blockquote{margin:6px 0 14px;font-size:clamp(16px,2.3vw,18px);color:var(--pearl);text-wrap:balance}
+.doortext{margin:0;font-family:ui-serif,Georgia,"Times New Roman",Times,serif;font-size:clamp(17px,2.5vw,19px);line-height:1.7;color:var(--ink);text-wrap:pretty}
+.door{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.panel{position:absolute;height:86%;width:min(720px,86vw);border-radius:18px;border:1px solid var(--edge);background:linear-gradient(180deg,var(--fill),#fff8);
+box-shadow:0 18px 60px #000d,inset 0 0 0 1px #ffffff24,inset 0 0 120px #a48cff10;backdrop-filter:blur(10px) saturate(115%);-webkit-backdrop-filter:blur(10px) saturate(115%);transition:box-shadow .3s ease;touch-action:none;isolation:isolate}
+.panel::before{content:"";position:absolute;inset:0;background:linear-gradient(118deg,transparent 0 38%,var(--sheen) 40%,#ffffff08 43%,transparent 46 100%),radial-gradient(800px 360px at 70% -14%,#e7e3ff10 0%,transparent 62%);mix-blend-mode:screen;animation:drift 14s ease-in-out infinite}
+@keyframes drift{0%,100%{transform:translateX(-1%)}50%{transform:translateX(1%)}}
+.handle{position:absolute;right:clamp(12px,2.2vw,18px);top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:999px;border:1px solid #ffffff33;background:radial-gradient(circle at 30% 30%,#fff,#d9d1ff 40%,#9b86ff 72%,#5f4fb9);box-shadow:0 10px 24px #0006,inset 0 0 22px #ffffff80}
+.fog{position:absolute;inset:-2px;border-radius:18px;background:radial-gradient(200px 120px at 30% 30%,var(--fogA) 0%,transparent 70%),radial-gradient(240px 150px at 70% 30%,var(--fogB) 0%,transparent 72%),radial-gradient(320px 200px at 50% 60%,var(--fogB) 0%,transparent 75%);filter:blur(6px) saturate(105%);opacity:0;transition:opacity .6s ease;pointer-events:none}
+.panel.breathing .fog{opacity:.95}
+.panel.open{transform:translateX(46%)}
+.label{position:absolute;bottom:clamp(10px,2.6vw,16px);left:50%;transform:translateX(-50%);font-size:clamp(12px,2vw,14px);color:var(--inkd);padding:8px 12px;border-radius:999px;border:1px solid #ffffff24;background:linear-gradient(180deg,#ffffff10,#ffffff06);backdrop-filter:blur(6px)}
+footer .link{display:inline-flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;text-decoration:none;color:var(--ink);background:linear-gradient(180deg,#ffffff12,#ffffff07);border:1px solid #ffffff22}
+.keyicon{width:16px;height:16px;border-radius:3px;background:radial-gradient(circle at 30% 30%,#fff,#d9d1ff 40%,#9b86ff 72%,#5f4fb9)}
+@media (prefers-reduced-motion:reduce){.panel::before{animation:none}.panel,.wall .inscription{transition:none}}
+</style></head><body>
+<div class="wrap">
+  <header>
+    <div class="crumbs"><a href="/">four</a> / <a href="/castle">castle</a> / wonderland</div>
+    <div class="hint" style="font-size:13px;opacity:.95;padding:8px 12px;border-radius:999px;border:1px solid #ffffff22;background:linear-gradient(180deg,#ffffff10,#ffffff06)">
+      Touch and hold to fog. Then slide the door.
+    </div>
+  </header>
+
+  <section class="stage">
+    <div class="wall" id="wall">
+      <div class="inscription" id="inscription" aria-hidden="true">
+        <div class="card">
+          <h1>Wonderland — The Curiosity Gate</h1>
+          <p class="subtitle">If the map looks impossible, you’re close.</p>
+          <blockquote>“Follow the question that keeps changing shape.”</blockquote>
+          <p class="doortext">You are not late. You are early to your own path.<br/><br/>
+          Curiosity is not a corridor, it’s a garden. Let rooms appear as you ask better questions.</p>
+        </div>
+      </div>
+      <div class="door" id="door" aria-label="Glass door, slide to open">
+        <div class="panel" id="panel">
+          <div class="fog"></div><div class="handle" aria-hidden="true"></div>
+          <div class="label" id="label"><span class="key">Touch and hold</span> to fog · slide right to open</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <a class="link" href="https://school.plnt.earth/keys/wonderland"><span class="keyicon" aria-hidden="true"></span> Read the Canon</a>
+    <a class="link" href="/castle"><span class="keyicon" aria-hidden="true"></span> Back to Castle</a>
+  </footer>
+</div>
+
+<script>
+(function(){
+  const SLUG_PLAIN = 'wonderland';
+  const SLUG_SNAKE = 'wonderland'; // same, but kept for symmetry
+
+  // Normalize flags (mirror any one style into both)
+  try{
+    const anyOpen = localStorage.getItem('castle.gate.'+SLUG_PLAIN+'.open')==='true' ||
+                    localStorage.getItem('castle.gate.'+SLUG_SNAKE+'.open')==='true';
+    if(anyOpen){
+      localStorage.setItem('castle.gate.'+SLUG_PLAIN+'.open','true');
+      localStorage.setItem('castle.gate.'+SLUG_SNAKE+'.open','true');
+    }
+  }catch(_){}
+
+  var panel=document.getElementById('panel');
+  var wall=document.getElementById('wall');
+  var label=document.getElementById('label');
+
+  var pressed=false,startX=0,currentX=0,opened=false;
+
+  function breathe(on){ panel.classList.toggle('breathing', !!on); }
+  function setOpen(on){
+    opened=on;
+    if(on){
+      panel.classList.add('open'); wall.classList.add('open');
+      label.textContent='Gate open';
+      try{
+        localStorage.setItem('castle.gate.'+SLUG_PLAIN+'.open','true');
+        localStorage.setItem('castle.gate.'+SLUG_SNAKE+'.open','true');
+      }catch(_){}
+    }else{
+      panel.classList.remove('open'); wall.classList.remove('open');
+      label.innerHTML='<span class="key">Touch and hold</span> to fog · slide right to open';
+    }
+  }
+
+  function onDown(x){ if(opened)return; pressed=true; startX=x; currentX=x; breathe(true); }
+  function onMove(x){
+    if(!pressed||opened)return; currentX=x;
+    var dx=Math.max(0,currentX-startX);
+    var pct=Math.min(1, dx/(window.innerWidth*0.24));
+    panel.style.transform='translateX('+(pct*46)+'%)';
+    if(pct>0.62){ setOpen(true); pressed=false; breathe(false); }
+  }
+  function onUp(){ if(!pressed||opened)return; pressed=false; breathe(false); panel.style.transform=''; }
+
+  panel.addEventListener('pointerdown',e=>{panel.setPointerCapture(e.pointerId);onDown(e.clientX)});
+  panel.addEventListener('pointermove',e=>onMove(e.clientX));
+  panel.addEventListener('pointerup',onUp);
+  panel.addEventListener('pointercancel',onUp);
+
+  // Keyboard affordances
+  panel.setAttribute('tabindex','0');
+  panel.addEventListener('keydown',e=>{ if(e.key==='Enter')breathe(true); if(e.key==='ArrowRight')setOpen(true); });
+  panel.addEventListener('keyup',e=>{ if(e.key==='Enter')breathe(false); });
+})();
+</script>
+</body></html>
