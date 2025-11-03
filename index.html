@@ -35,7 +35,7 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
 .progress{display:flex;gap:8px;justify-content:center;margin-top:10px}
 .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.2);border:1px solid var(--line)}
 .dot.on{background:var(--mint)}
-.cta{display:none;margin-top:12px;justify-content:center}
+.cta{display:none;margin-top:12px;justify-content:center;gap:8px}
 .footer{position:fixed;left:14px;bottom:14px;font-size:.85rem;opacity:.65}
 </style>
 </head>
@@ -54,9 +54,9 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
   <div class="card">
     <h2>Alice Key</h2>
     <p class="hint">This rabbit hole opens with a link from MirrorHoney, or with a phrase.</p>
-    <div style="margin:12px 0"><input id="keyInput" class="input" placeholder="enter key (kenneljustine or ALICE)"></div>
+    <div style="margin:12px 0"><input id="keyInput" class="input" placeholder="enter key"></div>
     <button id="unlockBtn" class="btn">unlock</button>
-    <p class="hint" style="margin-top:10px">Clues on <a href="https://instagram.com/harry_espookies" target="_blank" style="color:#fff;text-decoration:underline">Instagram</a> to find @kenneljustine.</p>
+    <p class="hint" style="margin-top:10px">Clues live on <a href="https://instagram.com/harry_espookies" target="_blank" style="color:#fff;text-decoration:underline">Instagram</a>.</p>
   </div>
 </div>
 
@@ -108,23 +108,31 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
     </div>
 
     <div class="cta" id="ctaWrap">
-      <button id="schoolBtn" class="btn" style="background:linear-gradient(180deg,#a6ffe6,#7fe3ff);color:#0c1a17;border:1px solid rgba(0,0,0,.25)">follow the white rabbit → school</button>
+      <button id="schoolBtn" class="btn" style="background:linear-gradient(180deg,#a6ffe6,#7fe3ff);color:#0c1a17;border:1px solid rgba(0,0,0,.25)">white rabbit → school</button>
+      <button id="centerBtn" class="btn">→ center</button>
+      <button id="sigridBtn" class="btn">← back to sigrid</button>
     </div>
   </div>
 </div>
 
 <div class="footer">“If you knew Time as well as I do, you wouldn’t talk about wasting it.”</div>
 
+<!-- Secret module: hashes only; no phrases in source -->
+<script>
+function norm(s){return String(s||"").toLowerCase().trim()}
+function fnv1a(t){var h=0x811c9dc5;for(var i=0;i<t.length;i++){h^=t.charCodeAt(i);h=(h*0x01000193)>>>0}return h>>>0}
+const H={mh_master:0x18608d89,mh_alt:0x05bf6449,sg_pass:0xc2ff6315,four_kj:0x5d6a1e70,four_al:0x872213e7}
+function matchHash(val,hex){return fnv1a(norm(val))===hex}
+function genCode(){return Math.random().toString(36).slice(2,6)+"-"+Math.random().toString(36).slice(2,6)+"-"+Math.random().toString(36).slice(2,6)}
+</script>
+
+<!-- Arrival consumer (token + source), no phrases -->
 <script>
 (function(){
   function pick(s,pat){var m=String(s||"").match(pat);return m?decodeURIComponent(m[1]):""}
   var src=pick(location.search,/[\?&]s=([^&]+)/), k=pick(location.hash,/[#?&]k=([^&]+)/);
   if(src) localStorage.setItem("four.src",JSON.stringify(src));
-  if(k){
-    if(!localStorage.getItem("four.key")) localStorage.setItem("four.key",JSON.stringify(k));
-    localStorage.setItem("four.key.set","true");
-    localStorage.setItem("four.unlock","true");
-  }
+  if(k){ localStorage.setItem("four.key",JSON.stringify(k)); localStorage.setItem("four.key.set","true"); localStorage.setItem("four.unlock","true") }
   history.replaceState({},document.title,location.pathname);
 })();
 </script>
@@ -134,18 +142,20 @@ const lock=document.getElementById("lock"),app=document.getElementById("app"),sr
 const keyInput=document.getElementById("keyInput"),unlockBtn=document.getElementById("unlockBtn")
 const dots=[document.getElementById("d1"),document.getElementById("d2"),document.getElementById("d3")]
 const steps=[].slice.call(document.querySelectorAll(".panel[data-step]"))
-const ctaWrap=document.getElementById("ctaWrap"),schoolBtn=document.getElementById("schoolBtn")
+const ctaWrap=document.getElementById("ctaWrap"),schoolBtn=document.getElementById("schoolBtn"),centerBtn=document.getElementById("centerBtn"),sigridBtn=document.getElementById("sigridBtn")
+
 function jget(k,def){try{return JSON.parse(localStorage.getItem(k)||def)}catch(e){return JSON.parse(def)}}
-function norm(s){return String(s||"").toLowerCase().trim()}
 function show(){lock.style.display="none";app.style.display="flex";srcTag.textContent=jget("four.src","\"mh.four\"")}
-function allow(v){v=norm(v);return v==="kenneljustine"||v==="alice"}
-function tryUnlock(v){var expect=jget("four.key","");if((expect&&v===expect)||allow(v)){localStorage.setItem("four.unlock","true");show();return true}return false}
+function allowManual(v){return matchHash(v,H.four_kj)||matchHash(v,H.four_al)}
+function tryUnlock(v){var expect=jget("four.key","");if((expect&&v===expect)||allowManual(v)){localStorage.setItem("four.unlock","true");show();return true}return false}
+
 function mark(i,on){dots[i-1].classList.toggle("on",on)}
 function setStepDone(i){localStorage.setItem("four.step."+i,"true");mark(i,true)}
 function isDone(i){return localStorage.getItem("four.step."+i)==="true"}
 function checkAll(){var ok=isDone(1)&&isDone(2)&&isDone(3);if(ok){ctaWrap.style.display="flex";localStorage.setItem("four.hole.done","true");try{document.getElementById("schoolBadge").style.display="inline-flex"}catch(e){} }}
-function genCode(){return Math.random().toString(36).slice(2,6)+"-"+Math.random().toString(36).slice(2,6)+"-"+Math.random().toString(36).slice(2,6)}
-function schoolUrl(k){return "https://school.plnt.earth/?s=four.rabbit#k="+encodeURIComponent(k)}
+
+unlockBtn.addEventListener("click",function(){var v=(keyInput.value||"").trim();if(tryUnlock(v)){keyInput.value=""}})
+
 steps.forEach(function(panel){
   panel.addEventListener("click",function(e){
     var t=e.target;if(!t.classList.contains("opt"))return;
@@ -153,13 +163,17 @@ steps.forEach(function(panel){
     else{t.classList.add("wrong")}
   })
 })
-unlockBtn.addEventListener("click",function(){var v=(keyInput.value||"").trim();if(tryUnlock(v)){keyInput.value=""}})
+
+function schoolUrl(k){return "https://school.plnt.earth/?s=four.rabbit#k="+encodeURIComponent(k)}
+schoolBtn.addEventListener("click",function(){var k=genCode();location.href=schoolUrl(k)})
+if(centerBtn) centerBtn.onclick=function(){location.href="https://center.plnt.earth/?s=four.exit"}
+if(sigridBtn) sigridBtn.onclick=function(){location.href="https://garlic.plnt.earth/?s=four.return#echo="+encodeURIComponent("permission, not force")}
+
 window.addEventListener("load",function(){
   if(localStorage.getItem("four.unlock")) show();
   [1,2,3].forEach(function(i){if(isDone(i))mark(i,true)});
   if(localStorage.getItem("four.hole.done")){ctaWrap.style.display="flex";try{document.getElementById("schoolBadge").style.display="inline-flex"}catch(e){} }
 })
-schoolBtn.addEventListener("click",function(){var k=genCode();location.href=schoolUrl(k)})
 </script>
 </body>
 </html>
