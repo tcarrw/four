@@ -6,45 +6,53 @@
 <title>four.plnt.earth — First Key / Dagny</title>
 <style>
 html,body{
-  margin:0;height:100%;
+  margin:0;
   background:radial-gradient(circle at 50% 45%, #fff0f5 0%, #f7d9e6 100%);
   font-family:'Segoe UI',sans-serif;color:#000;text-align:center;
-  overflow-x:hidden;
 }
 h1{margin-top:4vh;font-weight:400;letter-spacing:.08em;}
 #heart{
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  font-size:6vw;animation:pulse 5s ease-in-out infinite;
+  display:block;
+  margin:6vh auto 0 auto;
+  font-size:6vw;
+  animation:glow 6s ease-in-out infinite;
+  transform-origin:center;
 }
-@keyframes pulse{
-  0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.9;}
-  50%{transform:translate(-50%,-50%) scale(1.1);opacity:1;}
+@keyframes glow{
+  0%,100%{opacity:.9;filter:brightness(1);}
+  50%{opacity:1;filter:brightness(1.25);}
 }
 main{
-  position:relative;
-  top:56%;
-  transform:translateY(-50%);
   margin:0 auto;
-  width:82%;
+  width:90%;
   max-width:540px;
+  padding-bottom:8vh;
 }
 #text{
-  font-size:1em;line-height:1.55em;opacity:.9;margin-bottom:1.2em;
+  font-size:1em;
+  line-height:1.55em;
+  opacity:.9;
+  margin-bottom:1.4em;
 }
 section.note{
   background:rgba(255,255,255,0.65);
   backdrop-filter:blur(6px);
-  padding:16px 22px;
+  padding:18px 24px;
   border-radius:10px;
   box-shadow:0 4px 20px rgba(0,0,0,0.05);
   font-size:0.9em;
   line-height:1.5em;
-  margin-top:1.2em;
+  margin-top:1.4em;
+  text-align:left;
 }
 #footer{
-  position:absolute;bottom:3%;left:50%;transform:translateX(-50%);
-  font-size:.8em;opacity:.6;line-height:1.6em;width:90%;
+  text-align:center;
+  font-size:.8em;
+  opacity:.6;
+  line-height:1.6em;
+  margin:3em auto 2em;
+  width:90%;
+  max-width:700px;
 }
 #footer a{color:#000;text-decoration:none;opacity:.6;}
 #footer a:hover{opacity:1;}
@@ -65,24 +73,22 @@ section.note{
       Her melody aligned with the architecture and the Cube awakened.<br/>
       The first key is recognition — a tone that matches your own before you play it.
     </p>
-    <p>
-      <small>tone · 432 Hz  |  element · Air → Joy → Connection  |  phase · Cycle 1 ignition</small>
-    </p>
+    <p><small>tone · 432 Hz  |  element · Air → Joy → Connection  |  phase · Cycle 1 Ignition</small></p>
   </div>
 
   <section class="note">
     <p><strong>About the Key</strong><br/>
     A key isn’t an answer; it’s a frequency that lets you move through a door that was already waiting for you.  
-    Every key you find tunes you to a different part of the Cube—emotion, design, clarity, fire, and beyond.  
+    Every key you find tunes you to a different part of the Cube — emotion, design, clarity, fire, and beyond.  
     If you wish to find the next one, listen for what feels both familiar and new.  
     Keys don’t hide; they resonate when you’re ready.</p>
   </section>
 </main>
 
 <div id="footer">
-  <a href="https://center.plnt.earth" target="_blank">← Back to Center</a> •
-  <a href="https://wonder.plnt.earth" target="_blank">Next Domain — The Second Key</a> •
-  <a href="https://illumina.plnt.earth" target="_blank">Illumina Archive</a>
+  <a href="https://center.plnt.earth">← Back to Center</a> • 
+  <a href="https://wonder.plnt.earth">Next Domain — Wonder / Second Key</a> • 
+  <a href="https://illumina.plnt.earth">Illumina Archive</a>
 </div>
 
 </body>
