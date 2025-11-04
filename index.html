@@ -5,41 +5,46 @@
 <title>Four · Rabbit Hole</title>
 <style>
 :root{--bg:#07080c;--ink:#fff;--line:rgba(255,255,255,.12);--pane:rgba(255,255,255,.08);--veil:rgba(12,12,18,.9);--accent:#7fe3ff;--mint:#86ffd6}
+*{box-sizing:border-box}
 html,body{height:100%}
-body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;background:radial-gradient(1000px 700px at 50% 20%,#0f1324,#07080c 70%)}
+body{margin:0;background:radial-gradient(1000px 700px at 50% 20%,#0f1324,#07080c 70%);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
 .nav{position:fixed;left:14px;top:14px;display:flex;gap:8px;z-index:60}
-.nav a{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px);padding:8px 10px;border-radius:999px;color:#fff;text-decoration:none}
+.nav a{background:rgba(255,255,255,.08);border:1px solid var(--line);backdrop-filter:blur(8px);padding:8px 10px;border-radius:999px;color:#fff;text-decoration:none}
 #schoolBadge{display:none}
-.topright a{position:fixed;right:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px);padding:8px 10px;border-radius:999px;color:#fff;text-decoration:none;z-index:70}
+.topright a{position:fixed;right:14px;background:rgba(255,255,255,.08);border:1px solid var(--line);backdrop-filter:blur(8px);padding:8px 10px;border-radius:999px;color:#fff;text-decoration:none;z-index:70}
 #xBadge{top:14px}#igBadge{top:54px}
 .tunnel{position:fixed;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:screen;background:radial-gradient(ellipse at center,rgba(127,227,255,.08),transparent 60%),repeating-radial-gradient(circle at 50% 45%,rgba(134,255,214,.06),rgba(134,255,214,.06) 6px,transparent 6px,transparent 12px);animation:descend 9s linear infinite}
 @keyframes descend{0%{transform:translateY(0)}100%{transform:translateY(40px)}}
 .lock{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.7));z-index:10}
-.card{width:min(680px,92vw);background:var(--veil);border:1px solid var(--line);border-radius:16px;padding:18px;backdrop-filter:blur(10px);text-align:center}
+.card{width:min(740px,92vw);background:var(--veil);border:1px solid var(--line);border-radius:16px;padding:18px;backdrop-filter:blur(10px);text-align:center}
 .hint{opacity:.8}
-.input{background:transparent;border:1px solid var(--line);border-radius:10px;outline:none;color:#fff;padding:8px 10px}
 .btn{background:var(--pane);border:1px solid var(--line);border-radius:10px;padding:10px 14px;color:#fff;cursor:pointer}
-.app{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px}
-.inner{width:min(1000px,96vw)}
+.app{min-height:100%;display:flex;align-items:flex-start;justify-content:center;padding:24px 16px 96px}
+.inner{width:min(1100px,98vw)}
 .header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin-bottom:12px}
 .pill{background:var(--pane);border:1px solid var(--line);border-radius:999px;padding:6px 10px}
 .rule{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);margin:10px 0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .panel{background:rgba(12,12,18,.6);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:left}
 .title{font-weight:600;margin-bottom:6px}
-.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.opts{display:grid;gap:8px}
 .opt{padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--pane);cursor:pointer}
-.opt.correct{border-color:rgba(134,255,214,.65);box-shadow:0 0 0 2px rgba(134,255,214,.25) inset}
+.opt.correct{border-color:rgba(134,255,214,.65);box-shadow:inset 0 0 0 2px rgba(134,255,214,.25)}
 .opt.wrong{opacity:.6}
 .status{display:flex;gap:8px;flex-wrap:wrap}
 .badge{display:inline-flex;gap:6px;align-items:center;border:1px solid var(--line);background:var(--pane);border-radius:999px;padding:6px 10px}
 .badge.ok{border-color:rgba(134,255,214,.5)}
 .badge.need{border-color:rgba(255,204,112,.5)}
 .cta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.holderBadge{position:fixed;right:16px;bottom:16px;background:linear-gradient(180deg,#a6ffe6,#7fe3ff);color:#0c1a17;border:1px solid rgba(0,0,0,.25);border-radius:999px;padding:10px 14px;cursor:pointer;display:none;gap:8px;align-items:center;z-index:20}
-.panelHL{position:fixed;inset:0;display:none;align-items:flex-end;justify-content:center;background:linear-gradient(180deg,transparent,rgba(0,0,0,.45));z-index:30}
-.sheetHL{width:100%;max-width:680px;background:var(--veil);border:1px solid var(--line);border-radius:18px 18px 0 0;padding:16px 16px 22px}
 .note{background:rgba(12,12,18,.6);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:left}
+.videoGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.vtile{position:relative;aspect-ratio:16/9;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#000}
+.vthumb{position:absolute;inset:0;background-size:cover;background-position:center}
+.vplay{position:absolute;inset:auto 0 0 0;display:flex;justify-content:center}
+.vbtn{margin:10px auto;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:999px;padding:8px 16px;cursor:pointer}
+.holderBadge{position:fixed;right:16px;bottom:16px;background:linear-gradient(180deg,#a6ffe6,#7fe3ff);color:#0c1a17;border:1px solid rgba(0,0,0,.25);border-radius:999px;padding:10px 14px;cursor:pointer;display:none;z-index:20}
+.panelHL{position:fixed;inset:0;display:none;align-items:flex-end;justify-content:center;background:linear-gradient(180deg,transparent,rgba(0,0,0,.45));z-index:30}
+.sheetHL{width:100%;max-width:740px;background:var(--veil);border:1px solid var(--line);border-radius:18px 18px 0 0;padding:16px 16px 22px}
 .footer{position:fixed;left:14px;bottom:14px;font-size:.85rem;opacity:.65}
 </style>
 </head>
@@ -54,7 +59,7 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
 </div>
 <div class="tunnel"></div>
 
-<!-- Locked: requires Marina link (token) -->
+<!-- LOCK: requires Marina token -->
 <div id="lock" class="lock">
   <div class="card">
     <h2>Rabbit Hole</h2>
@@ -62,7 +67,7 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
   </div>
 </div>
 
-<!-- App -->
+<!-- APP -->
 <div id="app" class="app" style="display:none">
   <div class="inner">
     <div class="header">
@@ -73,10 +78,7 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
     <div class="note">
       <h3 style="margin:0 0 6px 0">Boundary Storyteller</h3>
       <div class="rule"></div>
-      <p class="hint" style="margin:6px 0 0 0">
-        Alice, you and Taylor write the line between wonder and order.
-        Every key you hand out is a story about how to cross it.
-      </p>
+      <p class="hint">Alice, you and Taylor write the line between wonder and order. Every key you hand out is a story about how to cross it.</p>
     </div>
 
     <div class="rule"></div>
@@ -86,41 +88,44 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
       <div class="panel">
         <div class="title">Taylor Quiz</div>
         <div class="opts" id="quiz">
-          <div data-q="1" class="opt">what opens a door without breaking it? — permission</div>
-          <div data-q="2" class="opt">what returns warmth from a mirror? — set warm</div>
-          <div data-q="3" class="opt">how do we move through time? — don’t spend what you don’t have</div>
+          <div class="opt" data-q="1">what opens a door without breaking it? — <b>permission</b></div>
+          <div class="opt" data-q="2">what returns warmth from a mirror? — <b>set warm</b></div>
+          <div class="opt" data-q="3">how do we move through time? — <b>don’t spend what you don’t have</b></div>
         </div>
         <div id="quizMsg" class="hint" style="margin-top:8px">tap each line when you know it</div>
       </div>
 
-      <!-- Videos (auto/preset) -->
+      <!-- Videos (click-to-play) -->
       <div class="panel">
         <div class="title">Videos</div>
-        <div id="vWrap" style="display:grid;gap:10px">
-          <div style="position:relative;aspect-ratio:16/9;background:#000;border:1px solid var(--line);border-radius:12px;overflow:hidden">
+        <div class="videoGrid">
+          <div class="vtile">
+            <div id="thumb1" class="vthumb"></div>
+            <div class="vplay"><button id="play1" class="vbtn">▶ Play</button></div>
             <iframe id="vid1" allow="autoplay; encrypted-media" allowfullscreen style="border:0;width:100%;height:100%;display:none"></iframe>
-            <div id="v1empty" class="hint" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">holder can set video 1</div>
           </div>
-          <div style="position:relative;aspect-ratio:16/9;background:#000;border:1px solid var(--line);border-radius:12px;overflow:hidden">
+          <div class="vtile">
+            <div id="thumb2" class="vthumb"></div>
+            <div class="vplay"><button id="play2" class="vbtn">▶ Play</button></div>
             <iframe id="vid2" allow="autoplay; encrypted-media" allowfullscreen style="border:0;width:100%;height:100%;display:none"></iframe>
-            <div id="v2empty" class="hint" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">holder can set video 2</div>
           </div>
         </div>
+        <div class="hint" style="margin-top:8px">Videos load and start only when you press Play.</div>
       </div>
     </div>
 
     <div class="rule"></div>
 
-    <!-- Keys needed -->
+    <!-- Keys & actions -->
     <div class="panel">
-      <div class="title">Keys Checklist</div>
+      <div class="title">Keys</div>
       <div class="status" id="keyStatus"></div>
       <div class="cta">
-        <button id="needGarlic" class="btn">get the castle key</button>
-        <button id="needMirror" class="btn" disabled>open the mirror (finish quiz)</button>
-        <button id="toSchool" class="btn" style="display:none;background:linear-gradient(180deg,#a6ffe6,#7fe3ff);color:#0c1a17;border:1px solid rgba(0,0,0,.25)">proceed to school</button>
+        <button id="needGarlic" class="button btn">get the castle key</button>
+        <button id="needMirror" class="button btn" disabled>open the mirror (finish quiz)</button>
+        <button id="toSchool" class="button btn" style="display:none;background:linear-gradient(180deg,#a6ffe6,#7fe3ff);color:#0c1a17;border:1px solid rgba(0,0,0,.25)">proceed to school</button>
       </div>
-      <div class="hint" style="margin-top:6px">you’ll need both before the door to school opens.</div>
+      <div class="hint" style="margin-top:6px">You’ll need both keys before the door to School (Taylor) opens.</div>
     </div>
 
     <div class="cta" style="justify-content:center;margin-top:8px">
@@ -129,7 +134,7 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
   </div>
 </div>
 
-<!-- Holder Tools (hidden unless #keeper) -->
+<!-- HOLDER TOOLS (hidden unless #keeper) -->
 <div class="holderBadge" id="holderBadge">🗝️ holder</div>
 <div class="panelHL" id="panelHL">
   <div class="sheetHL">
@@ -137,134 +142,165 @@ body{margin:0;color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system
       <div style="font-weight:600">Holder tools</div>
       <button id="closeHL" class="btn">close</button>
     </div>
-
-    <!-- Presets save -->
-    <div style="margin-top:10px" class="hint">save a preset (id + two youtube ids). special ids: <b>needG</b>, <b>needM</b>, <b>default</b></div>
+    <div class="hint" style="margin-top:10px">Save a custom preset (id + two YouTube IDs). Built-ins: <b>needG</b>, <b>needM</b>, <b>default</b>.</div>
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px">
-      <input id="pId" class="input" placeholder="preset id (e.g., aliceDrop)">
-      <input id="pV1" class="input" placeholder="youtube id 1">
-      <input id="pV2" class="input" placeholder="youtube id 2">
+      <input id="pId" class="btn" placeholder="preset id (e.g., aliceDrop)">
+      <input id="pV1" class="btn" placeholder="youtube id 1">
+      <input id="pV2" class="btn" placeholder="youtube id 2">
       <button id="savePreset" class="btn">save preset</button>
     </div>
-
-    <!-- Gift mirror -->
     <div style="display:flex;gap:8px;align-items:center;margin-top:12px">
       <button id="giftMH" class="btn">copy “gift a mirror” link</button>
       <span id="giftMsg" class="hint"></span>
     </div>
-    <div class="hint" style="margin-top:6px">share this link with anyone curious; it opens MirrorHoney (token). next key is learned inside.</div>
+    <div class="hint" style="margin-top:6px">Share this link with the curious; it opens MirrorHoney (token). Next key is learned inside.</div>
   </div>
 </div>
 
 <div class="footer">“If you knew Time as well as I do, you wouldn’t talk about wasting it.”</div>
 
 <script>
+/* --- tiny utils --- */
 function norm(s){return String(s||"").toLowerCase().trim()}
-function fnv1a(t){var h=0x811c9dc5;for(var i=0;i<t.length;i++){h^=t.charCodeAt(i);h=(h*0x01000193)>>>0}return h>>>0}
+function fnv1a(t){var h=0x811c9dc5;for(let i=0;i<t.length;i++){h^=t.charCodeAt(i);h=(h*0x01000193)>>>0}return h>>>0}
 function genCode(){return Math.random().toString(36).slice(2,6)+"-"+Math.random().toString(36).slice(2,6)+"-"+Math.random().toString(36).slice(2,6)}
-function pick(name){var m=String(location.search).match(new RegExp("[?&]"+name+"=([^&]+)"));return m?decodeURIComponent(m[1]):""}
-</script>
+function pick(name){const m=String(location.search).match(new RegExp("[?&]"+name+"=([^&]+)"));return m?decodeURIComponent(m[1]):""}
+function ytEmbed(id,auto){return "https://www.youtube.com/embed/"+id+"?rel=0&modestbranding=1&playsinline=1"+(auto?"&autoplay=1":"")}
+function ytThumb(id){return "https://img.youtube.com/vi/"+id+"/hqdefault.jpg"}
 
-<!-- Arrival: require Marina token; read tokens from query (g,m); session-scoped unlock -->
-<script>
+/* --- built-in presets (Kendyl kit) --- */
+const BUILTIN = {
+  needG : {v1:"eTIzlTeIIac", v2:"HpxX4ZE4KWE"},     // Sigrid - Home to You / Taylor - peace
+  needM : {v1:"s6AHxF0s764", v2:"bnQBqinwlwQ"},     // MARINA - Happy / Dagny - Love You Like That
+  default:{v1:"KaM1bCuG4xo", v2:"f5B2mfHS-Ao"}      // Taylor - mirrorball / Sigrid - It Gets Dark (Stripped)
+};
+function getVsets(){ return JSON.parse(localStorage.getItem("four.vsets")||"{}"); }
+function saveVset(id,v1,v2){ const all=getVsets(); all[id]={v1:id&&v1?v1:"", v2:id&&v2?v2:""}; localStorage.setItem("four.vsets", JSON.stringify(all)); }
+function getPreset(id){ const all=getVsets(); return all[id] || BUILTIN[id] || null; }
+
+/* --- token arrival, gate is session-scoped --- */
 (function(){
-  var src=pick("s"), g=pick("g"), m=pick("m"), k=(String(location.hash).match(/[#?&]k=([^&]+)/)||[])[1];
-  if(src) sessionStorage.setItem("four.src",src);
-  if(g) localStorage.setItem("four.token.g",JSON.stringify(g));
-  if(m) localStorage.setItem("four.token.m",JSON.stringify(m));
-  if(k){ sessionStorage.setItem("four.unlock","true") }
-  history.replaceState({},document.title,location.pathname);
+  const src = pick("s"), g = pick("g"), m = pick("m");
+  const k   = (String(location.hash).match(/[#?&]k=([^&]+)/)||[])[1];
+  if (src) sessionStorage.setItem("four.src", src);
+  if (g)   localStorage.setItem("four.token.g", JSON.stringify(g));
+  if (m)   localStorage.setItem("four.token.m", JSON.stringify(m));
+  if (k)   sessionStorage.setItem("four.unlock","true");
+  history.replaceState({}, document.title, location.pathname);
 })();
-</script>
 
-<script>
-const lock=document.getElementById("lock"),app=document.getElementById("app"),srcTag=document.getElementById("srcTag")
-const keyStatus=document.getElementById("keyStatus"),needGarlic=document.getElementById("needGarlic"),needMirror=document.getElementById("needMirror"),toSchool=document.getElementById("toSchool")
-const vid1=document.getElementById("vid1"),vid2=document.getElementById("vid2"),v1empty=document.getElementById("v1empty"),v2empty=document.getElementById("v2empty")
-const holderBadge=document.getElementById("holderBadge"),panelHL=document.getElementById("panelHL"),closeHL=document.getElementById("closeHL")
-const pId=document.getElementById("pId"),pV1=document.getElementById("pV1"),pV2=document.getElementById("pV2"),savePreset=document.getElementById("savePreset"),giftMH=document.getElementById("giftMH"),giftMsg=document.getElementById("giftMsg")
-const dots=[false,false,false];let done={1:false,2:false,3:false}
+/* --- DOM refs --- */
+const lock=document.getElementById("lock"), app=document.getElementById("app"), srcTag=document.getElementById("srcTag");
+const quiz=document.getElementById("quiz"), quizMsg=document.getElementById("quizMsg");
+const keyStatus=document.getElementById("keyStatus"), needGarlic=document.getElementById("needGarlic"), needMirror=document.getElementById("needMirror"), toSchool=document.getElementById("toSchool");
+const thumb1=document.getElementById("thumb1"), thumb2=document.getElementById("thumb2"), v1=document.getElementById("vid1"), v2=document.getElementById("vid2");
+const play1=document.getElementById("play1"), play2=document.getElementById("play2");
+const holderBadge=document.getElementById("holderBadge"), panelHL=document.getElementById("panelHL"), closeHL=document.getElementById("closeHL");
+const pId=document.getElementById("pId"), pV1=document.getElementById("pV1"), pV2=document.getElementById("pV2"), savePresetBtn=document.getElementById("savePreset");
+const giftMH=document.getElementById("giftMH"), giftMsg=document.getElementById("giftMsg");
 
-function jget(k,def){try{return JSON.parse(localStorage.getItem(k)||def)}catch(e){return JSON.parse(def)}}
-function jset(k,v){localStorage.setItem(k,JSON.stringify(v))}
-function show(){lock.style.display="none";app.style.display="flex";srcTag.textContent=sessionStorage.getItem("four.src")||"mh.four"}
+/* --- state --- */
+let done={1:false,2:false,3:false};
+function haveG(){ return !!JSON.parse(localStorage.getItem("four.token.g")||"false"); }
+function haveM(){ return !!JSON.parse(localStorage.getItem("four.token.m")||"false"); }
+function quizComplete(){ return done[1] && done[2] && done[3]; }
 
-function haveG(){return !!jget("four.token.g","\"\"")}
-function haveM(){return !!jget("four.token.m","\"\"")}
-
-function badge(text,ok){var d=document.createElement("div");d.className="badge "+(ok?"ok":"need");d.textContent=text+(ok?" ✔":" •");return d}
-
-function quizComplete(){return done[1]&&done[2]&&done[3]}
-
+/* --- UI helpers --- */
+function show(){ lock.style.display="none"; app.style.display="block"; srcTag.textContent = sessionStorage.getItem("four.src")||"mh.four"; }
+function badge(label,ok){ const d=document.createElement("div"); d.className="badge "+(ok?"OK ok":"need"); d.textContent=label+(ok?" ✔":" •"); return d; }
 function renderStatus(){
   keyStatus.innerHTML="";
-  keyStatus.appendChild(badge("garlic · castle key",haveG()));
-  keyStatus.appendChild(badge("mirror · door key",haveM()));
-  needGarlic.style.display = haveG() ? "none" : "inline-flex";
+  keyStatus.appendChild(badge("garlic · castle key", haveG()));
+  keyStatus.appendChild(badge("mirror · door key",  haveM()));
+  needGarlic.style.display = haveG()? "none":"inline-flex";
   needMirror.disabled = !( !haveM() && quizComplete() );
   needMirror.textContent = (!haveM() && quizComplete()) ? "open the mirror" : "open the mirror (finish quiz)";
   toSchool.style.display = (haveG() && haveM() && quizComplete()) ? "inline-flex" : "none";
 }
 
-function yt(id){return "https://www.youtube.com/embed/"+id+"?rel=0&modestbranding=1&playsinline=1"}
-function getVsets(){return JSON.parse(localStorage.getItem("four.vsets")||"{}")}
-function saveVset(id,v1,v2){var all=getVsets();all[id]={v1:v1||"",v2:v2||""};localStorage.setItem("four.vsets",JSON.stringify(all))}
-function getVset(id){var all=getVsets();return all[id]||null}
-
-function preloadVideosByNeed(){
-  var wanted=pick("vset"), p=null;
-  if(wanted){ p=getVset(wanted) }
+/* --- choose and stage videos (click-to-play) --- */
+let currentSet={v1:null,v2:null};
+function choosePreset(){
+  const forced = pick("vset");
+  let p = forced ? getPreset(forced) : null;
   if(!p){
-    if(!haveG()) p=getVset("needG");
-    else if(!haveM()) p=getVset("needM");
-    else p=getVset("default");
+    if(!haveG()) p = getPreset("needG");
+    else if(!haveM()) p = getPreset("needM");
+    else p = getPreset("default");
   }
-  if(p){
-    if(p.v1){ vid1.src=yt(p.v1); vid1.style.display="block"; v1empty.style.display="none" }
-    if(p.v2){ vid2.src=yt(p.v2); vid2.style.display="block"; v2empty.style.display="none" }
-  }
+  currentSet = p || {v1:null,v2:null};
+  if (currentSet && currentSet.v1) { thumb1.style.backgroundImage = "url('"+ytThumb(currentSet.v1)+"')"; }
+  if (currentSet && currentSet.v2) { thumb2.style.backgroundImage = "url('"+ytThumb(currentSet.v2)+"')"; }
+}
+function attachVideoButtons(){
+  play1.onclick = function(){
+    if(!currentSet.v1) return;
+    v1.src = ytEmbed(currentSet.v1, true);
+    v1.style.display="block";  // leave v2 paused until clicked
+    this.parentNode.style.display="none";
+    thumb1.style.display="none";
+  };
+  play2.onclick = function(){
+    if(!currentSet.v2) return;
+    v2.src = ytEmbed(currentSet.v2, true);
+    v2.style.display="block";
+    this.parentNode.style.display="none";
+    thumb2.style.display="none";
+  };
 }
 
-document.getElementById("quiz").addEventListener("click",function(e){
-  var t=e.target;if(!t.classList.contains("opt"))return;
-  var q=t.getAttribute("data-q");
-  if(q==="1" && t.textContent.toLowerCase().indexOf("permission")>=0){t.classList.add("correct");done[1]=true}
-  else if(q==="2" && t.textContent.toLowerCase().indexOf("set warm")>=0){t.classList.add("correct");done[2]=true}
-  else if(q==="3" && t.textContent.toLowerCase().indexOf("don’t spend")>=0){t.classList.add("correct");done[3]=true}
-  else{t.classList.add("wrong")}
-  document.getElementById("quizMsg").textContent = quizComplete() ? "quiz complete" : "keep going";
+/* --- quiz interactions --- */
+quiz.addEventListener("click", e=>{
+  const t=e.target; if(!t.classList.contains("opt")) return;
+  const q=t.getAttribute("data-q");
+  const txt=norm(t.textContent);
+  if (q==="1" && txt.includes("permission")) { t.classList.add("correct"); done[1]=true; }
+  else if (q==="2" && txt.includes("set warm")) { t.classList.add("correct"); done[2]=true; }
+  else if (q==="3" && txt.includes("don’t spend")) { t.classList.add("correct"); done[3]=true; }
+  else { t.diabled=true; t.classList.add("wrong"); }
+  quizMsg.textContent = quizComplete() ? "quiz complete" : "keep going";
   renderStatus();
-})
+});
 
-needGarlic.onclick=function(){location.href="https://garlic.plnt.earth/?s=four.need.g"}
-needMirror.onclick=function(){
-  if(needMirror.disabled) return;
-  var u="https://mirrorhoney.plnt.earth/", q="?s="+encodeURIComponent("four.gift"), h="#k="+encodeURIComponent(genCode());
-  location.href=u+q+h;
-}
-toSchool.onclick=function(){
-  var g=jget("four.token.g","\"g\""), m=jget("four.token.m","\"m\""), f=genCode();
+/* --- actions --- */
+needGarlic.onclick = ()=> location.href="https://garlic.plnt.earth/?s=four.need.g";
+needMirror.onclick = ()=>{
+  if (needMirror.disabled) return;
+  const u="https://mirrorhoney.plnt.earth/", q="?s="+encodeURIComponent("four.gift"), h="#k="+encodeURIComponent(genCode());
+  location.href = u+q+h;
+};
+toSchool.onclick = ()=>{
+  const g=JSON.parse(localStorage.getItem("four.token.g")||'"g"');
+  const m=JSON.parse(localStorage.getItem("four.token.m")||'"m"');
+  const f=genCode();
   location.href="https://school.plnt.earth/?s=four.rabbit&g="+encodeURIComponent(g)+"&m="+encodeURIComponent(m)+"&f="+encodeURIComponent(f)+"#k="+encodeURIComponent(genCode());
-}
+};
 
-savePreset.onclick=function(){
-  var id=(pId.value||"").trim(); if(!id) return;
-  saveVset(id,(pV1.value||"").trim(),(pV2.value||"").trim());
-  pId.value=""; pV1.value=""; pV2.value="";
-}
-
-giftMH.onclick=function(){
-  var u="https://mirrorhoney.plnt.earth/", q="?s="+encodeURIComponent("four.gift"), h="#k="+encodeURIComponent(genCode());
+/* --- holder tools --- */
+if (location.hash.indexOf("#keeper")>=0) document.getElementById("holderBadge").style.display="flex";
+document.getElementById("holderBadge").onclick = ()=> panelHL.style.display="flex";
+closeHL.onclick = ()=> panelHL.style.display="none";
+panelHL.addEventListener("click",e=>{ if(e.target.id==="panelHL") panelHL.style.display="none"; });
+savePresetBtn.onclick = ()=>{
+  const id=norm(pId.value); if(!id) return;
+  saveVset(id, norm(pV1.value), norm(pV2.value));
+  pId.value=pV1.value=pV2.value="";
+};
+giftMH.onclick = ()=>{
+  const u="https://mirrorhoney.plnt.earth/", q="?s="+encodeURIComponent("four.gift"), h="#k="+encodeURIComponent(genCode());
   navigator.clipboard.writeText(u+q+h); giftMsg.textContent="copied";
-}
+};
 
-window.addEventListener("load",function(){
-  if(location.hash.indexOf("#keeper")>=0){ document.getElementById("holderBadge").style.display="flex" }
-  if(sessionStorage.getItem("four.unlock")){ show(); renderStatus(); preloadVideosByNeed() }
-})
-document.getElementById("holderBadge").onclick=function(){ document.getElementById("panelHL").style.display="flex" }
-document.getElementById("closeHL").onclick=function(){ document.getElementById("panelHL").style.display="none" }
-document.getElementById("panelHL").addEventListener("click",function(e){ if(e.target.id==="panelHL") e.currentTarget.style.display="none" })
+/* --- boot --- */
+window.addEventListener("load", ()=>{
+  if (sessionStorage.getItem("four.unlock")) {
+    show();
+    renderStatus();
+    choosePreset();
+    attachVideoButtons();
+    if (localStorage.getItem("school.key.set")) document.getElementById("schoolBadge").style.display="inline-flex";
+  }
+});
 </script>
 </body>
 </html>
