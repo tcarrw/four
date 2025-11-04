@@ -1,306 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Four · Rabbit Hole</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>four.plnt.earth — Heart Key (audio blend)</title>
 <style>
-:root{--bg:#07080c;--ink:#fff;--line:rgba(255,255,255,.12);--pane:rgba(255,255,255,.08);--veil:rgba(12,12,18,.9);--accent:#7fe3ff;--mint:#86ffd6}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;background:radial-gradient(1000px 700px at 50% 20%,#0f1324,#07080c 70%);color:var(--ink);font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
-.nav{position:fixed;left:14px;top:14px;display:flex;gap:8px;z-index:60}
-.nav a{background:rgba(255,255,255,.08);border:1px solid var(--line);backdrop-filter:blur(8px);padding:8px 10px;border-radius:999px;color:#fff;text-decoration:none}
-#schoolBadge{display:none}
-.topright a{position:fixed;right:14px;background:rgba(255,255,255,.08);border:1px solid var(--line);backdrop-filter:blur(8px);padding:8px 10px;border-radius:999px;color:#fff;text-decoration:none;z-index:70}
-#xBadge{top:14px}#igBadge{top:54px}
-.tunnel{position:fixed;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:screen;background:radial-gradient(ellipse at center,rgba(127,227,255,.08),transparent 60%),repeating-radial-gradient(circle at 50% 45%,rgba(134,255,214,.06),rgba(134,255,214,.06) 6px,transparent 6px,transparent 12px);animation:descend 9s linear infinite}
-@keyframes descend{0%{transform:translateY(0)}100%{transform:translateY(40px)}}
-.lock{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.7));z-index:10}
-.card{width:min(740px,92vw);background:var(--veil);border:1px solid var(--line);border-radius:16px;padding:18px;backdrop-filter:blur(10px);text-align:center}
-.hint{opacity:.8}
-.btn{background:var(--pane);border:1px solid var(--line);border-radius:10px;padding:10px 14px;color:#fff;cursor:pointer}
-.app{min-height:100%;display:flex;align-items:flex-start;justify-content:center;padding:24px 16px 96px}
-.inner{width:min(1100px,98vw)}
-.header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin-bottom:12px}
-.pill{background:var(--pane);border:1px solid var(--line);border-radius:999px;padding:6px 10px}
-.rule{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);margin:10px 0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.panel{background:rgba(12,12,18,.6);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:left}
-.title{font-weight:600;margin-bottom:6px}
-.opts{display:grid;gap:8px}
-.opt{padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:var(--pane);cursor:pointer}
-.opt.correct{border-color:rgba(134,255,214,.65);box-shadow:inset 0 0 0 2px rgba(134,255,214,.25)}
-.opt.wrong{opacity:.6}
-.status{display:flex;gap:8px;flex-wrap:wrap}
-.badge{display:inline-flex;gap:6px;align-items:center;border:1px solid var(--line);background:var(--pane);border-radius:999px;padding:6px 10px}
-.badge.ok{border-color:rgba(134,255,214,.5)}
-.badge.need{border-color:rgba(255,204,112,.5)}
-.cta{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.note{background:rgba(12,12,18,.6);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:left}
-.videoGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.vtile{position:relative;aspect-ratio:16/9;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#000}
-.vthumb{position:absolute;inset:0;background-size:cover;background-position:center}
-.vplay{position:absolute;inset:auto 0 0 0;display:flex;justify-content:center}
-.vbtn{margin:10px auto;background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:999px;padding:8px 16px;cursor:pointer}
-.holderBadge{position:fixed;right:16px;bottom:16px;background:linear-gradient(180deg,#a6ffe6,#7fe3ff);color:#0c1a17;border:1px solid rgba(0,0,0,.25);border-radius:999px;padding:10px 14px;cursor:pointer;display:none;z-index:20}
-.panelHL{position:fixed;inset:0;display:none;align-items:flex-end;justify-content:center;background:linear-gradient(180deg,transparent,rgba(0,0,0,.45));z-index:30}
-.sheetHL{width:100%;max-width:740px;background:var(--veil);border:1px solid var(--line);border-radius:18px 18px 0 0;padding:16px 16px 22px}
-.footer{position:fixed;left:14px;bottom:14px;font-size:.85rem;opacity:.65}
+  :root{--bg:#fff6f9;--accent:#f7b6d3;--muted:#333;}
+  html,body{height:100%;margin:0;font-family:Inter,Segoe UI,system-ui,-apple-system,Arial;background:radial-gradient(circle at 30% 20%, #fff0f5 0%, var(--bg) 60%);color:var(--muted);display:flex;align-items:center;justify-content:center;}
+  .card{width:min(780px,92vw);background:rgba(255,255,255,0.7);backdrop-filter:blur(6px);border-radius:14px;padding:28px;box-shadow:0 10px 40px rgba(12,12,20,0.06);text-align:center;}
+  h1{margin:0 0 8px;font-weight:600;letter-spacing:.04em;}
+  p.lead{margin:0 0 18px;opacity:.9;}
+  .controls{display:flex;gap:12px;justify-content:center;margin-top:18px;flex-wrap:wrap;}
+  button{background:linear-gradient(180deg,var(--accent),#f08fbf);border:0;padding:10px 16px;border-radius:10px;color:white;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(240,143,191,0.25);}
+  button:disabled{opacity:.5;cursor:default;}
+  small{display:block;margin-top:12px;color:#666;}
+  .note{margin-top:14px;font-size:0.92rem;color:#444;opacity:.9}
 </style>
 </head>
 <body>
-<div class="nav">
-  <a href="https://center.plnt.earth" target="_blank">⬅️ Center</a>
-  <a href="https://school.plnt.earth" target="_blank" id="schoolBadge">🎓 School</a>
-</div>
-<div class="topright">
-  <a id="xBadge" href="https://x.com/illuminatnotes" target="_blank">✖️ @illuminatnotes</a>
-  <a id="igBadge" href="https://instagram.com/harry_spookies" target="_blank">🟣 @harry_spookies</a>
-</div>
-<div class="tunnel"></div>
+  <div class="card" role="region" aria-label="Four — Heart Key audio chamber">
+    <h1>💗 Dagny — Heart Key (subtle blend)</h1>
+    <p class="lead">Soft 432 Hz harmonic + your hosted Dagny excerpt. Gentle fade in → one minute bloom → quiet fade out.</p>
 
-<!-- LOCK: requires Marina token -->
-<div id="lock" class="lock">
-  <div class="card">
-    <h2>Rabbit Hole</h2>
-    <p class="hint">This door opens from the mirror. Ask Marina for the link.</p>
-  </div>
-</div>
-
-<!-- APP -->
-<div id="app" class="app" style="display:none">
-  <div class="inner">
-    <div class="header">
-      <div class="pill">Architect: #Alice</div>
-      <div class="pill" id="srcTag"></div>
+    <div style="display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap;">
+      <button id="startBtn">Light the Dawn</button>
+      <button id="stopBtn" disabled>Rest</button>
     </div>
 
     <div class="note">
-      <h3 style="margin:0 0 6px 0">Boundary Storyteller</h3>
-      <div class="rule"></div>
-      <p class="hint">Alice, you and Taylor write the line between wonder and order. Every key you hand out is a story about how to cross it.</p>
+      Add your audio file at <code>/audio/dagny_excerpt.mp3</code> in the site repo.  
+      If you prefer a pure tone, omit the file — the 432 Hz shimmer will still play.
     </div>
 
-    <div class="rule"></div>
-
-    <div class="grid">
-      <!-- Taylor Quiz -->
-      <div class="panel">
-        <div class="title">Taylor Quiz</div>
-        <div class="opts" id="quiz">
-          <div class="opt" data-q="1">what opens a door without breaking it? — <b>permission</b></div>
-          <div class="opt" data-q="2">what returns warmth from a mirror? — <b>set warm</b></div>
-          <div class="opt" data-q="3">how do we move through time? — <b>don’t spend what you don’t have</b></div>
-        </div>
-        <div id="quizMsg" class="hint" style="margin-top:8px">tap each line when you know it</div>
-      </div>
-
-      <!-- Videos (click-to-play) -->
-      <div class="panel">
-        <div class="title">Videos</div>
-        <div class="videoGrid">
-          <div class="vtile">
-            <div id="thumb1" class="vthumb"></div>
-            <div class="vplay"><button id="play1" class="vbtn">▶ Play</button></div>
-            <iframe id="vid1" allow="autoplay; encrypted-media" allowfullscreen style="border:0;width:100%;height:100%;display:none"></iframe>
-          </div>
-          <div class="vtile">
-            <div id="thumb2" class="vthumb"></div>
-            <div class="vplay"><button id="play2" class="vbtn">▶ Play</button></div>
-            <iframe id="vid2" allow="autoplay; encrypted-media" allowfullscreen style="border:0;width:100%;height:100%;display:none"></iframe>
-          </div>
-        </div>
-        <div class="hint" style="margin-top:8px">Videos load and start only when you press Play.</div>
-      </div>
-    </div>
-
-    <div class="rule"></div>
-
-    <!-- Keys & actions -->
-    <div class="panel">
-      <div class="title">Keys</div>
-      <div class="status" id="keyStatus"></div>
-      <div class="cta">
-        <button id="needGarlic" class="button btn">get the castle key</button>
-        <button id="needMirror" class="button btn" disabled>open the mirror (finish quiz)</button>
-        <button id="toSchool" class="button btn" style="display:none;background:linear-gradient(180deg,#a6ffe6,#7fe3ff);color:#0c1a17;border:1px solid rgba(0,0,0,.25)">proceed to school</button>
-      </div>
-      <div class="hint" style="margin-top:6px">You’ll need both keys before the door to School (Taylor) opens.</div>
-    </div>
-
-    <div class="cta" style="justify-content:center;margin-top:8px">
-      <a class="btn" href="https://garlic.plnt.earth" style="text-decoration:none;opacity:.9">← seek the field of clarity</a>
-    </div>
+    <small>Playback only starts after you press “Light the Dawn” (browser gesture required).</small>
   </div>
-</div>
-
-<!-- HOLDER TOOLS (hidden unless #keeper) -->
-<div class="holderBadge" id="holderBadge">🗝️ holder</div>
-<div class="panelHL" id="panelHL">
-  <div class="sheetHL">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <div style="font-weight:600">Holder tools</div>
-      <button id="closeHL" class="btn">close</button>
-    </div>
-    <div class="hint" style="margin-top:10px">Save a custom preset (id + two YouTube IDs). Built-ins: <b>needG</b>, <b>needM</b>, <b>default</b>.</div>
-    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px">
-      <input id="pId" class="btn" placeholder="preset id (e.g., aliceDrop)">
-      <input id="pV1" class="btn" placeholder="youtube id 1">
-      <input id="pV2" class="btn" placeholder="youtube id 2">
-      <button id="savePreset" class="btn">save preset</button>
-    </div>
-    <div style="display:flex;gap:8px;align-items:center;margin-top:12px">
-      <button id="giftMH" class="btn">copy “gift a mirror” link</button>
-      <span id="giftMsg" class="hint"></span>
-    </div>
-    <div class="hint" style="margin-top:6px">Share this link with the curious; it opens MirrorHoney (token). Next key is learned inside.</div>
-  </div>
-</div>
-
-<div class="footer">“If you knew Time as well as I do, you wouldn’t talk about wasting it.”</div>
 
 <script>
-/* --- tiny utils --- */
-function norm(s){return String(s||"").toLowerCase().trim()}
-function fnv1a(t){var h=0x811c9dc5;for(let i=0;i<t.length;i++){h^=t.charCodeAt(i);h=(h*0x01000193)>>>0}return h>>>0}
-function genCode(){return Math.random().toString(36).slice(2,6)+"-"+Math.random().toString(36).slice(2,6)+"-"+Math.random().toString(36).slice(2,6)}
-function pick(name){const m=String(location.search).match(new RegExp("[?&]"+name+"=([^&]+)"));return m?decodeURIComponent(m[1]):""}
-function ytEmbed(id,auto){return "https://www.youtube.com/embed/"+id+"?rel=0&modestbranding=1&playsinline=1"+(auto?"&autoplay=1":"")}
-function ytThumb(id){return "https://img.youtube.com/vi/"+id+"/hqdefault.jpg"}
+/*
+  Blend design:
+  - Web Audio API AudioContext created on user gesture.
+  - Two sine oscillators (432 Hz and 432.6 Hz) create a slow, pleasant beat.
+  - Those go through a toneGain node (master tone level).
+  - User audio (audio/dagny_excerpt.mp3) loaded as AudioBufferSourceNode, through a musicGain node.
+  - Fade in: tone ramps to ~0.18 volume in ~8s; music fades to ~0.28 over 6s (starts after 3s).
+  - After 60s the music fades out gently; tone may continue or fade based on code below.
+  - All nodes disconnected and context closed on Stop.
+*/
 
-/* --- built-in presets (Kendyl kit) --- */
-const BUILTIN = {
-  needG : {v1:"eTIzlTeIIac", v2:"HpxX4ZE4KWE"},     // Sigrid - Home to You / Taylor - peace
-  needM : {v1:"s6AHxF0s764", v2:"bnQBqinwlwQ"},     // MARINA - Happy / Dagny - Love You Like That
-  default:{v1:"KaM1bCuG4xo", v2:"f5B2mfHS-Ao"}      // Taylor - mirrorball / Sigrid - It Gets Dark (Stripped)
-};
-function getVsets(){ return JSON.parse(localStorage.getItem("four.vsets")||"{}"); }
-function saveVset(id,v1,v2){ const all=getVsets(); all[id]={v1:id&&v1?v1:"", v2:id&&v2?v2:""}; localStorage.setItem("four.vsets", JSON.stringify(all)); }
-function getPreset(id){ const all=getVsets(); return all[id] || BUILTIN[id] || null; }
+const startBtn = document.getElementById('startBtn');
+const stopBtn  = document.getElementById('stopBtn');
 
-/* --- token arrival, gate is session-scoped --- */
-(function(){
-  const src = pick("s"), g = pick("g"), m = pick("m");
-  const k   = (String(location.hash).match(/[#?&]k=([^&]+)/)||[])[1];
-  if (src) sessionStorage.setItem("four.src", src);
-  if (g)   localStorage.setItem("four.token.g", JSON.stringify(g));
-  if (m)   localStorage.setItem("four.token.m", JSON.stringify(m));
-  if (k)   sessionStorage.setItem("four.unlock","true");
-  history.replaceState({}, document.title, location.pathname);
-})();
+let ctx=null, toneGain=null, musicGain=null, oscA=null, oscB=null, musicSource=null;
+let masterGain=null;
+let musicBuffer=null;
+let running=false;
 
-/* --- DOM refs --- */
-const lock=document.getElementById("lock"), app=document.getElementById("app"), srcTag=document.getElementById("srcTag");
-const quiz=document.getElementById("quiz"), quizMsg=document.getElementById("quizMsg");
-const keyStatus=document.getElementById("keyStatus"), needGarlic=document.getElementById("needGarlic"), needMirror=document.getElementById("needMirror"), toSchool=document.getElementById("toSchool");
-const thumb1=document.getElementById("thumb1"), thumb2=document.getElementById("thumb2"), v1=document.getElementById("vid1"), v2=document.getElementById("vid2");
-const play1=document.getElementById("play1"), play2=document.getElementById("play2");
-const holderBadge=document.getElementById("holderBadge"), panelHL=document.getElementById("panelHL"), closeHL=document.getElementById("closeHL");
-const pId=document.getElementById("pId"), pV1=document.getElementById("pV1"), pV2=document.getElementById("pV2"), savePresetBtn=document.getElementById("savePreset");
-const giftMH=document.getElementById("giftMH"), giftMsg=document.getElementById("giftMsg");
+async function createAudio() {
+  if (ctx) return; // already created
+  ctx = new (window.AudioContext || window.webkitAudioContext)();
 
-/* --- state --- */
-let done={1:false,2:false,3:false};
-function haveG(){ return !!JSON.parse(localStorage.getItem("four.token.g")||"false"); }
-function haveM(){ return !!JSON.parse(localStorage.getItem("four.token.m")||"false"); }
-function quizComplete(){ return done[1] && done[2] && done[3]; }
+  masterGain = ctx.createGain(); masterGain.gain.value = 0.9;
+  masterGain.connect(ctx.destination);
 
-/* --- UI helpers --- */
-function show(){ lock.style.display="none"; app.style.display="block"; srcTag.textContent = sessionStorage.getItem("four.src")||"mh.four"; }
-function badge(label,ok){ const d=document.createElement("div"); d.className="badge "+(ok?"OK ok":"need"); d.textContent=label+(ok?" ✔":" •"); return d; }
-function renderStatus(){
-  keyStatus.innerHTML="";
-  keyStatus.appendChild(badge("garlic · castle key", haveG()));
-  keyStatus.appendChild(badge("mirror · door key",  haveM()));
-  needGarlic.style.display = haveG()? "none":"inline-flex";
-  needMirror.disabled = !( !haveM() && quizComplete() );
-  needMirror.textContent = (!haveM() && quizComplete()) ? "open the mirror" : "open the mirror (finish quiz)";
-  toSchool.style.display = (haveG() && haveM() && quizComplete()) ? "inline-flex" : "none";
-}
+  // tone (two oscillators for gentle beating)
+  toneGain = ctx.createGain(); toneGain.gain.value = 0;
+  toneGain.connect(masterGain);
 
-/* --- choose and stage videos (click-to-play) --- */
-let currentSet={v1:null,v2:null};
-function choosePreset(){
-  const forced = pick("vset");
-  let p = forced ? getPreset(forced) : null;
-  if(!p){
-    if(!haveG()) p = getPreset("needG");
-    else if(!haveM()) p = getPreset("needM");
-    else p = getPreset("default");
+  oscA = ctx.createOscillator(); oscA.type='sine'; oscA.frequency.value = 432.0;
+  oscB = ctx.createOscillator(); oscB.type='sine'; oscB.frequency.value = 432.6; // slight detune for shimmer
+  oscA.connect(toneGain); oscB.connect(toneGain);
+
+  // subtle stereo spread using slight phase via Delay (very short)
+  const delay = ctx.createDelay(); delay.delayTime.value = 0.003;
+  toneGain.connect(delay);
+  delay.connect(masterGain); // adds a soft stereo-ish impression (mono fallback ok)
+
+  // music (user-provided)
+  musicGain = ctx.createGain(); musicGain.gain.value = 0;
+  musicGain.connect(masterGain);
+
+  // load audio file if available
+  try {
+    const r = await fetch('audio/dagny_excerpt.mp3', {cache:'no-store'});
+    if (!r.ok) throw new Error('no file');
+    const ab = await r.arrayBuffer();
+    musicBuffer = await ctx.decodeAudioData(ab);
+  } catch(e){
+    // no file found — we will play tone only
+    console.info('No user audio found at /audio/dagny_excerpt.mp3 — playing tone only.');
+    musicBuffer = null;
   }
-  currentSet = p || {v1:null,v2:null};
-  if (currentSet && currentSet.v1) { thumb1.style.backgroundImage = "url('"+ytThumb(currentSet.v1)+"')"; }
-  if (currentSet && currentSet.v2) { thumb2.style.backgroundImage = "url('"+ytThumb(currentSet.v2)+"')"; }
-}
-function attachVideoButtons(){
-  play1.onclick = function(){
-    if(!currentSet.v1) return;
-    v1.src = ytEmbed(currentSet.v1, true);
-    v1.style.display="block";  // leave v2 paused until clicked
-    this.parentNode.style.display="none";
-    thumb1.style.display="none";
-  };
-  play2.onclick = function(){
-    if(!currentSet.v2) return;
-    v2.src = ytEmbed(currentSet.v2, true);
-    v2.style.display="block";
-    this.parentNode.style.display="none";
-    thumb2.style.display="none";
-  };
 }
 
-/* --- quiz interactions --- */
-quiz.addEventListener("click", e=>{
-  const t=e.target; if(!t.classList.contains("opt")) return;
-  const q=t.getAttribute("data-q");
-  const txt=norm(t.textContent);
-  if (q==="1" && txt.includes("permission")) { t.classList.add("correct"); done[1]=true; }
-  else if (q==="2" && txt.includes("set warm")) { t.classList.add("correct"); done[2]=true; }
-  else if (q==="3" && txt.includes("don’t spend")) { t.classList.add("correct"); done[3]=true; }
-  else { t.diabled=true; t.classList.add("wrong"); }
-  quizMsg.textContent = quizComplete() ? "quiz complete" : "keep going";
-  renderStatus();
-});
+function fadeGain(gainNode, fromValue, toValue, durationSec){
+  const now = ctx.currentTime;
+  gainNode.gain.cancelScheduledValues(now);
+  gainNode.gain.setValueAtTime(fromValue, now);
+  gainNode.gain.linearRampToValueAtTime(toValue, now + durationSec);
+}
 
-/* --- actions --- */
-needGarlic.onclick = ()=> location.href="https://garlic.plnt.earth/?s=four.need.g";
-needMirror.onclick = ()=>{
-  if (needMirror.disabled) return;
-  const u="https://mirrorhoney.plnt.earth/", q="?s="+encodeURIComponent("four.gift"), h="#k="+encodeURIComponent(genCode());
-  location.href = u+q+h;
-};
-toSchool.onclick = ()=>{
-  const g=JSON.parse(localStorage.getItem("four.token.g")||'"g"');
-  const m=JSON.parse(localStorage.getItem("four.token.m")||'"m"');
-  const f=genCode();
-  location.href="https://school.plnt.earth/?s=four.rabbit&g="+encodeURIComponent(g)+"&m="+encodeURIComponent(m)+"&f="+encodeURIComponent(f)+"#k="+encodeURIComponent(genCode());
-};
+async function startPlayback(){
+  if (running) return;
+  await createAudio();
+  // resume context if suspended (some browsers)
+  if (ctx.state === 'suspended') await ctx.resume();
 
-/* --- holder tools --- */
-if (location.hash.indexOf("#keeper")>=0) document.getElementById("holderBadge").style.display="flex";
-document.getElementById("holderBadge").onclick = ()=> panelHL.style.display="flex";
-closeHL.onclick = ()=> panelHL.style.display="none";
-panelHL.addEventListener("click",e=>{ if(e.target.id==="panelHL") panelHL.style.display="none"; });
-savePresetBtn.onclick = ()=>{
-  const id=norm(pId.value); if(!id) return;
-  saveVset(id, norm(pV1.value), norm(pV2.value));
-  pId.value=pV1.value=pV2.value="";
-};
-giftMH.onclick = ()=>{
-  const u="https://mirrorhoney.plnt.earth/", q="?s="+encodeURIComponent("four.gift"), h="#k="+encodeURIComponent(genCode());
-  navigator.clipboard.writeText(u+q+h); giftMsg.textContent="copied";
-};
+  // start oscillators
+  const now = ctx.currentTime;
+  oscA.start(now); oscB.start(now);
 
-/* --- boot --- */
-window.addEventListener("load", ()=>{
-  if (sessionStorage.getItem("four.unlock")) {
-    show();
-    renderStatus();
-    choosePreset();
-    attachVideoButtons();
-    if (localStorage.getItem("school.key.set")) document.getElementById("schoolBadge").style.display="inline-flex";
+  // fade in tone to a subtle level over ~8s
+  fadeGain(toneGain, 0, 0.18, 8.0);
+
+  // if we have music, create buffer source and fade it in slightly after tone
+  if (musicBuffer){
+    musicSource = ctx.createBufferSource();
+    musicSource.buffer = musicBuffer;
+    musicSource.loop = true;
+    musicSource.connect(musicGain);
+    musicSource.start(now + 0.2); // slight delay
+    // musical fade: reach ~0.28 in 6s starting at t+3s
+    fadeGain(musicGain, 0, 0.28, 6.0);
+    // schedule fade out after 60s from now
+    setTimeout(()=>{ fadeGain(musicGain, musicGain.gain.value, 0.0, 6.0); }, 60000);
+    // stop music source after 70s to free resources
+    setTimeout(()=>{
+      try{ musicSource.stop(); }catch(e){}
+      musicSource.disconnect();
+      musicSource = null;
+    }, 70000);
+  } else {
+    // if no music, keep tone for about 70s then fade out gently
+    setTimeout(()=>{ fadeGain(toneGain, 0.18, 0, 8.0); }, 70000);
+    setTimeout(()=>{ stopPlayback(); }, 80000);
   }
-});
+
+  // after music fade finishes, fade down tone slowly
+  setTimeout(()=>{ fadeGain(toneGain, toneGain.gain.value, 0.0, 10.0); }, 68000);
+  // final cleanup after 80s
+  setTimeout(()=>{ stopPlayback(); }, 82000);
+
+  running = true;
+  startBtn.disabled = true; stopBtn.disabled = false;
+}
+
+function stopPlayback(){
+  if (!ctx) return;
+  try{
+    if (musicSource){ musicSource.stop(); musicSource.disconnect(); musicSource=null; }
+    if (oscA){ try{ oscA.stop(); }catch(e){} oscA.disconnect(); oscA=null; }
+    if (oscB){ try{ oscB.stop(); }catch(e){} oscB.disconnect(); oscB=null; }
+    if (toneGain){ toneGain.disconnect(); toneGain=null; }
+    if (musicGain){ musicGain.disconnect(); musicGain=null; }
+    if (masterGain){ masterGain.disconnect(); masterGain=null; }
+    // close context
+    ctx.close(); ctx = null;
+  }catch(err){ console.warn(err); }
+  running = false;
+  startBtn.disabled = false; stopBtn.disabled = true;
+}
+
+startBtn.addEventListener('click', startPlayback);
+stopBtn.addEventListener('click', stopPlayback);
 </script>
 </body>
 </html>
