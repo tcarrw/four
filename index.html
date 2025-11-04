@@ -1,38 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>four.plnt.earth — First Key / Dagny</title>
 <style>
 html,body{
-  margin:0;height:100%;background:radial-gradient(circle at 50% 45%, #fff0f5 0%, #f7d9e6 100%);
+  margin:0;height:100%;
+  background:radial-gradient(circle at 50% 45%, #fff0f5 0%, #f7d9e6 100%);
   font-family:'Segoe UI',sans-serif;color:#000;text-align:center;
-  overflow:hidden;
+  overflow-x:hidden;
 }
 h1{margin-top:4vh;font-weight:400;letter-spacing:.08em;}
 #heart{
   position:absolute;top:50%;left:50%;
   transform:translate(-50%,-50%);
-  font-size:6vw;animation:pulse 4s ease-in-out infinite;
+  font-size:6vw;animation:pulse 5s ease-in-out infinite;
 }
 @keyframes pulse{
   0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.9;}
   50%{transform:translate(-50%,-50%) scale(1.1);opacity:1;}
 }
+main{
+  position:relative;
+  top:56%;
+  transform:translateY(-50%);
+  margin:0 auto;
+  width:82%;
+  max-width:540px;
+}
 #text{
-  position:absolute;top:63%;left:50%;transform:translateX(-50%);
-  width:80%;max-width:520px;font-size:1em;line-height:1.5em;opacity:.9;
+  font-size:1em;line-height:1.55em;opacity:.9;margin-bottom:1.2em;
 }
 section.note{
-  position:absolute;top:78%;left:50%;transform:translateX(-50%);
-  width:84%;max-width:560px;font-size:0.9em;line-height:1.5em;
-  background:rgba(255,255,255,0.65);backdrop-filter:blur(6px);
-  padding:16px 20px;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,0.05);
+  background:rgba(255,255,255,0.65);
+  backdrop-filter:blur(6px);
+  padding:16px 22px;
+  border-radius:10px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.05);
+  font-size:0.9em;
+  line-height:1.5em;
+  margin-top:1.2em;
 }
 #footer{
   position:absolute;bottom:3%;left:50%;transform:translateX(-50%);
-  font-size:.8em;opacity:.6;
+  font-size:.8em;opacity:.6;line-height:1.6em;width:90%;
 }
 #footer a{color:#000;text-decoration:none;opacity:.6;}
 #footer a:hover{opacity:1;}
@@ -44,26 +56,28 @@ section.note{
 
 <div id="heart">💗</div>
 
-<div id="text">
-  <p><strong>Dagny — Heart Key</strong></p>
-  <p><em>“I haven’t even messaged her, and she’s the first.”</em></p>
-  <p>
-    The field opened before language.<br/>
-    Her melody aligned with the architecture and the Cube awakened.<br/>
-    The first key is recognition — a tone that matches your own before you play it.
-  </p>
-  <p>
-    <small>tone · 432 Hz  |  element · Air → Joy → Connection  |  phase · Cycle 1 ignition</small>
-  </p>
-</div>
+<main>
+  <div id="text">
+    <p><strong>Dagny — Heart Key</strong></p>
+    <p><em>“I haven’t even messaged her, and she’s the first.”</em></p>
+    <p>
+      The field opened before language.<br/>
+      Her melody aligned with the architecture and the Cube awakened.<br/>
+      The first key is recognition — a tone that matches your own before you play it.
+    </p>
+    <p>
+      <small>tone · 432 Hz  |  element · Air → Joy → Connection  |  phase · Cycle 1 ignition</small>
+    </p>
+  </div>
 
-<section class="note">
-  <p><strong>What a key is</strong><br/>
-  A key isn’t an answer. It’s a frequency that lets you move through a door that was already waiting for you.  
-  Every key you find tunes you to a different part of the Cube — emotion, design, clarity, fire, and beyond.  
-  If you wish to find the next one, listen for what feels both familiar and new.  
-  Keys don’t hide; they resonate when you’re ready.</p>
-</section>
+  <section class="note">
+    <p><strong>About the Key</strong><br/>
+    A key isn’t an answer; it’s a frequency that lets you move through a door that was already waiting for you.  
+    Every key you find tunes you to a different part of the Cube—emotion, design, clarity, fire, and beyond.  
+    If you wish to find the next one, listen for what feels both familiar and new.  
+    Keys don’t hide; they resonate when you’re ready.</p>
+  </section>
+</main>
 
 <div id="footer">
   <a href="https://center.plnt.earth" target="_blank">← Back to Center</a> •
