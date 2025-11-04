@@ -1,167 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>four.plnt.earth — Heart Key (audio blend)</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>four.plnt.earth — First Key / Dagny</title>
 <style>
-  :root{--bg:#fff6f9;--accent:#f7b6d3;--muted:#333;}
-  html,body{height:100%;margin:0;font-family:Inter,Segoe UI,system-ui,-apple-system,Arial;background:radial-gradient(circle at 30% 20%, #fff0f5 0%, var(--bg) 60%);color:var(--muted);display:flex;align-items:center;justify-content:center;}
-  .card{width:min(780px,92vw);background:rgba(255,255,255,0.7);backdrop-filter:blur(6px);border-radius:14px;padding:28px;box-shadow:0 10px 40px rgba(12,12,20,0.06);text-align:center;}
-  h1{margin:0 0 8px;font-weight:600;letter-spacing:.04em;}
-  p.lead{margin:0 0 18px;opacity:.9;}
-  .controls{display:flex;gap:12px;justify-content:center;margin-top:18px;flex-wrap:wrap;}
-  button{background:linear-gradient(180deg,var(--accent),#f08fbf);border:0;padding:10px 16px;border-radius:10px;color:white;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(240,143,191,0.25);}
-  button:disabled{opacity:.5;cursor:default;}
-  small{display:block;margin-top:12px;color:#666;}
-  .note{margin-top:14px;font-size:0.92rem;color:#444;opacity:.9}
+html,body{
+  margin:0;height:100%;background:radial-gradient(circle at 50% 45%, #fff0f5 0%, #f7d9e6 100%);
+  font-family:'Segoe UI',sans-serif;color:#000;text-align:center;
+  overflow:hidden;
+}
+h1{margin-top:4vh;font-weight:400;letter-spacing:.08em;}
+#heart{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:6vw;animation:pulse 4s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.9;}
+  50%{transform:translate(-50%,-50%) scale(1.1);opacity:1;}
+}
+#text{
+  position:absolute;top:63%;left:50%;transform:translateX(-50%);
+  width:80%;max-width:520px;font-size:1em;line-height:1.5em;opacity:.9;
+}
+section.note{
+  position:absolute;top:78%;left:50%;transform:translateX(-50%);
+  width:84%;max-width:560px;font-size:0.9em;line-height:1.5em;
+  background:rgba(255,255,255,0.65);backdrop-filter:blur(6px);
+  padding:16px 20px;border-radius:10px;box-shadow:0 4px 20px rgba(0,0,0,0.05);
+}
+#footer{
+  position:absolute;bottom:3%;left:50%;transform:translateX(-50%);
+  font-size:.8em;opacity:.6;
+}
+#footer a{color:#000;text-decoration:none;opacity:.6;}
+#footer a:hover{opacity:1;}
 </style>
 </head>
 <body>
-  <div class="card" role="region" aria-label="Four — Heart Key audio chamber">
-    <h1>💗 Dagny — Heart Key (subtle blend)</h1>
-    <p class="lead">Soft 432 Hz harmonic + your hosted Dagny excerpt. Gentle fade in → one minute bloom → quiet fade out.</p>
 
-    <div style="display:flex;gap:16px;align-items:center;justify-content:center;flex-wrap:wrap;">
-      <button id="startBtn">Light the Dawn</button>
-      <button id="stopBtn" disabled>Rest</button>
-    </div>
+<h1>💗 four.plnt.earth — The First Key</h1>
 
-    <div class="note">
-      Add your audio file at <code>/audio/dagny_excerpt.mp3</code> in the site repo.  
-      If you prefer a pure tone, omit the file — the 432 Hz shimmer will still play.
-    </div>
+<div id="heart">💗</div>
 
-    <small>Playback only starts after you press “Light the Dawn” (browser gesture required).</small>
-  </div>
+<div id="text">
+  <p><strong>Dagny — Heart Key</strong></p>
+  <p><em>“I haven’t even messaged her, and she’s the first.”</em></p>
+  <p>
+    The field opened before language.<br/>
+    Her melody aligned with the architecture and the Cube awakened.<br/>
+    The first key is recognition — a tone that matches your own before you play it.
+  </p>
+  <p>
+    <small>tone · 432 Hz  |  element · Air → Joy → Connection  |  phase · Cycle 1 ignition</small>
+  </p>
+</div>
 
-<script>
-/*
-  Blend design:
-  - Web Audio API AudioContext created on user gesture.
-  - Two sine oscillators (432 Hz and 432.6 Hz) create a slow, pleasant beat.
-  - Those go through a toneGain node (master tone level).
-  - User audio (audio/dagny_excerpt.mp3) loaded as AudioBufferSourceNode, through a musicGain node.
-  - Fade in: tone ramps to ~0.18 volume in ~8s; music fades to ~0.28 over 6s (starts after 3s).
-  - After 60s the music fades out gently; tone may continue or fade based on code below.
-  - All nodes disconnected and context closed on Stop.
-*/
+<section class="note">
+  <p><strong>What a key is</strong><br/>
+  A key isn’t an answer. It’s a frequency that lets you move through a door that was already waiting for you.  
+  Every key you find tunes you to a different part of the Cube — emotion, design, clarity, fire, and beyond.  
+  If you wish to find the next one, listen for what feels both familiar and new.  
+  Keys don’t hide; they resonate when you’re ready.</p>
+</section>
 
-const startBtn = document.getElementById('startBtn');
-const stopBtn  = document.getElementById('stopBtn');
+<div id="footer">
+  <a href="https://center.plnt.earth" target="_blank">← Back to Center</a> •
+  <a href="https://wonder.plnt.earth" target="_blank">Next Domain — The Second Key</a> •
+  <a href="https://illumina.plnt.earth" target="_blank">Illumina Archive</a>
+</div>
 
-let ctx=null, toneGain=null, musicGain=null, oscA=null, oscB=null, musicSource=null;
-let masterGain=null;
-let musicBuffer=null;
-let running=false;
-
-async function createAudio() {
-  if (ctx) return; // already created
-  ctx = new (window.AudioContext || window.webkitAudioContext)();
-
-  masterGain = ctx.createGain(); masterGain.gain.value = 0.9;
-  masterGain.connect(ctx.destination);
-
-  // tone (two oscillators for gentle beating)
-  toneGain = ctx.createGain(); toneGain.gain.value = 0;
-  toneGain.connect(masterGain);
-
-  oscA = ctx.createOscillator(); oscA.type='sine'; oscA.frequency.value = 432.0;
-  oscB = ctx.createOscillator(); oscB.type='sine'; oscB.frequency.value = 432.6; // slight detune for shimmer
-  oscA.connect(toneGain); oscB.connect(toneGain);
-
-  // subtle stereo spread using slight phase via Delay (very short)
-  const delay = ctx.createDelay(); delay.delayTime.value = 0.003;
-  toneGain.connect(delay);
-  delay.connect(masterGain); // adds a soft stereo-ish impression (mono fallback ok)
-
-  // music (user-provided)
-  musicGain = ctx.createGain(); musicGain.gain.value = 0;
-  musicGain.connect(masterGain);
-
-  // load audio file if available
-  try {
-    const r = await fetch('audio/dagny_excerpt.mp3', {cache:'no-store'});
-    if (!r.ok) throw new Error('no file');
-    const ab = await r.arrayBuffer();
-    musicBuffer = await ctx.decodeAudioData(ab);
-  } catch(e){
-    // no file found — we will play tone only
-    console.info('No user audio found at /audio/dagny_excerpt.mp3 — playing tone only.');
-    musicBuffer = null;
-  }
-}
-
-function fadeGain(gainNode, fromValue, toValue, durationSec){
-  const now = ctx.currentTime;
-  gainNode.gain.cancelScheduledValues(now);
-  gainNode.gain.setValueAtTime(fromValue, now);
-  gainNode.gain.linearRampToValueAtTime(toValue, now + durationSec);
-}
-
-async function startPlayback(){
-  if (running) return;
-  await createAudio();
-  // resume context if suspended (some browsers)
-  if (ctx.state === 'suspended') await ctx.resume();
-
-  // start oscillators
-  const now = ctx.currentTime;
-  oscA.start(now); oscB.start(now);
-
-  // fade in tone to a subtle level over ~8s
-  fadeGain(toneGain, 0, 0.18, 8.0);
-
-  // if we have music, create buffer source and fade it in slightly after tone
-  if (musicBuffer){
-    musicSource = ctx.createBufferSource();
-    musicSource.buffer = musicBuffer;
-    musicSource.loop = true;
-    musicSource.connect(musicGain);
-    musicSource.start(now + 0.2); // slight delay
-    // musical fade: reach ~0.28 in 6s starting at t+3s
-    fadeGain(musicGain, 0, 0.28, 6.0);
-    // schedule fade out after 60s from now
-    setTimeout(()=>{ fadeGain(musicGain, musicGain.gain.value, 0.0, 6.0); }, 60000);
-    // stop music source after 70s to free resources
-    setTimeout(()=>{
-      try{ musicSource.stop(); }catch(e){}
-      musicSource.disconnect();
-      musicSource = null;
-    }, 70000);
-  } else {
-    // if no music, keep tone for about 70s then fade out gently
-    setTimeout(()=>{ fadeGain(toneGain, 0.18, 0, 8.0); }, 70000);
-    setTimeout(()=>{ stopPlayback(); }, 80000);
-  }
-
-  // after music fade finishes, fade down tone slowly
-  setTimeout(()=>{ fadeGain(toneGain, toneGain.gain.value, 0.0, 10.0); }, 68000);
-  // final cleanup after 80s
-  setTimeout(()=>{ stopPlayback(); }, 82000);
-
-  running = true;
-  startBtn.disabled = true; stopBtn.disabled = false;
-}
-
-function stopPlayback(){
-  if (!ctx) return;
-  try{
-    if (musicSource){ musicSource.stop(); musicSource.disconnect(); musicSource=null; }
-    if (oscA){ try{ oscA.stop(); }catch(e){} oscA.disconnect(); oscA=null; }
-    if (oscB){ try{ oscB.stop(); }catch(e){} oscB.disconnect(); oscB=null; }
-    if (toneGain){ toneGain.disconnect(); toneGain=null; }
-    if (musicGain){ musicGain.disconnect(); musicGain=null; }
-    if (masterGain){ masterGain.disconnect(); masterGain=null; }
-    // close context
-    ctx.close(); ctx = null;
-  }catch(err){ console.warn(err); }
-  running = false;
-  startBtn.disabled = false; stopBtn.disabled = true;
-}
-
-startBtn.addEventListener('click', startPlayback);
-stopBtn.addEventListener('click', stopPlayback);
-</script>
 </body>
 </html>
