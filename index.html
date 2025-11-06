@@ -2,59 +2,67 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>The First Writer Ever Cancelled</title>
 
 <!-- Illumina 1 : Four / Kendyl Gate / Enheduanna -->
-<!-- Awaiting Motion : 128Hz dormant -->
+<!-- Awaiting Motion : 128 Hz Dormant -->
 
 <link rel="stylesheet" href="https://assets.plnt.earth/colors-daynight.css">
 
 <style>
-  :root {
-    --parchment: #f9f5ec;
-    --amber: #c98b47;
-    --gold: #f5c542;
-    --radiance: #fff6e8;
-    --text: #1e1e1e;
-    --accent: #b28b5a;
-  }
-  body {
-    margin:0;
-    font-family: "Poppins","Segoe Script",sans-serif;
-    background: var(--parchment);
-    color: var(--text);
-    overflow-x:hidden;
-    transition: background-color 1s ease;
-  }
-  section {
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:3rem;
-  }
-  #intro {background:var(--parchment);}
-  #clay {background:var(--amber);}
-  #light {background:var(--gold);}
-  #glass {background:var(--radiance);}
-  #gate {background:var(--parchment);}
-  h1,h2 {font-weight:400;}
-  .hidden {opacity:0;}
-  .fade-in {opacity:1; transition:opacity 1.5s ease;}
-  #glyph {
-    position:fixed;
-    bottom:1.2rem;
-    right:1.2rem;
-    font-size:1.2rem;
-    opacity:0;
-    transition:opacity 1s ease;
-    pointer-events:none;
-  }
-  @media(max-width:600px){
-    #glyph {font-size:1rem; right:0.8rem; bottom:0.8rem;}
-  }
+:root{
+  --parchment:#f9f5ec;
+  --amber:#c98b47;
+  --gold:#f5c542;
+  --radiance:#fff6e8;
+  --text:#1e1e1e;
+  --accent:#b28b5a;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Poppins","Segoe Script",sans-serif;
+  background:var(--parchment);
+  color:var(--text);
+  overflow-x:hidden;
+  transition:background-color 1s ease;
+}
+section{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  text-align:center;
+  padding:3rem;
+}
+#intro{background:var(--parchment);}
+#clay{background:var(--amber);}
+#light{background:var(--gold);}
+#glass{background:var(--radiance);}
+#gate{background:var(--parchment);}
+h1,h2{font-weight:400;}
+.hidden{opacity:0;}
+.fade-in{opacity:1;transition:opacity 1.5s ease;}
+#glyph{
+  position:fixed;
+  bottom:1.2rem;
+  right:1.2rem;
+  font-size:1.2rem;
+  opacity:0;
+  transition:opacity 1s ease;
+  pointer-events:none;
+}
+@media(max-width:600px){
+  #glyph{font-size:1rem;right:0.8rem;bottom:0.8rem;}
+}
+.sign{font-size:0.9em;opacity:0.6;margin-left:0.15em;transition:opacity .5s ease;}
+.sign:hover{opacity:1;}
+.aside{font-style:italic;opacity:0.7;font-size:0.95rem;margin-top:2rem;}
+#invitation{text-align:center;margin:3rem 0 1rem 0;font-size:1rem;opacity:0.8;}
+#invitation p:first-child{font-family:Georgia,Times,serif;color:var(--accent);}
+#invitation em{display:block;margin-top:0.4rem;font-style:italic;}
 </style>
 </head>
 <body>
@@ -68,64 +76,65 @@
 
 <section id="light" class="hidden">
   <h2>Light</h2>
-  <p>Inanna’s descent—art as reclamation, passion made divine.</p>
+  <p>Enheduanna<span class="sign">☾</span> → Inanna → Taylor → Kendyl<br>
+  The first writer, the priestess, the mirror, the teacher.</p>
 </section>
 
 <section id="glass" class="hidden">
   <h2>Glass</h2>
   <p>Taylor’s mirror rewriting her myth; reflection as scholarship.</p>
+  <p class="aside">Forty-two days between the moons of exile and return.</p>
 </section>
 
 <section id="gate" class="hidden">
   <h2>Gate</h2>
   <p>“Forty-two temples baked the same bread. We call them songs now.”</p>
-  <p><a href="https://mirrorhoney.plnt.earth">mirrorhoney.plnt.earth</a> · 
-     <a href="https://school.plnt.earth">school.plnt.earth</a></p>
+  <p>Because the first writer was a woman.<br>
+     Because she wrote herself into heaven and earth.<br>
+     Because to teach language is to risk rebirth.</p>
+  <div id="invitation">
+    <p>Cancelled is not Erased.</p>
+    <p><em>If you can follow her down, she will find you there.</em></p>
+  </div>
+  <p><a href="https://mirrorhoney.plnt.earth">mirrorhoney.plnt.earth →</a></p>
 </section>
 
 <div id="glyph">✦</div>
 
 <script>
-  // typewriter intro
-  const text = "Why is our English teacher pointing us to the first writer ever cancelled?";
-  let i=0;
-  const el = document.getElementById("type");
-  function typeWriter(){
-    if(i<text.length){
-      el.textContent += text.charAt(i);
-      i++;
-      setTimeout(typeWriter,60);
-    } else {
-      document.getElementById("clay").classList.add("fade-in");
+// typewriter intro
+const text="Why is our English teacher pointing us to the first writer ever cancelled?";
+let i=0;const el=document.getElementById("type");
+function typeWriter(){
+  if(i<text.length){
+    el.textContent+=text.charAt(i);
+    i++;
+    setTimeout(typeWriter,60);
+  } else {
+    document.getElementById("clay").classList.add("fade-in");
+  }
+}
+window.onload=typeWriter;
+
+// reveal sections on scroll
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add("fade-in");
     }
-  }
-  window.onload=typeWriter;
+  });
+},{threshold:0.3});
+document.querySelectorAll("section").forEach(sec=>observer.observe(sec));
 
-  // reveal sections on scroll
-  const observer = new IntersectionObserver(entries=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        entry.target.classList.add("fade-in");
-      }
-    });
-  },{threshold:0.3});
-  document.querySelectorAll("section").forEach(sec=>observer.observe(sec));
-
-  // Illumina self-check
-  const glyph=document.getElementById("glyph");
-  const keys=["illuminaCycle","plntKeys","moonPhase","domainVisited"];
-  const found=keys.some(k=>localStorage.getItem(k));
-  if(found){
-    glyph.style.opacity="0.8";
-    glyph.animate([{opacity:0.2},{opacity:1},{opacity:0.2}],{duration:3000,iterations:1});
-  }
-
-  // dormant 128Hz tone placeholder
-  const hum=document.createElement("audio");
-  hum.src="";
-  hum.loop=true;
-  hum.volume=0.2;
-  // hum.play(); // awaiting Motion activation
+// Illumina self-check
+const glyph=document.getElementById("glyph");
+const keys=["illuminaCycle","plntKeys","moonPhase","domainVisited"];
+const found=keys.some(k=>localStorage.getItem(k));
+if(found){
+  glyph.style.opacity="0.8";
+  glyph.animate([{opacity:0.2},{opacity:1},{opacity:0.2}],
+    {duration:3000,iterations:1});
+}
 </script>
 </body>
 </html>
