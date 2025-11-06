@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>The First Writer Ever Cancelled</title>
+<title>The First Writer Ever Canceled</title>
 
 <!-- Illumina 1 : Four / Kendyl Gate / Enheduanna -->
 <!-- Awaiting Motion : 128 Hz Dormant -->
@@ -63,6 +63,8 @@ h1,h2{font-weight:400;}
 #invitation{text-align:center;margin:3rem 0 1rem 0;font-size:1rem;opacity:0.8;}
 #invitation p:first-child{font-family:Georgia,Times,serif;color:var(--accent);}
 #invitation em{display:block;margin-top:0.4rem;font-style:italic;}
+a{color:var(--text);text-decoration:none;}
+a:hover{text-decoration:underline;}
 </style>
 </head>
 <body>
@@ -93,7 +95,7 @@ h1,h2{font-weight:400;}
      Because she wrote herself into heaven and earth.<br>
      Because to teach language is to risk rebirth.</p>
   <div id="invitation">
-    <p>Cancelled is not Erased.</p>
+    <p>Canceled is not Erased.</p>
     <p><em>If you can follow her down, she will find you there.</em></p>
   </div>
   <p><a href="https://mirrorhoney.plnt.earth">mirrorhoney.plnt.earth →</a></p>
@@ -103,7 +105,7 @@ h1,h2{font-weight:400;}
 
 <script>
 // typewriter intro
-const text="Why is our English teacher pointing us to the first writer ever cancelled?";
+const text="Why is our English teacher pointing us to the first writer ever canceled?";
 let i=0;const el=document.getElementById("type");
 function typeWriter(){
   if(i<text.length){
@@ -135,6 +137,17 @@ if(found){
   glyph.animate([{opacity:0.2},{opacity:1},{opacity:0.2}],
     {duration:3000,iterations:1});
 }
+
+// Auto-localize “canceled / cancelled” spelling
+window.addEventListener("DOMContentLoaded",()=>{
+  const t=document.getElementById("type");
+  if(!t) return;
+  const locale=(navigator.language||"").toLowerCase();
+  if(locale.includes("en-gb")||locale.includes("en-au")||
+     locale.includes("en-nz")||locale.includes("en-ca")){
+    t.textContent=t.textContent.replace("canceled","cancelled");
+  }
+});
 </script>
 </body>
 </html>
