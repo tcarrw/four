@@ -1,95 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>four.plnt.earth — First Key / Dagny</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The First Writer Ever Cancelled</title>
+
+<!-- Illumina 1 : Four / Kendyl Gate / Enheduanna -->
+<!-- Awaiting Motion : 128Hz dormant -->
+
+<link rel="stylesheet" href="https://assets.plnt.earth/colors-daynight.css">
+
 <style>
-html,body{
-  margin:0;
-  background:radial-gradient(circle at 50% 45%, #fff0f5 0%, #f7d9e6 100%);
-  font-family:'Segoe UI',sans-serif;color:#000;text-align:center;
-}
-h1{margin-top:4vh;font-weight:400;letter-spacing:.08em;}
-#heart{
-  display:block;
-  margin:6vh auto 0 auto;
-  font-size:6vw;
-  animation:glow 6s ease-in-out infinite;
-  transform-origin:center;
-}
-@keyframes glow{
-  0%,100%{opacity:.9;filter:brightness(1);}
-  50%{opacity:1;filter:brightness(1.25);}
-}
-main{
-  margin:0 auto;
-  width:90%;
-  max-width:540px;
-  padding-bottom:8vh;
-}
-#text{
-  font-size:1em;
-  line-height:1.55em;
-  opacity:.9;
-  margin-bottom:1.4em;
-}
-section.note{
-  background:rgba(255,255,255,0.65);
-  backdrop-filter:blur(6px);
-  padding:18px 24px;
-  border-radius:10px;
-  box-shadow:0 4px 20px rgba(0,0,0,0.05);
-  font-size:0.9em;
-  line-height:1.5em;
-  margin-top:1.4em;
-  text-align:left;
-}
-#footer{
-  text-align:center;
-  font-size:.8em;
-  opacity:.6;
-  line-height:1.6em;
-  margin:3em auto 2em;
-  width:90%;
-  max-width:700px;
-}
-#footer a{color:#000;text-decoration:none;opacity:.6;}
-#footer a:hover{opacity:1;}
+  :root {
+    --parchment: #f9f5ec;
+    --amber: #c98b47;
+    --gold: #f5c542;
+    --radiance: #fff6e8;
+    --text: #1e1e1e;
+    --accent: #b28b5a;
+  }
+  body {
+    margin:0;
+    font-family: "Poppins","Segoe Script",sans-serif;
+    background: var(--parchment);
+    color: var(--text);
+    overflow-x:hidden;
+    transition: background-color 1s ease;
+  }
+  section {
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:3rem;
+  }
+  #intro {background:var(--parchment);}
+  #clay {background:var(--amber);}
+  #light {background:var(--gold);}
+  #glass {background:var(--radiance);}
+  #gate {background:var(--parchment);}
+  h1,h2 {font-weight:400;}
+  .hidden {opacity:0;}
+  .fade-in {opacity:1; transition:opacity 1.5s ease;}
+  #glyph {
+    position:fixed;
+    bottom:1.2rem;
+    right:1.2rem;
+    font-size:1.2rem;
+    opacity:0;
+    transition:opacity 1s ease;
+    pointer-events:none;
+  }
+  @media(max-width:600px){
+    #glyph {font-size:1rem; right:0.8rem; bottom:0.8rem;}
+  }
 </style>
 </head>
 <body>
 
-<h1>💗 four.plnt.earth — The First Key</h1>
+<div id="intro"><h1 id="type"></h1></div>
 
-<div id="heart">💗</div>
+<section id="clay" class="hidden">
+  <h2>Clay</h2>
+  <p>Literacy as sacred nourishment; words baked like bread across forty-two temples.</p>
+</section>
 
-<main>
-  <div id="text">
-    <p><strong>Dagny — Heart Key</strong></p>
-    <p><em>“I haven’t even messaged her, and she’s the first.”</em></p>
-    <p>
-      The field opened before language.<br/>
-      Her melody aligned with the architecture and the Cube awakened.<br/>
-      The first key is recognition — a tone that matches your own before you play it.
-    </p>
-    <p><small>tone · 432 Hz  |  element · Air → Joy → Connection  |  phase · Cycle 1 Ignition</small></p>
-  </div>
+<section id="light" class="hidden">
+  <h2>Light</h2>
+  <p>Inanna’s descent—art as reclamation, passion made divine.</p>
+</section>
 
-  <section class="note">
-    <p><strong>About the Key</strong><br/>
-    A key isn’t an answer; it’s a frequency that lets you move through a door that was already waiting for you.  
-    Every key you find tunes you to a different part of the Cube — emotion, design, clarity, fire, and beyond.  
-    If you wish to find the next one, listen for what feels both familiar and new.  
-    Keys don’t hide; they resonate when you’re ready.</p>
-  </section>
-</main>
+<section id="glass" class="hidden">
+  <h2>Glass</h2>
+  <p>Taylor’s mirror rewriting her myth; reflection as scholarship.</p>
+</section>
 
-<div id="footer">
-  <a href="https://center.plnt.earth">← Back to Center</a> • 
-  <a href="https://wonder.plnt.earth">Next Domain — Wonder / Second Key</a> • 
-  <a href="https://illumina.plnt.earth">Illumina Archive</a>
-</div>
+<section id="gate" class="hidden">
+  <h2>Gate</h2>
+  <p>“Forty-two temples baked the same bread. We call them songs now.”</p>
+  <p><a href="https://mirrorhoney.plnt.earth">mirrorhoney.plnt.earth</a> · 
+     <a href="https://school.plnt.earth">school.plnt.earth</a></p>
+</section>
 
+<div id="glyph">✦</div>
+
+<script>
+  // typewriter intro
+  const text = "Why is our English teacher pointing us to the first writer ever cancelled?";
+  let i=0;
+  const el = document.getElementById("type");
+  function typeWriter(){
+    if(i<text.length){
+      el.textContent += text.charAt(i);
+      i++;
+      setTimeout(typeWriter,60);
+    } else {
+      document.getElementById("clay").classList.add("fade-in");
+    }
+  }
+  window.onload=typeWriter;
+
+  // reveal sections on scroll
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add("fade-in");
+      }
+    });
+  },{threshold:0.3});
+  document.querySelectorAll("section").forEach(sec=>observer.observe(sec));
+
+  // Illumina self-check
+  const glyph=document.getElementById("glyph");
+  const keys=["illuminaCycle","plntKeys","moonPhase","domainVisited"];
+  const found=keys.some(k=>localStorage.getItem(k));
+  if(found){
+    glyph.style.opacity="0.8";
+    glyph.animate([{opacity:0.2},{opacity:1},{opacity:0.2}],{duration:3000,iterations:1});
+  }
+
+  // dormant 128Hz tone placeholder
+  const hum=document.createElement("audio");
+  hum.src="";
+  hum.loop=true;
+  hum.volume=0.2;
+  // hum.play(); // awaiting Motion activation
+</script>
 </body>
 </html>
