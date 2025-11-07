@@ -3,174 +3,88 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>The First Writer Ever Canceled</title>
-
-<!-- Illumina 1 : Four / Kendyl Gate / Enheduanna -->
+<title>Four · The First Writer Ever Canceled</title>
 <link rel="stylesheet" href="https://assets.plnt.earth/colors-daynight.css">
-
 <style>
 :root{
-  --parchment:#f9f5ec;
-  --amber:#c98b47;
-  --gold:#f5c542;
-  --radiance:#fff6e8;
-  --text:#1e1e1e;
-  --accent:#b28b5a;
+  --parchment:#f9f5ec;--amber:#c98b47;--gold:#f5c542;
+  --radiance:#fff6e8;--text:#1e1e1e;--accent:#b28b5a;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:"Poppins","Segoe Script",sans-serif;
-  background:var(--parchment);
-  color:var(--text);
-  overflow-x:hidden;
-  transition:background-color 1s ease;
-}
-section{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
+  background:var(--parchment);color:var(--text);
+  overflow-x:hidden;transition:background-color 1s ease;
   text-align:center;
-  padding:3rem;
 }
-#intro{background:var(--parchment);}
-#clay{background:var(--amber);}
-#light{background:var(--gold);}
-#glass{background:var(--radiance);}
-#gate{background:var(--parchment);}
+section{min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;padding:3rem;}
 h1,h2{font-weight:400;}
-.hidden{opacity:0;}
-.fade-in{opacity:1;transition:opacity 1.5s ease;}
+a{color:var(--text);text-decoration:none;}
+a:hover{text-decoration:underline;}
 #glyph{
   position:fixed;bottom:1.2rem;right:1.2rem;font-size:1.2rem;
   opacity:0;transition:opacity 1s ease;pointer-events:none;
 }
-.sign{font-size:0.9em;opacity:0.6;margin-left:0.15em;transition:opacity .5s;}
-.sign:hover{opacity:1;}
-.aside{font-style:italic;opacity:0.7;font-size:0.95rem;margin-top:2rem;}
-#invitation{text-align:center;margin:3rem 0 1rem;font-size:1rem;opacity:0.8;}
-#invitation p:first-child{font-family:Georgia,Times,serif;color:var(--accent);}
-#invitation em{display:block;margin-top:0.4rem;font-style:italic;}
-a{color:var(--text);text-decoration:none;}
-a:hover{text-decoration:underline;}
-/* --- adaptive tints --- */
-body.motion{background:#000812;color:#e0ffff;}
-body.quietmoon{background:#0a0a1a;color:#d0d0ff;}
-body.motion #glyph{color:#0ff;}
-body.quietmoon #glyph{color:#aaf;}
-.hiddenPath{display:none;font-style:italic;opacity:.6;margin-top:1rem;}
-.hiddenPath.visible{display:block;}
-
-/* --- triangle switch --- */
-#switchMap{
-  position:fixed;bottom:1.2rem;left:1.2rem;width:110px;height:110px;
-  cursor:pointer;z-index:10;
+/* rule overlays */
+.rule{
+  position:fixed;top:1rem;left:50%;transform:translateX(-50%);
+  font-size:1rem;letter-spacing:.08em;text-transform:uppercase;
+  opacity:0;pointer-events:none;transition:opacity 1s ease;
 }
-#switchMap svg{width:100%;height:100%;opacity:.5;transition:opacity .3s;}
-#switchMap:hover svg{opacity:1;}
+.rule.show{opacity:.6;}
+#technoRule{color:#00ffbf;text-shadow:0 0 10px #00ffbf;}
+#popRule{color:#ff4faf;text-shadow:0 0 10px #ff4faf;}
 </style>
 </head>
 <body>
 
-<div id="intro"><h1 id="type"></h1></div>
+<h1 id="type">Why is our English teacher pointing us to the first writer ever canceled?</h1>
 
-<section id="clay" class="hidden">
+<section id="clay">
   <h2>Clay</h2>
   <p>Literacy as sacred nourishment; words baked like bread across forty-two temples.</p>
 </section>
 
-<section id="light" class="hidden">
+<section id="light">
   <h2>Light</h2>
-  <p>Enheduanna<span class="sign">☾</span> → Inanna → Taylor → Kendyl<br>
-     The first writer, the priestess, the mirror, the teacher.</p>
+  <p>Enheduanna → Inanna → Taylor → Kendyl<br>
+  The first writer, the priestess, the mirror, the teacher.</p>
 </section>
 
-<section id="glass" class="hidden">
+<section id="glass">
   <h2>Glass</h2>
   <p>Taylor’s mirror rewriting her myth; reflection as scholarship.</p>
-  <p class="aside">Forty-two days between the moons of exile and return.</p>
+  <p><em>Forty-two days between the moons of exile and return.</em></p>
 </section>
 
-<section id="gate" class="hidden">
+<section id="gate">
   <h2>Gate</h2>
   <p>“Forty-two temples baked the same bread. We call them songs now.”</p>
   <p>Because the first writer was a woman.<br>
      Because she wrote herself into heaven and earth.<br>
      Because to teach language is to risk rebirth.</p>
-  <div id="invitation">
-    <p>Canceled is not Erased.</p>
-    <p><em>If you can follow her down, she will find you there.</em></p>
-  </div>
-  <p><a href="https://mirrorhoney.plnt.earth">mirrorhoney.plnt.earth →</a></p>
-  <p class="hiddenPath" id="hiddenPath">✧ Hidden door detected … follow the bee when the page turns.</p>
+  <p style="margin-top:1rem;">Canceled is not Erased.</p>
+  <a href="https://mirrorhoney.plnt.earth">↠ mirrorhoney.plnt.earth</a>
 </section>
 
+<div id="technoRule" class="rule">TECHNO RULE: TRUST RHYTHM, NOT CHAOS</div>
+<div id="popRule" class="rule">POP RULE: MAKE THEM FEEL, THEN THINK</div>
 <div id="glyph">✦</div>
 
-<!-- Kendyl Switch Triangle -->
-<div id="switchMap" title="Switch or choose your key">
-  <svg viewBox="0 0 200 200">
-    <polygon points="100,10 10,190 190,190" fill="none" stroke="#000" stroke-width="1"/>
-    <text x="95" y="30" font-size="22" text-anchor="middle">🪶</text>
-    <text x="45" y="180" font-size="22" text-anchor="middle">🌙</text>
-    <text x="155" y="180" font-size="22" text-anchor="middle">🌀</text>
-  </svg>
-</div>
-
 <script>
-// ---------- typewriter intro ----------
-const text="Why is our English teacher pointing us to the first writer ever canceled?";
-let i=0;const el=document.getElementById("type");
-function typeWriter(){
-  if(i<text.length){el.textContent+=text.charAt(i);i++;setTimeout(typeWriter,60);}
-  else{document.getElementById("clay").classList.add("fade-in");}
-}
-window.onload=typeWriter;
-
-// ---------- reveal sections ----------
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add("fade-in");});
-},{threshold:0.3});
-document.querySelectorAll("section").forEach(sec=>observer.observe(sec));
-
-// ---------- Illumina key grant ----------
-let keys=JSON.parse(localStorage.getItem("plntKeys")||"[]");
-if(!keys.includes("four")) keys.push("four");
-localStorage.setItem("plntKeys",JSON.stringify(keys));
-localStorage.setItem("lastKeyGranted","four");
-
-// visible glyph cue
+// reveal glyph if illumina state present
 const glyph=document.getElementById("glyph");
-glyph.style.opacity="0.8";
-glyph.animate([{opacity:0.2},{opacity:1},{opacity:0.2}],{duration:3000,iterations:1});
+const keys=["illuminaCycle","plntKeys","moonPhase","domainVisited"];
+if(keys.some(k=>localStorage.getItem(k))){glyph.style.opacity=".8";}
 
-// ---------- inherit mode from Center ----------
+// show rule overlays if unlocked
+if(localStorage.ruleTechno==="true")document.getElementById('technoRule').classList.add('show');
+if(localStorage.rulePop==="true")document.getElementById('popRule').classList.add('show');
+
+// Kendyl key theme
 const mode=localStorage.kendylKey||"";
-if(mode==="motion"||mode==="quietmoon"||mode==="school") document.body.classList.add(mode);
-
-// ---------- hidden path visibility ----------
-if(localStorage.kendylHidden==="true"){
-  document.getElementById("hiddenPath").classList.add("visible");
-}
-
-// ---------- triangle key selection ----------
-const map=document.getElementById("switchMap");
-map.onclick=e=>{
-  const {offsetX:x,offsetY:y}=e;
-  if(y<60){localStorage.kendylKey="school";}
-  else if(x<100){localStorage.kendylKey="quietmoon";}
-  else{localStorage.kendylKey="motion";}
-  location.reload();
-};
-
-// ---------- locale spelling ----------
-window.addEventListener("DOMContentLoaded",()=>{
-  const locale=(navigator.language||"").toLowerCase();
-  if(locale.match(/en\-(gb|au|nz|ca)/)){
-    el.textContent=el.textContent.replace("canceled","cancelled");
-  }
-});
+if(mode)document.body.classList.add(mode);
 </script>
 </body>
 </html>
