@@ -61,6 +61,14 @@ body.motion #glyph{color:#0ff;}
 body.quietmoon #glyph{color:#aaf;}
 .hiddenPath{display:none;font-style:italic;opacity:.6;margin-top:1rem;}
 .hiddenPath.visible{display:block;}
+
+/* --- triangle switch --- */
+#switchMap{
+  position:fixed;bottom:1.2rem;left:1.2rem;width:110px;height:110px;
+  cursor:pointer;z-index:10;
+}
+#switchMap svg{width:100%;height:100%;opacity:.5;transition:opacity .3s;}
+#switchMap:hover svg{opacity:1;}
 </style>
 </head>
 <body>
@@ -100,6 +108,16 @@ body.quietmoon #glyph{color:#aaf;}
 
 <div id="glyph">✦</div>
 
+<!-- Kendyl Switch Triangle -->
+<div id="switchMap" title="Switch or choose your key">
+  <svg viewBox="0 0 200 200">
+    <polygon points="100,10 10,190 190,190" fill="none" stroke="#000" stroke-width="1"/>
+    <text x="95" y="30" font-size="22" text-anchor="middle">🪶</text>
+    <text x="45" y="180" font-size="22" text-anchor="middle">🌙</text>
+    <text x="155" y="180" font-size="22" text-anchor="middle">🌀</text>
+  </svg>
+</div>
+
 <script>
 // ---------- typewriter intro ----------
 const text="Why is our English teacher pointing us to the first writer ever canceled?";
@@ -129,12 +147,22 @@ glyph.animate([{opacity:0.2},{opacity:1},{opacity:0.2}],{duration:3000,iteration
 
 // ---------- inherit mode from Center ----------
 const mode=localStorage.kendylKey||"";
-if(mode==="motion"||mode==="quietmoon") document.body.classList.add(mode);
+if(mode==="motion"||mode==="quietmoon"||mode==="school") document.body.classList.add(mode);
 
 // ---------- hidden path visibility ----------
 if(localStorage.kendylHidden==="true"){
   document.getElementById("hiddenPath").classList.add("visible");
 }
+
+// ---------- triangle key selection ----------
+const map=document.getElementById("switchMap");
+map.onclick=e=>{
+  const {offsetX:x,offsetY:y}=e;
+  if(y<60){localStorage.kendylKey="school";}
+  else if(x<100){localStorage.kendylKey="quietmoon";}
+  else{localStorage.kendylKey="motion";}
+  location.reload();
+};
 
 // ---------- locale spelling ----------
 window.addEventListener("DOMContentLoaded",()=>{
