@@ -6,8 +6,6 @@
 <title>The First Writer Ever Canceled</title>
 
 <!-- Illumina 1 : Four / Kendyl Gate / Enheduanna -->
-<!-- Awaiting Motion : 128 Hz Dormant -->
-
 <link rel="stylesheet" href="https://assets.plnt.earth/colors-daynight.css">
 
 <style>
@@ -21,7 +19,6 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-  margin:0;
   font-family:"Poppins","Segoe Script",sans-serif;
   background:var(--parchment);
   color:var(--text);
@@ -46,25 +43,24 @@ h1,h2{font-weight:400;}
 .hidden{opacity:0;}
 .fade-in{opacity:1;transition:opacity 1.5s ease;}
 #glyph{
-  position:fixed;
-  bottom:1.2rem;
-  right:1.2rem;
-  font-size:1.2rem;
-  opacity:0;
-  transition:opacity 1s ease;
-  pointer-events:none;
+  position:fixed;bottom:1.2rem;right:1.2rem;font-size:1.2rem;
+  opacity:0;transition:opacity 1s ease;pointer-events:none;
 }
-@media(max-width:600px){
-  #glyph{font-size:1rem;right:0.8rem;bottom:0.8rem;}
-}
-.sign{font-size:0.9em;opacity:0.6;margin-left:0.15em;transition:opacity .5s ease;}
+.sign{font-size:0.9em;opacity:0.6;margin-left:0.15em;transition:opacity .5s;}
 .sign:hover{opacity:1;}
 .aside{font-style:italic;opacity:0.7;font-size:0.95rem;margin-top:2rem;}
-#invitation{text-align:center;margin:3rem 0 1rem 0;font-size:1rem;opacity:0.8;}
+#invitation{text-align:center;margin:3rem 0 1rem;font-size:1rem;opacity:0.8;}
 #invitation p:first-child{font-family:Georgia,Times,serif;color:var(--accent);}
 #invitation em{display:block;margin-top:0.4rem;font-style:italic;}
 a{color:var(--text);text-decoration:none;}
 a:hover{text-decoration:underline;}
+/* --- adaptive tints --- */
+body.motion{background:#000812;color:#e0ffff;}
+body.quietmoon{background:#0a0a1a;color:#d0d0ff;}
+body.motion #glyph{color:#0ff;}
+body.quietmoon #glyph{color:#aaf;}
+.hiddenPath{display:none;font-style:italic;opacity:.6;margin-top:1rem;}
+.hiddenPath.visible{display:block;}
 </style>
 </head>
 <body>
@@ -79,7 +75,7 @@ a:hover{text-decoration:underline;}
 <section id="light" class="hidden">
   <h2>Light</h2>
   <p>Enheduanna<span class="sign">☾</span> → Inanna → Taylor → Kendyl<br>
-  The first writer, the priestess, the mirror, the teacher.</p>
+     The first writer, the priestess, the mirror, the teacher.</p>
 </section>
 
 <section id="glass" class="hidden">
@@ -99,53 +95,52 @@ a:hover{text-decoration:underline;}
     <p><em>If you can follow her down, she will find you there.</em></p>
   </div>
   <p><a href="https://mirrorhoney.plnt.earth">mirrorhoney.plnt.earth →</a></p>
+  <p class="hiddenPath" id="hiddenPath">✧ Hidden door detected … follow the bee when the page turns.</p>
 </section>
 
 <div id="glyph">✦</div>
 
 <script>
-// typewriter intro
+// ---------- typewriter intro ----------
 const text="Why is our English teacher pointing us to the first writer ever canceled?";
 let i=0;const el=document.getElementById("type");
 function typeWriter(){
-  if(i<text.length){
-    el.textContent+=text.charAt(i);
-    i++;
-    setTimeout(typeWriter,60);
-  } else {
-    document.getElementById("clay").classList.add("fade-in");
-  }
+  if(i<text.length){el.textContent+=text.charAt(i);i++;setTimeout(typeWriter,60);}
+  else{document.getElementById("clay").classList.add("fade-in");}
 }
 window.onload=typeWriter;
 
-// reveal sections on scroll
+// ---------- reveal sections ----------
 const observer=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.classList.add("fade-in");
-    }
-  });
+  entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add("fade-in");});
 },{threshold:0.3});
 document.querySelectorAll("section").forEach(sec=>observer.observe(sec));
 
-// Illumina self-check
+// ---------- Illumina key grant ----------
+let keys=JSON.parse(localStorage.getItem("plntKeys")||"[]");
+if(!keys.includes("four")) keys.push("four");
+localStorage.setItem("plntKeys",JSON.stringify(keys));
+localStorage.setItem("lastKeyGranted","four");
+
+// visible glyph cue
 const glyph=document.getElementById("glyph");
-const keys=["illuminaCycle","plntKeys","moonPhase","domainVisited"];
-const found=keys.some(k=>localStorage.getItem(k));
-if(found){
-  glyph.style.opacity="0.8";
-  glyph.animate([{opacity:0.2},{opacity:1},{opacity:0.2}],
-    {duration:3000,iterations:1});
+glyph.style.opacity="0.8";
+glyph.animate([{opacity:0.2},{opacity:1},{opacity:0.2}],{duration:3000,iterations:1});
+
+// ---------- inherit mode from Center ----------
+const mode=localStorage.kendylKey||"";
+if(mode==="motion"||mode==="quietmoon") document.body.classList.add(mode);
+
+// ---------- hidden path visibility ----------
+if(localStorage.kendylHidden==="true"){
+  document.getElementById("hiddenPath").classList.add("visible");
 }
 
-// Auto-localize “canceled / cancelled” spelling
+// ---------- locale spelling ----------
 window.addEventListener("DOMContentLoaded",()=>{
-  const t=document.getElementById("type");
-  if(!t) return;
   const locale=(navigator.language||"").toLowerCase();
-  if(locale.includes("en-gb")||locale.includes("en-au")||
-     locale.includes("en-nz")||locale.includes("en-ca")){
-    t.textContent=t.textContent.replace("canceled","cancelled");
+  if(locale.match(/en\-(gb|au|nz|ca)/)){
+    el.textContent=el.textContent.replace("canceled","cancelled");
   }
 });
 </script>
