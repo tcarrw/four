@@ -1,1 +1,56 @@
-a
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>gloomy.plnt.earth</title>
+<style>
+html,body{
+  margin:0;padding:0;
+  height:100%;width:100%;
+  background:#0a0a0a;
+  overflow:hidden;
+}
+.word{
+  position:absolute;
+  color:#d0d0d0;
+  opacity:0.15;
+  white-space:nowrap;
+  user-select:none;
+  pointer-events:none;
+  animation:drift 40s linear infinite;
+}
+@keyframes drift{
+  from{transform:translateY(0px) rotate(0deg);}
+  to{transform:translateY(-120vh) rotate(720deg);}
+}
+</style>
+</head>
+<body>
+<script>
+// generate 755 "gloomy" words
+const fonts = [
+  "Times New Roman,serif","Georgia,serif","Courier New,monospace",
+  "Arial,Helvetica,sans-serif","Verdana,sans-serif","Garamond,serif",
+  "Trebuchet MS,sans-serif","Impact,sans-serif","Lucida Console,monospace",
+  "Palatino Linotype,serif","Comic Sans MS,cursive"
+];
+for(let i=0;i<755;i++){
+  const w=document.createElement('div');
+  w.className='word';
+  w.textContent='gloomy';
+  const size=8+Math.random()*40;
+  const x=Math.random()*100;
+  const y=Math.random()*100;
+  const font=fonts[Math.floor(Math.random()*fonts.length)];
+  const delay=Math.random()*40;
+  w.style.fontSize=size+'px';
+  w.style.left=x+'%';
+  w.style.top=y+'%';
+  w.style.fontFamily=font;
+  w.style.animationDelay=delay+'s';
+  document.body.appendChild(w);
+}
+</script>
+</body>
+</html>
