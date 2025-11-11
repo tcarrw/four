@@ -2,55 +2,120 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>gloomy.plnt.earth</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>four.plnt.earth</title>
 <style>
 html,body{
-  margin:0;padding:0;
-  height:100%;width:100%;
-  background:#0a0a0a;
+  margin:0;
+  padding:0;
+  height:100%;
+  background:#070709;
+  color:#eaeaf6;
+  font-family:'Helvetica Neue',sans-serif;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
   overflow:hidden;
+  transition:background 3s ease;
 }
-.word{
+.top-line{
   position:absolute;
-  color:#d0d0d0;
-  opacity:0.15;
-  white-space:nowrap;
-  user-select:none;
-  pointer-events:none;
-  animation:drift 40s linear infinite;
+  top:2rem;
+  font-size:0.9rem;
+  letter-spacing:1px;
+  opacity:0.4;
 }
-@keyframes drift{
-  from{transform:translateY(0px) rotate(0deg);}
-  to{transform:translateY(-120vh) rotate(720deg);}
+button{
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.2);
+  color:#fff;
+  padding:1rem 2.2rem;
+  border-radius:40px;
+  font-size:1rem;
+  letter-spacing:1px;
+  cursor:pointer;
+  transition:background 0.3s,transform 0.2s;
+  z-index:2;
+}
+button:hover{background:rgba(255,255,255,0.2);transform:scale(1.05)}
+.tone-label{
+  position:absolute;
+  bottom:2rem;
+  font-size:0.9rem;
+  opacity:0;
+  transition:opacity 1s;
+  letter-spacing:1px;
+}
+.fade{opacity:1;}
+@keyframes pulse{
+  0%{transform:scale(1);opacity:1;}
+  100%{transform:scale(1.2);opacity:0;}
+}
+.circle{
+  position:absolute;
+  width:200vmax;
+  height:200vmax;
+  border-radius:50%;
+  background:radial-gradient(circle,transparent 0%,transparent 40%,rgba(255,255,255,0.15) 100%);
+  opacity:0;
+  transform:scale(1);
+  z-index:1;
+  animation:pulse 5s ease-out forwards;
 }
 </style>
 </head>
 <body>
+
+<div class="top-line">nothing to hold</div>
+<button id="learn">learn a tone</button>
+<div class="tone-label" id="label"></div>
+
 <script>
-// generate 755 "gloomy" words
-const fonts = [
-  "Times New Roman,serif","Georgia,serif","Courier New,monospace",
-  "Arial,Helvetica,sans-serif","Verdana,sans-serif","Garamond,serif",
-  "Trebuchet MS,sans-serif","Impact,sans-serif","Lucida Console,monospace",
-  "Palatino Linotype,serif","Comic Sans MS,cursive"
+const btn=document.getElementById('learn');
+const label=document.getElementById('label');
+let ctx;
+
+const tones=[
+  {freq:128,color:'#bda4ff',name:'care'},
+  {freq:160,color:'#a9d9ff',name:'clarity'},
+  {freq:432,color:'#d6ffd6',name:'trust'}
 ];
-for(let i=0;i<755;i++){
-  const w=document.createElement('div');
-  w.className='word';
-  w.textContent='gloomy';
-  const size=8+Math.random()*40;
-  const x=Math.random()*100;
-  const y=Math.random()*100;
-  const font=fonts[Math.floor(Math.random()*fonts.length)];
-  const delay=Math.random()*40;
-  w.style.fontSize=size+'px';
-  w.style.left=x+'%';
-  w.style.top=y+'%';
-  w.style.fontFamily=font;
-  w.style.animationDelay=delay+'s';
-  document.body.appendChild(w);
+
+function playTone(freq){
+  if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)();
+  const osc=ctx.createOscillator();
+  const gain=ctx.createGain();
+  osc.frequency.value=freq;
+  gain.gain.setValueAtTime(0.1,ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+5);
+  osc.connect(gain).connect(ctx.destination);
+  osc.start();
+  osc.stop(ctx.currentTime+5);
 }
+
+btn.onclick=()=>{
+  const t=tones[Math.floor(Math.random()*tones.length)];
+  playTone(t.freq);
+
+  // background glow
+  document.body.style.background=t.color;
+  setTimeout(()=>{document.body.style.background='#070709';},5000);
+
+  // floating aura
+  const aura=document.createElement('div');
+  aura.className='circle';
+  aura.style.background=`radial-gradient(circle, ${t.color}55 0%, transparent 70%)`;
+  document.body.appendChild(aura);
+  setTimeout(()=>aura.remove(),5000);
+
+  // label
+  label.textContent=`${t.name} — ${t.freq} Hz`;
+  label.classList.add('fade');
+  setTimeout(()=>{label.classList.remove('fade');label.textContent='';},5000);
+};
 </script>
+
 </body>
 </html>
+
