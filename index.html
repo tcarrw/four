@@ -10,38 +10,36 @@ html,body{
   padding:0;
   height:100%;
   background:#070709;
-  color:#eaeaf6;
+  color:#ecebf9;
   font-family:'Helvetica Neue',sans-serif;
   display:flex;
   flex-direction:column;
   align-items:center;
-  justify-content:center;
-  overflow:hidden;
+  justify-content:flex-start;
+  text-align:center;
+  overflow-x:hidden;
   transition:background 3s ease;
 }
 .top-line{
-  position:absolute;
-  top:2rem;
+  margin-top:2rem;
   font-size:0.9rem;
   letter-spacing:1px;
-  opacity:0.4;
+  opacity:0.45;
 }
-.lesson{
-  text-align:center;
-  margin-top:4rem;
-  opacity:0.8;
-  line-height:1.6;
-}
-.lesson h2{
-  font-weight:400;
-  margin:0;
+.reflection{
+  margin:3rem 1rem 2rem;
+  max-width:600px;
+  line-height:1.7;
   font-size:1rem;
-  letter-spacing:1px;
+  opacity:0.9;
 }
-.lesson p{
-  margin:0.3rem 0 0;
-  font-size:0.9rem;
-  opacity:0.7;
+iframe{
+  width:90%;
+  max-width:560px;
+  aspect-ratio:16/9;
+  border:none;
+  border-radius:12px;
+  box-shadow:0 0 30px rgba(255,255,255,0.1);
 }
 button{
   background:rgba(255,255,255,0.08);
@@ -53,20 +51,11 @@ button{
   letter-spacing:1px;
   cursor:pointer;
   transition:background 0.3s,transform 0.2s;
-  z-index:2;
-  margin-top:3rem;
+  margin:2.5rem 0;
 }
 button:hover{background:rgba(255,255,255,0.2);transform:scale(1.05)}
-.ritual{
-  max-width:340px;
-  text-align:left;
-  font-size:0.9rem;
-  line-height:1.6;
-  opacity:0.55;
-  margin-top:1.5rem;
-}
 .tone-label{
-  position:absolute;
+  position:fixed;
   bottom:2rem;
   font-size:0.9rem;
   opacity:0;
@@ -79,7 +68,7 @@ button:hover{background:rgba(255,255,255,0.2);transform:scale(1.05)}
   100%{transform:scale(1.2);opacity:0;}
 }
 .circle{
-  position:absolute;
+  position:fixed;
   width:200vmax;
   height:200vmax;
   border-radius:50%;
@@ -93,36 +82,47 @@ button:hover{background:rgba(255,255,255,0.2);transform:scale(1.05)}
 </head>
 <body>
 
-<div class="top-line">nothing to hold</div>
+<div class="top-line">nothing to hold · we learn</div>
 
-<div class="lesson" id="lesson">
-  <!-- dynamic day info -->
-</div>
+<div class="reflection" id="reflection"></div>
+
+<div id="video"></div>
 
 <button id="learn">learn a tone</button>
-
-<div class="ritual">
-  <p>
-  a one-minute ritual<br><br>
-  ① close your eyes and breathe once<br>
-  ② click “learn a tone” and listen without naming it<br>
-  ③ let the color reach you, then fade<br>
-  ④ notice where it touched — head, chest, stomach<br>
-  ⑤ exhale once more, and let it go<br><br>
-  repeat only if it feels light.
-  </p>
-</div>
-
 <div class="tone-label" id="label"></div>
 
 <script>
-const lessons=[
-  {freq:128,name:'care',color:'#bda4ff',question:'Where can I soften?'},
-  {freq:160,name:'clarity',color:'#a9d9ff',question:'What’s true right now?'},
-  {freq:432,name:'trust',color:'#d6ffd6',question:'What can I stop guarding?'},
-  {freq:128,name:'care',color:'#bda4ff',question:'How do I rest?'},
-  {freq:160,name:'clarity',color:'#a9d9ff',question:'What did I misunderstand?'},
-  {freq:432,name:'trust',color:'#d6ffd6',question:'What feels whole?'}
+const days=[
+  {
+    freq:128,color:'#bda4ff',tone:'care',
+    reflection:'We learn that courage is not loud. It hums like land under our feet.',
+    video:'https://www.youtube.com/embed/7lLigiVgJsE?si=HoOUp5ZWwSzRKB6g'
+  },
+  {
+    freq:160,color:'#a9d9ff',tone:'clarity',
+    reflection:'We learn that clarity dances when we stop trying to catch it.',
+    video:'https://www.youtube.com/embed/UlFrV5GJA_4?si=6Z6xpht5zbic3A_3'
+  },
+  {
+    freq:432,color:'#d6ffd6',tone:'trust',
+    reflection:'We learn to trust what didn’t happen, to love the space that stayed.',
+    video:'https://www.youtube.com/embed/KsZ6tROaVOQ?si=QzberIMa-jHV86sH'
+  },
+  {
+    freq:128,color:'#bda4ff',tone:'care',
+    reflection:'We learn that rhythm repeats until it becomes freedom.',
+    video:'https://www.youtube.com/embed/2JgvVfOfoWI?si=_6lusjt2VxY2pqeB'
+  },
+  {
+    freq:160,color:'#a9d9ff',tone:'clarity',
+    reflection:'We learn that precision is kindness — edges polished by fire.',
+    video:'https://www.youtube.com/embed/wIft-t-MQuE?si=QBy9egGmQ2V-9p1q'
+  },
+  {
+    freq:432,color:'#d6ffd6',tone:'trust',
+    reflection:'We learn that endings are just the sound of breath returning home.',
+    video:'https://www.youtube.com/embed/EXLgZZE072g?si=0elLFnZehuWK4JIC'
+  }
 ];
 
 let start=localStorage.getItem('four_start');
@@ -131,10 +131,14 @@ if(!start){
   localStorage.setItem('four_start',start);
 }
 const dayIndex=Math.floor((Date.now()-start)/(1000*60*60*24))%6;
-const today=lessons[dayIndex];
+const today=days[dayIndex];
 
-const lessonDiv=document.getElementById('lesson');
-lessonDiv.innerHTML=`<h2>day ${dayIndex+1} — ${today.freq} Hz · ${today.name}</h2><p>${today.question}</p>`;
+// reflection text
+document.getElementById('reflection').textContent=today.reflection;
+
+// video player
+document.getElementById('video').innerHTML=
+`<iframe src="${today.video}" title="Taylor Swift Video" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
 
 const btn=document.getElementById('learn');
 const label=document.getElementById('label');
@@ -154,7 +158,6 @@ function playTone(freq){
 
 btn.onclick=()=>{
   playTone(today.freq);
-
   document.body.style.background=today.color;
   setTimeout(()=>{document.body.style.background='#070709';},5000);
 
@@ -164,7 +167,7 @@ btn.onclick=()=>{
   document.body.appendChild(aura);
   setTimeout(()=>aura.remove(),5000);
 
-  label.textContent=`${today.name} — ${today.freq} Hz`;
+  label.textContent=`${today.tone} — ${today.freq} Hz`;
   label.classList.add('fade');
   setTimeout(()=>{label.classList.remove('fade');label.textContent='';},5000);
 };
@@ -172,3 +175,4 @@ btn.onclick=()=>{
 
 </body>
 </html>
+
