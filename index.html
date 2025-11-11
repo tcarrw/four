@@ -16,12 +16,12 @@ html,body{
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  overflow:hidden;
+  overflow-y:auto;
   transition:background 3s ease;
 }
 .top-line{
-  position:absolute;
-  top:2rem;
+  position:sticky;
+  top:1.5rem;
   font-size:0.9rem;
   letter-spacing:1px;
   opacity:0.4;
@@ -37,10 +37,35 @@ button{
   cursor:pointer;
   transition:background 0.3s,transform 0.2s;
   z-index:2;
+  margin-top:5rem;
 }
 button:hover{background:rgba(255,255,255,0.2);transform:scale(1.05)}
+.ritual, .cycle{
+  max-width:340px;
+  text-align:left;
+  font-size:0.9rem;
+  line-height:1.6;
+  opacity:0.55;
+  margin-top:1.5rem;
+}
+.cycle{
+  border-top:1px solid rgba(255,255,255,0.08);
+  padding-top:1.5rem;
+}
+.cycle table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:0.5rem;
+}
+.cycle td{
+  padding:0.3rem 0;
+  vertical-align:top;
+}
+.cycle td:first-child{opacity:0.7;width:2rem;}
+.cycle td:nth-child(2){opacity:0.8;}
+.cycle td:nth-child(3){opacity:0.6;font-style:italic;}
 .tone-label{
-  position:absolute;
+  position:fixed;
   bottom:2rem;
   font-size:0.9rem;
   opacity:0;
@@ -53,7 +78,7 @@ button:hover{background:rgba(255,255,255,0.2);transform:scale(1.05)}
   100%{transform:scale(1.2);opacity:0;}
 }
 .circle{
-  position:absolute;
+  position:fixed;
   width:200vmax;
   height:200vmax;
   border-radius:50%;
@@ -68,7 +93,34 @@ button:hover{background:rgba(255,255,255,0.2);transform:scale(1.05)}
 <body>
 
 <div class="top-line">nothing to hold</div>
+
 <button id="learn">learn a tone</button>
+
+<div class="ritual">
+  <p>
+  a one-minute ritual<br><br>
+  ① close your eyes and breathe once<br>
+  ② click “learn a tone” and listen without naming it<br>
+  ③ let the color reach you, then fade<br>
+  ④ notice where it touched — head, chest, stomach<br>
+  ⑤ exhale once more, and let it go<br><br>
+  repeat only if it feels light.
+  </p>
+</div>
+
+<div class="cycle">
+  <p>six-day tone cycle</p>
+  <table>
+    <tr><td>1</td><td>128 Hz — care</td><td>Where can I soften?</td></tr>
+    <tr><td>2</td><td>160 Hz — clarity</td><td>What’s true right now?</td></tr>
+    <tr><td>3</td><td>432 Hz — trust</td><td>What can I stop guarding?</td></tr>
+    <tr><td>4</td><td>128 Hz — care</td><td>How do I rest?</td></tr>
+    <tr><td>5</td><td>160 Hz — clarity</td><td>What did I misunderstand?</td></tr>
+    <tr><td>6</td><td>432 Hz — trust</td><td>What feels whole?</td></tr>
+  </table>
+  <p style="margin-top:1rem;opacity:0.5;">open the page once a day · read · listen · close</p>
+</div>
+
 <div class="tone-label" id="label"></div>
 
 <script>
