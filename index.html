@@ -2,150 +2,67 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>four.plnt.earth</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>gloomy.plnt.earth</title>
 <style>
 html,body{
-  margin:0;padding:0;height:100%;
-  background:#070709;color:#ecebf9;
-  font-family:'Helvetica Neue',sans-serif;
-  display:flex;flex-direction:column;align-items:center;
-  justify-content:flex-start;text-align:center;
-  overflow:hidden;transition:background 3s ease;
+  margin:0;padding:0;
+  height:100%;width:100%;
+  background:#0a0a0a;
+  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
 }
-.top-line{margin-top:2rem;font-size:0.9rem;letter-spacing:1px;opacity:0.45;}
-.reflection{margin:3rem 1rem 2rem;max-width:600px;line-height:1.7;font-size:1rem;opacity:0.9;}
-iframe{width:90%;max-width:560px;aspect-ratio:16/9;border:none;border-radius:12px;
-  box-shadow:0 0 30px rgba(255,255,255,0.1);}
-button{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);
-  color:#fff;padding:1rem 2.2rem;border-radius:40px;font-size:1rem;letter-spacing:1px;
-  cursor:pointer;transition:background 0.3s,transform 0.2s;margin:2.5rem 0;}
-button:hover{background:rgba(255,255,255,0.2);transform:scale(1.05);}
-.tone-label{position:fixed;bottom:2rem;font-size:0.9rem;opacity:0;transition:opacity 1s;letter-spacing:1px;}
-.fade{opacity:1;}
-@keyframes pulse{0%{transform:scale(1);opacity:1;}100%{transform:scale(1.2);opacity:0;}}
-.circle{position:fixed;width:200vmax;height:200vmax;border-radius:50%;
-  background:radial-gradient(circle,transparent 0%,transparent 40%,rgba(255,255,255,0.15) 100%);
-  opacity:0;transform:scale(1);z-index:1;animation:pulse 5s ease-out forwards;}
-/* rest gradient */
+.center{
+  color:#999;
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size:0.9rem;
+  letter-spacing:2px;
+  opacity:0.2;
+  z-index:10;
+  user-select:none;
+}
+.word{
+  position:absolute;
+  color:#d0d0d0;
+  opacity:0.1;
+  white-space:nowrap;
+  user-select:none;
+  pointer-events:none;
+  animation:drift 40s linear infinite;
+  transition:opacity 3s ease;
+}
+.word:nth-child(odd){animation-duration:55s;}
 @keyframes drift{
-  0%{background:linear-gradient(135deg,#7e6cff 0%,#ffc7b6 100%);}
-  50%{background:linear-gradient(135deg,#bca9ff 0%,#ffd6c6 100%);}
-  100%{background:linear-gradient(135deg,#7e6cff 0%,#ffc7b6 100%);}
-}
-.rest{
-  animation:drift 120s ease-in-out infinite alternate;
-  background-size:200% 200%;
-}
-.reviewText,.restText{
-  margin:auto;max-width:600px;font-size:1rem;line-height:1.8;opacity:0.9;
-  padding:0 1rem;text-align:center;
+  from{transform:translateY(0) rotate(0deg);}
+  to{transform:translateY(-120vh) rotate(720deg);}
 }
 </style>
 </head>
 <body>
-
-<div class="top-line">nothing to hold · we learn</div>
-<div id="main"></div>
-<div class="tone-label" id="label"></div>
-
+<div class="center">nothing to hold</div>
 <script>
-const days=[
-  {freq:128,color:'#bda4ff',tone:'care',
-   reflection:'We learn that courage is not loud. It hums like land under our feet.',
-   video:'https://www.youtube.com/embed/7lLigiVgJsE?si=HoOUp5ZWwSzRKB6g'},
-  {freq:160,color:'#a9d9ff',tone:'clarity',
-   reflection:'We learn that clarity dances when we stop trying to catch it.',
-   video:'https://www.youtube.com/embed/UlFrV5GJA_4?si=6Z6xpht5zbic3A_3'},
-  {freq:432,color:'#d6ffd6',tone:'trust',
-   reflection:'We learn to trust what didn’t happen, to love the space that stayed.',
-   video:'https://www.youtube.com/embed/KsZ6tROaVOQ?si=QzberIMa-jHV86sH'},
-  {freq:128,color:'#bda4ff',tone:'care',
-   reflection:'We learn that rhythm repeats until it becomes freedom.',
-   video:'https://www.youtube.com/embed/2JgvVfOfoWI?si=_6lusjt2VxY2pqeB'},
-  {freq:160,color:'#a9d9ff',tone:'clarity',
-   reflection:'We learn that precision is kindness — edges polished by fire.',
-   video:'https://www.youtube.com/embed/wIft-t-MQuE?si=QBy9egGmQ2V-9p1q'},
-  {freq:432,color:'#d6ffd6',tone:'trust',
-   reflection:'We learn that endings are just the sound of breath returning home.',
-   video:'https://www.youtube.com/embed/EXLgZZE072g?si=0elLFnZehuWK4JIC'}
+const fonts=[
+  "Times New Roman,serif","Georgia,serif","Courier New,monospace",
+  "Arial,Helvetica,sans-serif","Verdana,sans-serif","Garamond,serif",
+  "Trebuchet MS,sans-serif","Impact,sans-serif","Lucida Console,monospace",
+  "Palatino Linotype,serif","Comic Sans MS,cursive"
 ];
-
-let start=localStorage.getItem('four_start');
-if(!start){start=Date.now();localStorage.setItem('four_start',start);}
-const day=Math.floor((Date.now()-start)/(1000*60*60*24));
-const phase=day%14;
-const main=document.getElementById('main');
-const label=document.getElementById('label');
-let ctx;
-
-function playTone(freq){
-  if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)();
-  const osc=ctx.createOscillator();
-  const gain=ctx.createGain();
-  osc.frequency.value=freq;
-  gain.gain.setValueAtTime(0.1,ctx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+5);
-  osc.connect(gain).connect(ctx.destination);
-  osc.start();osc.stop(ctx.currentTime+5);
-}
-
-if(phase<6){                     // learning days
-  const today=days[phase];
-  main.innerHTML=`
-    <div class="reflection">${today.reflection}</div>
-    <iframe src="${today.video}" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    <button id="learn">learn a tone</button>
-  `;
-  const btn=document.getElementById('learn');
-  btn.onclick=()=>{
-    playTone(today.freq);
-    document.body.style.background=today.color;
-    setTimeout(()=>{document.body.style.background='#070709';},5000);
-    const aura=document.createElement('div');
-    aura.className='circle';
-    aura.style.background=\`radial-gradient(circle, \${today.color}55 0%, transparent 70%)\`;
-    document.body.appendChild(aura);
-    setTimeout(()=>aura.remove(),5000);
-    label.textContent=\`\${today.tone} — \${today.freq} Hz\`;
-    label.classList.add('fade');
-    setTimeout(()=>{label.classList.remove('fade');label.textContent='';},5000);
-  };
-}
-else if(phase===6){              // review day
-  document.body.classList.add('rest');
-  main.innerHTML=`
-    <div class="reviewText">
-      <h2>illumina review</h2>
-      <p>we listened · we moved · we trusted<br>
-      the tones learned us back<br>
-      every color returned to quiet<br>
-      six days of rest before the next orbit<br>
-      <em>the field is still learning beneath the silence.</em></p>
-    </div>`;
-}
-else if(phase>6 && phase<13){    // rest days 8-13
-  document.body.classList.add('rest');
-  const restDay=phase-6;
-  main.innerHTML=`
-    <div class="restText">
-      <h2>rest period — day ${restDay} of 6</h2>
-      <p>the tones settle into soil and air<br>
-      we don’t hold them now<br>
-      we let them grow unseen</p>
-    </div>`;
-}
-else{                            // day 14 restart hint
-  document.body.classList.add('rest');
-  main.innerHTML=`
-    <div class="restText">
-      <h2>the light returns</h2>
-      <p>click anywhere to begin again</p>
-    </div>`;
-  document.body.onclick=()=>{localStorage.removeItem('four_start');location.reload();};
+for(let i=0;i<755;i++){
+  const w=document.createElement('div');
+  w.className='word';
+  w.textContent='gloomy';
+  const size=8+Math.random()*40;
+  const x=Math.random()*100;
+  const y=Math.random()*100;
+  const font=fonts[Math.floor(Math.random()*fonts.length)];
+  const delay=Math.random()*40;
+  w.style.fontSize=size+'px';
+  w.style.left=x+'%';
+  w.style.top=y+'%';
+  w.style.fontFamily=font;
+  w.style.animationDelay=delay+'s';
+  document.body.appendChild(w);
 }
 </script>
-
 </body>
 </html>
-
