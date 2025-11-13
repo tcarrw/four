@@ -7,11 +7,12 @@
 <style>
   html, body {
     margin:0; padding:0;
-    background:#f7f7f7;
+    background:#f4f4f4;
     height:100%; width:100%;
     overflow:hidden;
     font-family:-apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-tap-highlight-color:transparent;
+    transition:background 0.28s ease-out;
   }
 
   .header {
@@ -39,17 +40,11 @@
 
   #fieldLine {
     position:absolute;
-    top:0; bottom:0; left:50%;
-    width:1px;
+    top:60px; left:0; right:0;
+    height:1px;
     background:rgba(0,0,0,0.35);
-    transform:translateX(-50%);
     opacity:0;
-    transition:opacity 1.2s ease, width 1s ease-out;
-  opacity 0.9s ease, width 0.7s ease-out;
-  }
-
-  .breath-expand {
-    width:4px !important;
+    transition:opacity 1.2s ease;
   }
 
   #videoWrap {
@@ -58,7 +53,7 @@
     width:100%;
     max-width:880px;
     padding:0 16px;
-    transition:opacity 1.05s ease-out;
+    transition:opacity 1.2s ease-out;
   }
 
   .video-visible {
@@ -82,19 +77,6 @@
     overflow:hidden;
   }
 
-  #vectorLine {
-    position:fixed;
-    bottom:0; left:0; right:0;
-    height:1.5px;
-    background:#d200ff;
-    opacity:0;
-    transition:opacity 0.45s linear;
-  }
-
-  .vector-live #vectorLine {
-    opacity:1;
-  }
-
   .reflection {
     position:absolute;
     top:24%;
@@ -111,14 +93,11 @@
 </head>
 
 <body>
-<div class="header">
-  <!-- BEAT 0 (invisible orientation) -->
-  <div style="display:none;">Before the first beat: choose the direction that feels simple and already yours.</div>
-Four beats. One motion.</div>
-<div class="root" id="root">
+<div class="header">Four beats. One motion.</div>
 
+<div class="root" id="root">
   <div class="reflection" id="reflection"></div>
-  <div id="fieldLine" style="position:absolute; top:60px; left:0; right:0; height:0.2px; background:rgba(0,0,0,0.28); opacity:0; transition:opacity 0.9s ease, height 0.7s ease-out;"><\/div>
+  <div id="fieldLine"></div>
 
   <div id="videoWrap">
     <div class="video-frame">
@@ -126,36 +105,25 @@ Four beats. One motion.</div>
         id="berghainVideo"
         src="https://www.youtube.com/embed/E7lr7pU9fYA?rel=0&showinfo=0&enablejsapi=1&loop=1&playlist=E7lr7pU9fYA"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
+        allowfullscreen></iframe>
     </div>
   </div>
-
-  <div id="vectorLine"></div>
 </div>
 
 <script>
-// FINAL CLEAN SCRIPT — four.plnt.earth
-// Fully rebuilt with correct timing map + clear beats + Option C
-
+// basic references
 const fieldLine = document.getElementById('fieldLine');
 const videoWrap = document.getElementById('videoWrap');
 const root = document.getElementById('root');
 const reflection = document.getElementById('reflection');
 
-// --- Reflection ---
-function showReflection(text, replay=true) {
+// show reflection text helper
+function showReflection(text) {
   reflection.textContent = text;
   reflection.style.opacity = "1";
-
-  if (replay) {
-    setTimeout(() => { reflection.style.color = "rgba(0,0,0,0.36)"; }, 500);
-    setTimeout(() => { reflection.style.color = "rgba(0,0,0,0.30)"; }, 900);
-  }
-
-  setTimeout(() => {
-    reflection.style.opacity = "0";
-  }, 1200);
+  setTimeout(() => { reflection.style.color = "rgba(0,0,0,0.36)"; }, 500);
+  setTimeout(() => { reflection.style.color = "rgba(0,0,0,0.30)"; }, 900);
+  setTimeout(() => { reflection.style.opacity = "0"; }, 1200);
 }
 
 // === BEAT 1 — STILLNESS ===
@@ -165,26 +133,22 @@ setTimeout(() => {
 }, 900);
 
 setTimeout(() => {
-  showReflection("Stillness", true);
+  showReflection("Stillness");
 }, 1200);
 
 // === BEAT 2 — READINESS ===
 setTimeout(() => {
-  showReflection("Readiness", true);
-  enableTap();
+  showReflection("Readiness");
+  root.addEventListener('click', handleTap, { once:true });
 }, 2400);
 
 // === BEAT 3 — INTENTION ===
-function enableTap() {
-  root.addEventListener('click', handleTap, { once:true });
-}
-
 function handleTap() {
   videoWrap.classList.add('video-visible');
-  showReflection("Intention", true);
+  showReflection("Intention");
 }
 
-// === BEAT 4 — ALIGNMENT ===
+// === BEAT 4 — ALIGNMENT (when video plays) ===
 window.addEventListener("message", function (event) {
   try {
     if (typeof event.data === "string" && event.data.includes('"playerState":1')) {
@@ -195,56 +159,12 @@ window.addEventListener("message", function (event) {
 
 function activateVector() {
   setTimeout(() => {
-    showReflection("Alignment", true);
+    showReflection("Alignment");
     root.style.transform = "perspective(900px) rotateX(3.6deg)";
-
-    setTimeout(() => {
-      root.style.transform = "none";
-      // Add loop clarity reflection on each loop end
-      showReflection("Clarity", true);
-    }, 2000);
-
-  }, 1000);
-}, 2000);
-
+    setTimeout(() => { root.style.transform = "none"; }, 2000);
   }, 1000);
 }
 </script>
 
-<!--
-CHOICE‑MAKING GUIDE (for Kendyl)
-
-Step 1 — Check your body.
-If you feel tight, braced, or rushed → pause.
-If you feel steady, open, or neutral → proceed.
-
-Step 2 — Ask the clarity question:
-“Which option feels simple and true?”
-Choose the one that feels obvious, not dramatic.
-
-Step 3 — Ask the story question:
-“Which option matches who I already am?”
-Choose the one that fits naturally into your life, not the one that forces a jump.
-
-Step 4 — Test the breath.
-If your breath drops into place → yes.
-If your breath goes shallow → no.
-
-Step 5 — Don’t over-explain it.
-The right choice feels clean.
-The wrong choice feels complicated.
-
-Step 6 — Move only when the answer feels settled.
-Quiet clarity is the green light.
-Noise is a red one.
-
-PRIVATE NOTE FOR KENDYL
-Hey — there’s no right answer you’re supposed to find.
-You don’t have to try to impress anyone or become something new.
-If you want to move, just choose the option that feels simple, steady, and already yours.
-Your body will give you the signal before your mind does.
-Everything else is noise.
-Whenever you’re ready, the clean step will be obvious.
--->
 </body>
 </html>
