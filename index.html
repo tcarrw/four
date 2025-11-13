@@ -12,20 +12,6 @@
     overflow:hidden;
     font-family:-apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-tap-highlight-color:transparent;
-    transition:background 0.28s ease-out;
-  }
-
-  .header {
-    position:absolute;
-    top:20px;
-    left:50%;
-    transform:translateX(-50%);
-    font-size:15px;
-    font-weight:500;
-    letter-spacing:0.7px;
-    color:rgba(0,0,0,0.55);
-    user-select:none;
-    pointer-events:none;
   }
 
   .root {
@@ -35,30 +21,14 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    transition:transform 1.4s ease-out;
-  }
-
-  #fieldLine {
-    position:absolute;
-    top:60px; left:0; right:0;
-    height:1px;
-    background:rgba(0,0,0,0.35);
-    opacity:0;
-    transition:opacity 1.2s ease;
   }
 
   #videoWrap {
-    opacity:0;
-    pointer-events:none;
+    opacity:1;
+    pointer-events:auto;
     width:100%;
     max-width:880px;
     padding:0 16px;
-    transition:opacity 1.2s ease-out;
-  }
-
-  .video-visible {
-    opacity:1 !important;
-    pointer-events:auto !important;
   }
 
   .video-frame {
@@ -77,94 +47,37 @@
     overflow:hidden;
   }
 
-  .reflection {
+  .message {
     position:absolute;
-    top:24%;
+    bottom:40px;
     left:50%;
     transform:translateX(-50%);
+    color:white;
     font-size:14px;
-    color:rgba(0,0,0,0.30);
-    opacity:0;
-    transition:opacity 0.25s ease-out, color 0.25s linear;
+    opacity:0.7;
     user-select:none;
-    pointer-events:none;
   }
 </style>
 </head>
 
 <body>
-<div class="header">Four beats. One motion.</div>
-
 <div class="root" id="root">
-  <div class="reflection" id="reflection"></div>
-  <div id="fieldLine"></div>
 
   <div id="videoWrap">
     <div class="video-frame">
       <iframe
-        id="berghainVideo"
+        id="video"
         src="https://www.youtube.com/embed/E7lr7pU9fYA?rel=0&showinfo=0&enablejsapi=1&loop=1&playlist=E7lr7pU9fYA"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen></iframe>
+        allowfullscreen>
+      </iframe>
     </div>
   </div>
+
+  <div class="message">
+    Hey — I made you something simple. It’s nothing deep and there’s nothing to decode. Open it when you have a second.
+  </div>
+
 </div>
-
-<script>
-// basic references
-const fieldLine = document.getElementById('fieldLine');
-const videoWrap = document.getElementById('videoWrap');
-const root = document.getElementById('root');
-const reflection = document.getElementById('reflection');
-
-// show reflection text helper
-function showReflection(text) {
-  reflection.textContent = text;
-  reflection.style.opacity = "1";
-  setTimeout(() => { reflection.style.color = "rgba(0,0,0,0.36)"; }, 500);
-  setTimeout(() => { reflection.style.color = "rgba(0,0,0,0.30)"; }, 900);
-  setTimeout(() => { reflection.style.opacity = "0"; }, 1200);
-}
-
-// === BEAT 1 — STILLNESS ===
-setTimeout(() => {
-  fieldLine.style.opacity = "1";
-  setTimeout(() => { fieldLine.style.opacity = "0"; }, 300);
-}, 900);
-
-setTimeout(() => {
-  showReflection("Stillness");
-}, 1200);
-
-// === BEAT 2 — READINESS ===
-setTimeout(() => {
-  showReflection("Readiness");
-  root.addEventListener('click', handleTap, { once:true });
-}, 2400);
-
-// === BEAT 3 — INTENTION ===
-function handleTap() {
-  videoWrap.classList.add('video-visible');
-  showReflection("Intention");
-}
-
-// === BEAT 4 — ALIGNMENT (when video plays) ===
-window.addEventListener("message", function (event) {
-  try {
-    if (typeof event.data === "string" && event.data.includes('"playerState":1')) {
-      activateVector();
-    }
-  } catch(e){}
-});
-
-function activateVector() {
-  setTimeout(() => {
-    showReflection("Alignment");
-    root.style.transform = "perspective(900px) rotateX(3.6deg)";
-    setTimeout(() => { root.style.transform = "none"; }, 2000);
-  }, 1000);
-}
-</script>
-
 </body>
 </html>
