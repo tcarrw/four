@@ -1,170 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>four.plnt.earth — Begin</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>gloomy.plnt.earth</title>
 <style>
-  html, body {
-    margin:0; padding:0;
-    background:#f4f4f4;
-    height:100%; width:100%;
-    overflow:hidden;
-    font-family:-apple-system, BlinkMacSystemFont, sans-serif;
-    -webkit-tap-highlight-color:transparent;
-    transition:background 0.28s ease-out;
-  }
-
-  .header {
-    position:absolute;
-    top:20px;
-    left:50%;
-    transform:translateX(-50%);
-    font-size:15px;
-    font-weight:500;
-    letter-spacing:0.7px;
-    color:rgba(0,0,0,0.55);
-    user-select:none;
-    pointer-events:none;
-  }
-
-  .root {
-    position:relative;
-    height:100vh;
-    width:100%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:transform 1.4s ease-out;
-  }
-
-  #fieldLine {
-    position:absolute;
-    top:60px; left:0; right:0;
-    height:1px;
-    background:rgba(0,0,0,0.35);
-    opacity:0;
-    transition:opacity 1.2s ease;
-  }
-
-  #videoWrap {
-    opacity:0;
-    pointer-events:none;
-    width:100%;
-    max-width:880px;
-    padding:0 16px;
-    transition:opacity 1.2s ease-out;
-  }
-
-  .video-visible {
-    opacity:1 !important;
-    pointer-events:auto !important;
-  }
-
-  .video-frame {
-    position:relative;
-    padding-bottom:56.25%;
-    height:0;
-  }
-
-  .video-frame iframe {
-    position:absolute;
-    top:0; left:0;
-    width:100%; height:100%;
-    border:0;
-    border-radius:18px;
-    box-shadow:0 6px 28px rgba(0,0,0,0.22);
-    overflow:hidden;
-  }
-
-  .reflection {
-    position:absolute;
-    top:24%;
-    left:50%;
-    transform:translateX(-50%);
-    font-size:14px;
-    color:rgba(0,0,0,0.30);
-    opacity:0;
-    transition:opacity 0.25s ease-out, color 0.25s linear;
-    user-select:none;
-    pointer-events:none;
-  }
+html,body{
+  margin:0;padding:0;
+  height:100%;width:100%;
+  background:#0a0a0a;
+  overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.center{
+  color:#999;
+  font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size:0.9rem;
+  letter-spacing:2px;
+  opacity:0.2;
+  z-index:10;
+  user-select:none;
+}
+.word{
+  position:absolute;
+  color:#d0d0d0;
+  opacity:0.1;
+  white-space:nowrap;
+  user-select:none;
+  pointer-events:none;
+  animation:drift 40s linear infinite;
+  transition:opacity 3s ease;
+}
+.word:nth-child(odd){animation-duration:55s;}
+@keyframes drift{
+  from{transform:translateY(0) rotate(0deg);}
+  to{transform:translateY(-120vh) rotate(720deg);}
+}
 </style>
 </head>
-
 <body>
-<div class="header">Four beats. One motion.</div>
-
-<div class="root" id="root">
-  <div class="reflection" id="reflection"></div>
-  <div id="fieldLine"></div>
-
-  <div id="videoWrap">
-    <div class="video-frame">
-      <iframe
-        id="berghainVideo"
-        src="https://www.youtube.com/embed/E7lr7pU9fYA?rel=0&showinfo=0&enablejsapi=1&loop=1&playlist=E7lr7pU9fYA"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen></iframe>
-    </div>
-  </div>
-</div>
-
+<div class="center">nothing to hold</div>
 <script>
-// basic references
-const fieldLine = document.getElementById('fieldLine');
-const videoWrap = document.getElementById('videoWrap');
-const root = document.getElementById('root');
-const reflection = document.getElementById('reflection');
-
-// show reflection text helper
-function showReflection(text) {
-  reflection.textContent = text;
-  reflection.style.opacity = "1";
-  setTimeout(() => { reflection.style.color = "rgba(0,0,0,0.36)"; }, 500);
-  setTimeout(() => { reflection.style.color = "rgba(0,0,0,0.30)"; }, 900);
-  setTimeout(() => { reflection.style.opacity = "0"; }, 1200);
-}
-
-// === BEAT 1 — STILLNESS ===
-setTimeout(() => {
-  fieldLine.style.opacity = "1";
-  setTimeout(() => { fieldLine.style.opacity = "0"; }, 300);
-}, 900);
-
-setTimeout(() => {
-  showReflection("Stillness");
-}, 1200);
-
-// === BEAT 2 — READINESS ===
-setTimeout(() => {
-  showReflection("Readiness");
-  root.addEventListener('click', handleTap, { once:true });
-}, 2400);
-
-// === BEAT 3 — INTENTION ===
-function handleTap() {
-  videoWrap.classList.add('video-visible');
-  showReflection("Intention");
-}
-
-// === BEAT 4 — ALIGNMENT (when video plays) ===
-window.addEventListener("message", function (event) {
-  try {
-    if (typeof event.data === "string" && event.data.includes('"playerState":1')) {
-      activateVector();
-    }
-  } catch(e){}
-});
-
-function activateVector() {
-  setTimeout(() => {
-    showReflection("Alignment");
-    root.style.transform = "perspective(900px) rotateX(3.6deg)";
-    setTimeout(() => { root.style.transform = "none"; }, 2000);
-  }, 1000);
+const fonts=[
+  "Times New Roman,serif","Georgia,serif","Courier New,monospace",
+  "Arial,Helvetica,sans-serif","Verdana,sans-serif","Garamond,serif",
+  "Trebuchet MS,sans-serif","Impact,sans-serif","Lucida Console,monospace",
+  "Palatino Linotype,serif","Comic Sans MS,cursive"
+];
+for(let i=0;i<755;i++){
+  const w=document.createElement('div');
+  w.className='word';
+  w.textContent='gloomy';
+  const size=8+Math.random()*40;
+  const x=Math.random()*100;
+  const y=Math.random()*100;
+  const font=fonts[Math.floor(Math.random()*fonts.length)];
+  const delay=Math.random()*40;
+  w.style.fontSize=size+'px';
+  w.style.left=x+'%';
+  w.style.top=y+'%';
+  w.style.fontFamily=font;
+  w.style.animationDelay=delay+'s';
+  document.body.appendChild(w);
 }
 </script>
-
 </body>
 </html>
