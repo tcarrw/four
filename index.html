@@ -76,6 +76,8 @@
     top:0; left:0;
     width:100%; height:100%;
     border:0;
+    border-radius:18px;
+    overflow:hidden;
   }
 
   #vectorLine {
@@ -107,7 +109,10 @@
 </head>
 
 <body>
-<div class="header">Four beats. One motion.</div>
+<div class="header">
+  <!-- BEAT 0 (invisible orientation) -->
+  <div style="display:none;">Before the first beat: choose the direction that feels simple and already yours.</div>
+Four beats. One motion.</div>
 <div class="root" id="root">
 
   <div class="reflection" id="reflection"></div>
@@ -117,7 +122,7 @@
     <div class="video-frame">
       <iframe
         id="berghainVideo"
-        src="https://www.youtube.com/embed/htQBS2Ikz6c?rel=0&showinfo=0&enablejsapi=1"
+        src="https://www.youtube.com/embed/E7lr7pU9fYA?rel=0&showinfo=0&enablejsapi=1&loop=1&playlist=E7lr7pU9fYA"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen>
       </iframe>
@@ -193,11 +198,51 @@ function activateVector() {
 
     setTimeout(() => {
       root.style.transform = "none";
+      // Add loop clarity reflection on each loop end
+      showReflection("Clarity", true);
     }, 2000);
+
+  }, 1000);
+}, 2000);
 
   }, 1000);
 }
 </script>
 
+<!--
+CHOICE-MAKING GUIDE (for Kendyl)
+
+Step 1 — Check your body.
+If you feel tight, braced, or rushed → pause.
+If you feel steady, open, or neutral → proceed.
+
+Step 2 — Ask the clarity question:
+“Which option feels simple and true?”
+Choose the one that feels obvious, not dramatic.
+
+Step 3 — Ask the story question:
+“Which option matches who I already am?”
+Choose the one that fits naturally into your life, not the one that forces a jump.
+
+Step 4 — Test the breath.
+If your breath drops into place → yes.
+If your breath goes shallow → no.
+
+Step 5 — Don’t over-explain it.
+The right choice feels clean.
+The wrong choice feels complicated.
+
+Step 6 — Move only when the answer feels settled.
+Quiet clarity is the green light.
+Noise is a red one.
+
+PRIVATE NOTE FOR KENDYL
+Hey — there’s no right answer you’re supposed to find.
+You don’t have to try to impress anyone or become something new.
+If you want to move, just choose the option that feels simple, steady, and already yours.
+Your body will give you the signal before your mind does.
+Everything else is noise.
+Whenever you’re ready, the clean step will be obvious.
+-->
 </body>
 </html>
