@@ -93,7 +93,7 @@
 
   .reflection {
     position:absolute;
-    top:14%;
+    top:24%;
     left:50%;
     transform:translateX(-50%);
     font-size:14px;
@@ -128,50 +128,56 @@
 </div>
 
 <script>
+// FINAL CLEAN SCRIPT — four.plnt.earth
+// Fully rebuilt with correct timing map + clear beats + Option C
+
 const fieldLine = document.getElementById('fieldLine');
 const videoWrap = document.getElementById('videoWrap');
 const root = document.getElementById('root');
 const reflection = document.getElementById('reflection');
 
+// --- Reflection ---
 function showReflection(text, replay=true) {
   reflection.textContent = text;
   reflection.style.opacity = "1";
 
   if (replay) {
     setTimeout(() => { reflection.style.color = "rgba(0,0,0,0.36)"; }, 500);
-    setTimeout(() => { reflection.style.color = "rgba(0,0,0,0.30)"; }, 700);
+    setTimeout(() => { reflection.style.color = "rgba(0,0,0,0.30)"; }, 900);
   }
 
   setTimeout(() => {
     reflection.style.opacity = "0";
-  }, 850);
+  }, 1200);
 }
 
+// === BEAT 1 — STILLNESS ===
 setTimeout(() => {
   fieldLine.style.opacity = "1";
-  showReflection("Stillness", true);
-}, 350);
+  setTimeout(() => { fieldLine.style.opacity = "0"; }, 300);
+}, 900);
 
 setTimeout(() => {
-  fieldLine.classList.add('breath-expand');
+  showReflection("Stillness", true);
+}, 1200);
+
+// === BEAT 2 — READINESS ===
+setTimeout(() => {
   showReflection("Readiness", true);
+  enableTap();
+}, 2400);
 
-  setTimeout(() => {
-    fieldLine.classList.remove('breath-expand');
-    enableTap();
-  }, 900);
-}, 1800);
-
+// === BEAT 3 — INTENTION ===
 function enableTap() {
   root.addEventListener('click', handleTap, { once:true });
 }
 
 function handleTap() {
-  fieldLine.style.opacity = "0";
   videoWrap.classList.add('video-visible');
   showReflection("Intention", true);
 }
 
+// === BEAT 4 — ALIGNMENT ===
 window.addEventListener("message", function (event) {
   try {
     if (typeof event.data === "string" && event.data.includes('"playerState":1')) {
@@ -181,14 +187,15 @@ window.addEventListener("message", function (event) {
 });
 
 function activateVector() {
-  showReflection("Alignment", true);
-  root.classList.add('vector-live');
-  root.style.transform = "perspective(900px) rotateX(1.8deg)";
-
   setTimeout(() => {
-    root.style.transform = "none";
-    root.classList.remove('vector-live');
-  }, 1400);
+    showReflection("Alignment", true);
+    root.style.transform = "perspective(900px) rotateX(3.6deg)";
+
+    setTimeout(() => {
+      root.style.transform = "none";
+    }, 2000);
+
+  }, 1000);
 }
 </script>
 
