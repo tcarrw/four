@@ -111,15 +111,47 @@
 const videoWrap = document.getElementById('videoWrap');
 const root = document.getElementById('root');
 const tapMsg = document.getElementById('tapMsg');
+const context = document.querySelector('.context');
+
+// Create the end message
+const endMsg = document.createElement('div');
+endMsg.textContent = "Take one step forward — whatever that means for you right now.";
+endMsg.style.position = "absolute";
+endMsg.style.bottom = "40px";
+endMsg.style.left = "50%";
+endMsg.style.transform = "translateX(-50%)";
+endMsg.style.fontSize = "14px";
+endMsg.style.opacity = "0";
+endMsg.style.transition = "opacity 1.2s ease";
+document.body.appendChild(endMsg);
 
 root.addEventListener('click', startMotion, { once: true });
 
 function startMotion() {
+  // Fade out context
+  context.style.transition = "opacity 1.2s ease";
+  context.style.opacity = "0";
+
+  // Fade out tap message
   tapMsg.style.opacity = "0";
-  videoWrap.classList.add('video-visible');
-  const iframe = document.getElementById('berghainVideo');
-  iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+
+  // Reveal the video
+  setTimeout(() => {
+    videoWrap.classList.add('video-visible');
+    const iframe = document.getElementById('berghainVideo');
+    iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+  }, 600);
 }
+
+// Listen for YouTube player events (end of video)
+window.addEventListener("message", function (event) {
+  try {
+    if (typeof event.data === "string" && event.data.includes('"playerState":0')) {
+      // Video ended → fade in endMsg
+      endMsg.style.opacity = "1";
+    }
+  } catch(e){}
+});
 </script>
 
 </body>
