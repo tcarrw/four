@@ -3,114 +3,61 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>four.plnt.earth — Remembering</title>
+<title>four.plnt.earth — Motion</title>
 <style>
   html, body {
-    margin:0;
-    padding:0;
-    height:100%;
-    width:100%;
-    background:#0d0f14;
+    margin:0; padding:0;
+    background:#001b33; /* deep blue */
+    height:100%; width:100%;
     overflow:hidden;
     font-family:-apple-system, BlinkMacSystemFont, sans-serif;
-    color:white;
+    -webkit-tap-highlight-color:transparent;
+    color:#cde8ff;
   }
 
-  /* baseline breathing drift */
-  .drift {
+  .context {
     position:absolute;
-    top:0; left:0;
-    width:100%; height:100%;
-    animation:slowDrift 28s ease-in-out infinite alternate;
-    pointer-events:none;
-  }
-
-  @keyframes slowDrift {
-    0% { transform:translateY(0px); }
-    100% { transform:translateY(-8px); }
-  }
-
-  .root {
-    position:absolute;
-    top:0; left:0;
-    height:100%; width:100%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    opacity:0;
-    transform:translateY(18px);
-    transition:
-      opacity 2600ms ease,
-      transform 2600ms ease;
-  }
-
-  body.loaded .root {
-    opacity:1;
-    transform:translateY(0);
-  }
-
-  .line {
-    font-size:1.2rem;
-    letter-spacing:0.4px;
+    top:20px;
+    left:50%;
+    transform:translateX(-50%);
+    width:90%;
+    max-width:600px;
+    font-size:13px;
+    line-height:1.45;
     opacity:0.85;
     text-align:center;
-    max-width:80%;
-    line-height:1.6;
-    transform:translateY(0);
-    animation:rememberPulse 4200ms ease-out 1 forwards;
     user-select:none;
   }
 
-  @keyframes rememberPulse {
-    0%   { opacity:0.3; transform:translateY(6px); }
-    40%  { opacity:0.9; transform:translateY(0); }
-    70%  { opacity:0.7; }
-    100% { opacity:0.83; }
+  .root {
+    position:relative;
+    height:100vh;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
   }
 
-  .warm-glow {
-    position:absolute;
-    bottom:-20%;
-    left:50%;
-    width:180vw;
-    height:180vw;
-    background:radial-gradient(
-      circle,
-      rgba(255,155,90,0.13) 0%,
-      rgba(255,155,90,0.05) 40%,
-      rgba(255,155,90,0.0) 70%
-    );
-    transform:translateX(-50%);
-    pointer-events:none;
-    opacity:0;
-    transition:opacity 3200ms ease;
-  }
-
-  body.loaded .warm-glow {
-    opacity:1;
-  }
-
-  /* video */
   #videoWrap {
-    position:absolute;
-    bottom:40px;
-    left:50%;
-    transform:translateX(-50%);
+    opacity:0;
+    pointer-events:none;
     width:100%;
     max-width:880px;
     padding:0 16px;
-    opacity:0;
-    transition:opacity 900ms ease;
+    transition:opacity 0.9s ease-out;
   }
 
-  #videoWrap.visible {
-    opacity:1;
+  .video-visible {
+    opacity:1 !important;
+    pointer-events:auto !important;
   }
 
   .video-frame {
     position:relative;
     padding-bottom:56.25%;
     height:0;
+    border-radius:12px;
+    overflow:hidden;
   }
 
   .video-frame iframe {
@@ -118,49 +65,56 @@
     top:0; left:0;
     width:100%; height:100%;
     border:0;
-    border-radius:18px;
-    box-shadow:0 6px 28px rgba(0,0,0,0.22);
-    overflow:hidden;
   }
 
-  /* tap motion */
-  body.tap .root {
-    transform:translateY(-26px) scale(1.015);
-    transition:transform 900ms ease, opacity 900ms ease;
+  .tap {
+    position:absolute;
+    bottom:40px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:14px;
+    opacity:0.7;
+    user-select:none;
   }
 </style>
 </head>
 
 <body>
-
-<div class="drift"></div>
-<div class="warm-glow"></div>
-
-<div class="root" id="root">
-  <div class="line">I remember it all too well.</div>
+<div class="context">
+  This is exactly what it looks like. No layers, no decoding, no hidden meaning. One video, one lens: movement.
+  <br><br>
+  The context is simple: Berghain is raw motion, Dua is clean motion. Combined, they create a single moment that starts when you tap.
+  <br><br>
+  Nothing else is implied. Nothing else is signaling. Nothing else is attached. This page exists because motion feels good when everything else feels muddy.
 </div>
 
-<div id="videoWrap">
-  <div class="video-frame">
-    <iframe
-      src="https://www.youtube.com/embed/tollGa3S0o8?rel=0&showinfo=0&enablejsapi=1"
-      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen>
-    </iframe>
+<div class="root" id="root">
+  <div id="videoWrap">
+    <div class="video-frame">
+      <iframe
+        id="berghainVideo"
+        src="https://www.youtube.com/embed/htQBS2Ikz6c?rel=0&showinfo=0&enablejsapi=1"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
   </div>
+  <div class="tap" id="tapMsg">tap to begin</div>
 </div>
 
 <script>
-window.addEventListener('load', () => {
-  setTimeout(() => {
-    document.body.classList.add('loaded');
-  }, 900);
-});
+const videoWrap = document.getElementById('videoWrap');
+const root = document.getElementById('root');
+const tapMsg = document.getElementById('tapMsg');
 
-document.body.addEventListener('click', () => {
-  document.body.classList.add('tap');
-  document.getElementById('videoWrap').classList.add('visible');
-});
+root.addEventListener('click', startMotion, { once: true });
+
+function startMotion() {
+  tapMsg.style.opacity = "0";
+  videoWrap.classList.add('video-visible');
+  const iframe = document.getElementById('berghainVideo');
+  iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+}
 </script>
 
 </body>
