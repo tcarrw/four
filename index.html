@@ -11,11 +11,9 @@
   --ink:#f4f9ff;
   --ink-dim:#c2d0e9;
   --line:rgba(255,255,255,0.17);
-
   --opal1:#aab8ff;
   --opal2:#c8ffe3;
   --opal3:#e4d2ff;
-
   --glass:rgba(255,255,255,0.06);
   --glass2:rgba(255,255,255,0.10);
 }
@@ -126,7 +124,7 @@ main{padding:28px 20px 100px;}
   transition:opacity .8s ease;
 }
 
-/* Fade-out for playpad */
+/* Fade-out */
 .fade-out{opacity:0;}
 
 /* THUMBNAIL */
@@ -216,7 +214,7 @@ footer{
         </div>
       </div>
       <div class="actions">
-        <a class="btn" target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=bnQBqinwlwQ">Open on YouTube</a>
+        <a class="btn" target="_blank" href="https://www.youtube.com/watch?v=bnQBqinwlwQ">Open on YouTube</a>
       </div>
     </div>
 
@@ -247,7 +245,7 @@ footer{
     Earth is a <strong>slow-time material</strong>: a substrate where motion
     softens, energy disperses, and τ lengthens.  
     In opalite physics, Earth is the <strong>grounding layer</strong> —
-    the part of the system that stays intact even when everything above it
+    the part of the system that remains stable even as everything above it
     refracts, shifts, or changes phase.  
     A quiet plane where joy can loop without distortion.
   </div>
@@ -265,11 +263,12 @@ footer{
   var thumbImg=document.getElementById('thumbImg');
 
   // Load thumbnail
-  thumbImg.src = "https://img.youtube.com/vi/" + VIDEO_ID + "/maxresdefault.jpg";
+  thumbImg.src="https://img.youtube.com/vi/"+VIDEO_ID+"/maxresdefault.jpg";
 
   function buildSrc(loopOn){
     var params=new URLSearchParams({
       autoplay:'1',
+      playsinline:'1',
       modestbranding:'1',
       rel:'0',
       color:'white'
@@ -283,14 +282,17 @@ footer{
 
   function inject(loopOn){
     host.innerHTML='';
+
     var iframe=document.createElement('iframe');
     iframe.title='YouTube video';
     iframe.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
     iframe.allowFullscreen=true;
+    iframe.setAttribute('playsinline',''); /* REQUIRED for iOS autoplay */
     iframe.style.width='100%';
     iframe.style.height='100%';
     iframe.style.border='0';
     iframe.src=buildSrc(loopOn);
+
     host.appendChild(iframe);
   }
 
@@ -306,7 +308,9 @@ footer{
   });
 
   loopToggle.addEventListener('change',function(){
-    if(host.querySelector('iframe')) inject(loopToggle.checked);
+    if(host.querySelector('iframe')){
+      inject(loopToggle.checked);
+    }
   });
 
   restartBtn.addEventListener('click',function(){
