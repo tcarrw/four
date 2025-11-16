@@ -1,157 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>four.plnt.earth — Motion</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>four · opalite</title>
+
 <style>
-  html, body {
-    margin:0; padding:0;
-    background:#001b33; /* deep blue */
-    height:100%; width:100%;
+  html,body{
+    margin:0;
+    height:100%;
     overflow:hidden;
-    font-family:-apple-system, BlinkMacSystemFont, sans-serif;
-    -webkit-tap-highlight-color:transparent;
-    color:#cde8ff;
+    background:#05050a;
+    font-family:system-ui,sans-serif;
   }
 
-  .context {
+  /* opalite glow field */
+  @keyframes opal {
+    0%{filter:hue-rotate(0deg) brightness(1);}
+    25%{filter:hue-rotate(35deg) brightness(1.1);}
+    50%{filter:hue-rotate(-20deg) brightness(0.95);}
+    75%{filter:hue-rotate(15deg) brightness(1.07);}
+    100%{filter:hue-rotate(0deg) brightness(1);}
+  }
+  body{
+    animation:opal 18s infinite linear;
+  }
+
+  /* soft refracted ring */
+  .ring{
     position:absolute;
-    top:20px;
+    top:50%;
     left:50%;
-    transform:translateX(-50%);
-    width:90%;
-    max-width:600px;
-    font-size:13px;
-    line-height:1.45;
-    opacity:0.85;
-    text-align:center;
-    user-select:none;
+    width:72vmin;
+    height:72vmin;
+    transform:translate(-50%,-50%);
+    border-radius:50%;
+    box-shadow:
+      0 0 40px #c4b5fd33 inset,
+      0 0 60px #b388ff22;
+    animation:ringshift 22s infinite linear;
+    opacity:0.35;
+  }
+  @keyframes ringshift{
+    0%{transform:translate(-50%,-50%) scale(1) rotate(0deg);}
+    50%{transform:translate(-50%,-50%) scale(1.08) rotate(160deg);}
+    100%{transform:translate(-50%,-50%) scale(1) rotate(360deg);}
   }
 
-  .root {
-    position:relative;
-    height:100vh;
-    width:100%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+  /* opalite title — floating, translucent */
+  .title{
+    position:absolute;
+    top:42%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    font-size:34px;
+    color:#e9e7ffdd;
+    opacity:0.9;
+    letter-spacing:4px;
+    text-shadow:
+      0 0 12px #c4b5fd66,
+      0 0 24px #b388ff44;
+    animation:titlefloat 14s infinite ease-in-out;
+  }
+  @keyframes titlefloat{
+    0%{transform:translate(-50%,-50%) scale(1);}
+    50%{transform:translate(-50%,-53%) scale(1.06);}
+    100%{transform:translate(-50%,-50%) scale(1);}
   }
 
-  #videoWrap {
-    opacity:0;
-    pointer-events:none;
-    width:100%;
-    max-width:880px;
-    padding:0 16px;
-    transition:opacity 0.9s ease-out;
-    margin-top:120px; /* pushes video down so it doesn't cover context */
-  }
-
-  .video-visible {
-    opacity:1 !important;
-    pointer-events:auto !important;
-  }
-
-  .video-frame {
-    position:relative;
-    padding-bottom:56.25%;
-    height:0;
+  /* opalite core — video floating on a liquid refraction plane */
+  .core{
+    position:absolute;
+    width:62vw;
+    height:35vh;
+    top:60%;
+    left:50%;
+    transform:translate(-50%,-50%);
     border-radius:12px;
     overflow:hidden;
+    border:1px solid #c4b5fd33;
+    box-shadow:
+      0 0 24px #b388ff33,
+      0 0 48px #c77dff22 inset;
+    animation:corebreath 16s infinite ease-in-out;
+  }
+  @keyframes corebreath{
+    0%{transform:translate(-50%,-50%) scale(1) rotate(1deg);}
+    50%{transform:translate(-49%,-52%) scale(1.04) rotate(-2deg);}
+    100%{transform:translate(-50%,-50%) scale(1) rotate(1deg);}
   }
 
-  .video-frame iframe {
-    position:absolute;
-    top:0; left:0;
-    width:100%; height:100%;
+  iframe{
+    width:100%;
+    height:100%;
     border:0;
+    filter:
+      contrast(1.25)
+      saturate(0.85)
+      hue-rotate(15deg)
+      brightness(1.05);
   }
 
-  .tap {
+  /* drifting opalite fragments */
+  .shard{
     position:absolute;
-    bottom:40px;
-    left:50%;
-    transform:translateX(-50%);
-    font-size:14px;
-    opacity:0.7;
+    font-size:12px;
+    color:#c4b5fd33;
+    pointer-events:none;
     user-select:none;
+    animation:drift 28s linear infinite;
+  }
+  @keyframes drift{
+    from{transform:translateY(0) rotate(0deg);}
+    to{transform:translateY(-220vh) rotate(330deg);}
   }
 </style>
 </head>
 
 <body>
-<div class="context">
-  This is exactly what it looks like. No layers, no decoding, no hidden meaning. One video, one lens: movement.
-  <br><br>
-  Dua’s lens is the part that matters: clean intention, clean direction, clean start. She brings the moment where motion stops being chaotic and becomes chosen.
-  <br><br>
-  Berghain is raw motion, Dua is refined motion. When they’re paired, you get one clear entry point — the tap.
-  <br><br>
-  Nothing else is implied. Nothing else is signaling. Nothing else is attached. This page exists because motion feels good when everything else feels muddy.
-  <br><br>
-  Tap to begin. Let the motion run once. When it ends, just take one step forward — whatever that means for you right now.
-</div>
 
-<div class="root" id="root">
-  <div id="videoWrap">
-    <div class="video-frame">
-      <iframe
-        id="berghainVideo"
-        src="https://www.youtube.com/embed/htQBS2Ikz6c?rel=0&showinfo=0&enablejsapi=1"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-    </div>
-  </div>
-  <div class="tap" id="tapMsg">tap to begin</div>
+<div class="ring"></div>
+<div class="title">four · opalite</div>
+
+<div class="core">
+  <iframe
+    src="https://www.youtube.com/embed/bnQBqinwlwQ?autoplay=1&mute=1&controls=0&loop=1&playlist=bnQBqinwlwQ">
+  </iframe>
 </div>
 
 <script>
-const videoWrap = document.getElementById('videoWrap');
-const root = document.getElementById('root');
-const tapMsg = document.getElementById('tapMsg');
-const context = document.querySelector('.context');
-
-// Create the end message
-const endMsg = document.createElement('div');
-endMsg.textContent = "Take one step forward — whatever that means for you right now.";
-endMsg.style.position = "absolute";
-endMsg.style.bottom = "40px";
-endMsg.style.left = "50%";
-endMsg.style.transform = "translateX(-50%)";
-endMsg.style.fontSize = "14px";
-endMsg.style.opacity = "0";
-endMsg.style.transition = "opacity 1.2s ease";
-document.body.appendChild(endMsg);
-
-root.addEventListener('click', startMotion, { once: true });
-
-function startMotion() {
-  // Fade out context
-  context.style.transition = "opacity 1.2s ease";
-  context.style.opacity = "0";
-
-  // Fade out tap message
-  tapMsg.style.opacity = "0";
-
-  // Reveal the video
-  setTimeout(() => {
-    videoWrap.classList.add('video-visible');
-    const iframe = document.getElementById('berghainVideo');
-    iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-  }, 600);
-}
-
-// Listen for YouTube player events (end of video)
-window.addEventListener("message", function (event) {
-  try {
-    if (typeof event.data === "string" && event.data.includes('"playerState":0')) {
-      // Video ended → fade in endMsg
-      endMsg.style.opacity = "1";
-    }
-  } catch(e){}
-});
+  /* 64 iridescent memory shards */
+  const words=["four","opal","echo","mirror","phase","time","soft","haze","dream"];
+  for(let i=0;i<64;i++){
+    const s=document.createElement('div');
+    s.className='shard';
+    s.textContent=words[Math.floor(Math.random()*words.length)];
+    s.style.left=Math.random()*100+'vw';
+    s.style.top=(80 + Math.random()*40)+'vh';
+    s.style.animationDuration=(14+Math.random()*24)+'s';
+    s.style.animationDelay=(-Math.random()*20)+'s';
+    document.body.appendChild(s);
+  }
 </script>
 
 </body>
