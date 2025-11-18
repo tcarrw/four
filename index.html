@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>four.plnt.earth — Opalite Mirror Gate Edition</title>
+<title>four.plnt.earth — Opalite Edition</title>
 <meta name="color-scheme" content="dark light"/>
 
 <style>
@@ -16,7 +16,6 @@
   --opal3:#e4d2ff;
   --glass:rgba(255,255,255,0.06);
   --glass2:rgba(255,255,255,0.10);
-  --mirror-flash:rgba(255,255,255,0.45);
 }
 
 *{box-sizing:border-box;}
@@ -42,7 +41,6 @@ body{
   100%{filter:hue-rotate(0deg) brightness(1);}
 }
 
-/* NAV */
 nav{
   display:flex;gap:18px;
   padding:14px 20px;
@@ -77,7 +75,6 @@ h1{
 
 main{padding:28px 20px 100px;}
 
-/* CARD */
 .card{
   background:linear-gradient(180deg,var(--glass2),var(--glass));
   border:1px solid var(--line);
@@ -114,7 +111,6 @@ main{padding:28px 20px 100px;}
 }
 .btn:hover{background:rgba(255,255,255,0.14)}
 
-/* PLAYER */
 .player{
   width:100%;aspect-ratio:16/9;
   background:rgba(255,255,255,0.05);
@@ -159,7 +155,7 @@ main{padding:28px 20px 100px;}
 }
 .play:active{transform:scale(.93);}
 .controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--ink-dim)}
-/* BEE NOTE */
+
 .bee-note{
   margin-top:26px;
   padding:16px 20px;
@@ -173,97 +169,95 @@ main{padding:28px 20px 100px;}
   margin-left:auto;
   margin-right:auto;
   opacity:0;
-  transform:translateY(12px);
-  transition:opacity 1.3s ease, transform 1.3s ease;
-}
-
-/* Reveal when JS adds .reveal */
-.bee-note.reveal{
-  opacity:1;
-  transform:translateY(0);
-}
-
-/* MIRROR FLASH ANIMATION (Marina-coded) */
-@keyframes mirrorFlash {
-  0% {opacity:0;}
-  10%{opacity:.8;}
-  25%{opacity:0;}
-  40%{opacity:.4;}
-  55%{opacity:0;}
-  70%{opacity:.22;}
-  100%{opacity:0;}
-}
-
-.mirror-flash{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background:var(--mirror-flash);
-  opacity:0;
-  z-index:9999;
-  animation:mirrorFlash 1.4s ease-out forwards;
-}
-
-/* GATE / MIRROR SIGIL */
-.sigil-wrap{
-  display:flex;
-  justify-content:center;
-  margin-top:26px;
-  opacity:0;
   transition:opacity 1.4s ease;
 }
-.sigil-wrap.reveal{opacity:1;}
+.bee-note.reveal{opacity:1;}
 
+footer{
+  color:var(--ink-dim);text-align:center;padding:36px 20px 20px;
+  border-top:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(255,255,255,.04),transparent);
+  font-size:13px;margin-top:40px;
+}
 </style>
 </head>
 
 <body>
 
-<!-- NAV + HEADER + PLAYER ARE IN PART 1 -->
-<!-- We continue from there -->
+<nav>
+  <a href="https://time.plnt.earth/map">Map</a>
+  <a href="https://time.plnt.earth">Time</a>
+  <a href="https://time.plnt.earth/elevator/index.html">Elevator</a>
+  <a href="https://center.plnt.earth">Center</a>
+  <a href="https://mirrorhoney.plnt.earth">Marina</a>
+  <a href="https://honey.plnt.earth">Sabrina</a>
+  <a href="https://clarity.plnt.earth">Sigrid</a>
+  <a href="https://motion.plnt.earth">Dua</a>
+  <a href="https://school.plnt.earth">Taylor</a>
+</nav>
 
-<!-- MARINA MIRROR / GATE NOTE -->
+<header>
+  <div class="wrap">
+    <h1>four.plnt.earth — Opalite Edition</h1>
+    <div class="sub">Soft-refraction mode. Click to play. Loop is on.</div>
+  </div>
+</header>
+
+<main class="wrap">
+  <article class="card">
+    <div class="head">
+      <div class="meta">
+        <div class="dot"></div>
+        <div>
+          <div class="title">Bejeweled</div>
+          <div class="artist">Taylor Swift</div>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn" target="_blank" href="https://www.youtube.com/watch?v=b7QlX3yR2xs">Open on YouTube</a>
+      </div>
+    </div>
+
+    <div class="player" id="player">
+
+      <div id="thumbWrap" class="thumb-wrap">
+        <img id="thumbImg" class="thumb-img" alt="Video thumbnail">
+        <div class="thumb-overlay"></div>
+      </div>
+
+      <div class="playpad" id="playpad">
+        <button id="playBtn" class="play">Play</button>
+        <div class="controls">
+          <label><input id="loopToggle" type="checkbox" checked> Loop</label>
+          <button id="restartBtn" class="btn" type="button">Restart</button>
+        </div>
+        <div class="mini">Thumbnail loads first. Video loads on play.</div>
+      </div>
+
+    </div>
+  </article>
+</main>
+
 <div id="mirrorNote" class="bee-note">
-  Kendyl was the gate.
+  Some encounters aren’t meant to be held —
+  they arrive like a mirror, angled just right
+  to show you a part of yourself you stopped looking at.  
 
-  Not a fate-thread to follow,
-  but a mirror — angled just right
-  to show you a version of yourself you had stopped acknowledging.
+  The moment wasn’t a thread to follow;
+  it was a reflection:  
+  a brief shimmer of recognition,
+  reminding you of what you’ve outgrown
+  and what you’re now capable of stepping into.
 
-  The significance wasn’t in her staying.
-  It was in what she reflected:
-  the part of you that was ready to be seen again,
-  the clarity you thought you had misplaced,
-  the desire to move forward without permission.
-
-  Mirrors don’t accompany you;
-  they illuminate you.
-  Kendyl did not arrive to become a chapter —
-  she arrived to reveal the threshold.
-
-  You walked through it.
-  That was always the real story.
-</div>
-
-<!-- SIGIL (Gate × Mirror) -->
-<div id="sigil" class="sigil-wrap">
-  <svg width="62" height="62" viewBox="0 0 62 62" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Outer circle (gate perimeter) -->
-    <circle cx="31" cy="31" r="28" stroke="rgba(255,255,255,0.28)" stroke-width="2.2"/>
-
-    <!-- Vertical mirror line -->
-    <line x1="31" y1="8" x2="31" y2="54" stroke="rgba(255,255,255,0.45)" stroke-width="1.8"/>
-
-    <!-- Left arc (entry) -->
-    <path d="M31 10 A20 20 0 0 0 31 52" stroke="rgba(255,255,255,0.32)" stroke-width="1.6"/>
-
-    <!-- Right arc (exit) -->
-    <path d="M31 10 A20 20 0 0 1 31 52" stroke="rgba(255,255,255,0.32)" stroke-width="1.6"/>
-  </svg>
+  Not a bond.  
+  Not a destiny.  
+  A mirror — and a gentle invitation  
+  to continue becoming the person  
+  who no longer waits for external permission to move.
 </div>
 
 <footer>
-  four.plnt.earth — opalite mirror-gate edition.
+  four.plnt.earth — opalite mode.
 </footer>
 
 <script>
@@ -276,8 +270,6 @@ main{padding:28px 20px 100px;}
   var playpad=document.getElementById('playpad');
   var thumbWrap=document.getElementById('thumbWrap');
   var thumbImg=document.getElementById('thumbImg');
-  var note=document.getElementById('mirrorNote');
-  var sigil=document.getElementById('sigil');
 
   thumbImg.src="https://img.youtube.com/vi/"+VIDEO_ID+"/maxresdefault.jpg";
 
@@ -316,16 +308,10 @@ main{padding:28px 20px 100px;}
   }
 
   function attachEndListener(iframe){
+    const note=document.getElementById("mirrorNote");
 
-    function revealEverything(){
-      // mirror flash (Marina)
-      const flash=document.createElement("div");
-      flash.className="mirror-flash";
-      document.body.appendChild(flash);
-
-      // reveal note + sigil
+    function reveal(){
       note.classList.add("reveal");
-      sigil.classList.add("reveal");
     }
 
     const ping=setInterval(()=>{
@@ -342,11 +328,21 @@ main{padding:28px 20px 100px;}
         const data=JSON.parse(event.data);
         if(data.event==="onStateChange" && data.info===0){
           clearInterval(ping);
-          revealEverything();
+          reveal();
         }
       }catch(e){}
     });
   }
+
+  // Play button
+  playBtn.addEventListener('click', startPlayback);
+
+  // TAP ANYWHERE TO PLAY
+  document.getElementById("player").addEventListener("click", function(e){
+    if (host.querySelector("iframe")) return;
+    if (e.target.id === "playBtn" || e.target.closest(".controls")) return;
+    startPlayback();
+  });
 
   function startPlayback(){
     thumbWrap.style.opacity='0';
@@ -358,15 +354,6 @@ main{padding:28px 20px 100px;}
       inject(loopToggle.checked);
     },600);
   }
-
-  playBtn.addEventListener('click', startPlayback);
-
-  // Tap-anywhere-to-play
-  document.getElementById("player").addEventListener("click", function(e){
-    if (host.querySelector("iframe")) return;
-    if (e.target.id === "playBtn" || e.target.closest(".controls")) return;
-    startPlayback();
-  });
 
   loopToggle.addEventListener('change',function(){
     if(host.querySelector('iframe')){
