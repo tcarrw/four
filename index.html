@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>earth.plnt.earth — Dagny • Opalite Edition</title>
+<title>four.plnt.earth — Opalite Edition</title>
 <meta name="color-scheme" content="dark light"/>
 
 <style>
@@ -123,8 +123,6 @@ main{padding:28px 20px 100px;}
   position:relative;
   transition:opacity .8s ease;
 }
-
-/* Fade-out */
 .fade-out{opacity:0;}
 
 /* THUMBNAIL */
@@ -151,6 +149,7 @@ main{padding:28px 20px 100px;}
   background:linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.35));
 }
 
+/* PLAYPAD */
 .playpad{
   display:flex;flex-direction:column;align-items:center;
   gap:12px;text-align:center;padding:26px;
@@ -162,11 +161,25 @@ main{padding:28px 20px 100px;}
   transition:transform .15s ease;
 }
 .play:active{transform:scale(.93);}
+.controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--ink-dim)}
 
-.controls{
-  display:flex;gap:10px;flex-wrap:wrap;
-  justify-content:center;font-size:13px;color:var(--ink-dim);
+/* BEE NOTE */
+.bee-note{
+  margin-top:26px;
+  padding:16px 20px;
+  font-size:13px;
+  border-radius:14px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.18);
+  color:var(--ink-dim);
+  line-height:1.48;
+  max-width:800px;
+  margin-left:auto;
+  margin-right:auto;
+  opacity:0;
+  transition:opacity 1.4s ease;
 }
+.bee-note.reveal{opacity:1}
 
 /* FOOTER */
 footer{
@@ -174,11 +187,6 @@ footer{
   border-top:1px solid var(--line);
   background:linear-gradient(180deg,rgba(255,255,255,.04),transparent);
   font-size:13px;margin-top:40px;
-}
-
-.earth-note{
-  margin-top:16px;font-size:13px;opacity:.92;
-  color:var(--ink-dim);line-height:1.45;
 }
 </style>
 </head>
@@ -188,6 +196,7 @@ footer{
 <nav>
   <a href="https://time.plnt.earth/map">Map</a>
   <a href="https://time.plnt.earth">Time</a>
+  <a href="https://time.plnt.earth/elevator/index.html">Elevator</a>
   <a href="https://center.plnt.earth">Center</a>
   <a href="https://mirrorhoney.plnt.earth">Marina</a>
   <a href="https://honey.plnt.earth">Sabrina</a>
@@ -198,7 +207,7 @@ footer{
 
 <header>
   <div class="wrap">
-    <h1>earth.plnt.earth — Dagny (Opalite)</h1>
+    <h1>four.plnt.earth — Opalite Edition</h1>
     <div class="sub">Soft-refraction mode. Click to play. Loop is on.</div>
   </div>
 </header>
@@ -209,12 +218,12 @@ footer{
       <div class="meta">
         <div class="dot"></div>
         <div>
-          <div class="title">Love You Like That (Lyric Video)</div>
-          <div class="artist">Dagny</div>
+          <div class="title">Bejeweled</div>
+          <div class="artist">Taylor Swift</div>
         </div>
       </div>
       <div class="actions">
-        <a class="btn" target="_blank" href="https://www.youtube.com/watch?v=bnQBqinwlwQ">Open on YouTube</a>
+        <a class="btn" target="_blank" href="https://www.youtube.com/watch?v=b7QlX3yR2xs">Open on YouTube</a>
       </div>
     </div>
 
@@ -239,21 +248,32 @@ footer{
   </article>
 </main>
 
+<!-- MARINA MIRROR BEE NOTE (HIDDEN INITIALLY) -->
+<div id="mirrorNote" class="bee-note">
+  Some encounters aren’t meant to be held —
+  they arrive like a mirror, angled just right
+  to show you a part of yourself you stopped looking at.  
+
+  The moment wasn’t a thread to follow;
+  it was a reflection:  
+  a brief shimmer of recognition,
+  reminding you of what you’ve outgrown
+  and what you’re now capable of stepping into.
+
+  Not a bond.  
+  Not a destiny.  
+  A mirror — and a gentle invitation  
+  to continue becoming the person  
+  who no longer waits for external permission to move.
+</div>
+
 <footer>
-  earth.plnt.earth — opalite mode.  
-  <div class="earth-note">
-    Earth is a <strong>slow-time material</strong>: a substrate where motion
-    softens, energy disperses, and τ lengthens.  
-    In opalite physics, Earth is the <strong>grounding layer</strong> —
-    the part of the system that remains stable even as everything above it
-    refracts, shifts, or changes phase.  
-    A quiet plane where joy can loop without distortion.
-  </div>
+  four.plnt.earth — opalite mode.
 </footer>
 
 <script>
 (function(){
-  var VIDEO_ID="bnQBqinwlwQ";
+  var VIDEO_ID="b7QlX3yR2xs";
   var host=document.getElementById('player');
   var playBtn=document.getElementById('playBtn');
   var loopToggle=document.getElementById('loopToggle');
@@ -271,7 +291,9 @@ footer{
       playsinline:'1',
       modestbranding:'1',
       rel:'0',
-      color:'white'
+      color:'white',
+      enablejsapi:'1',
+      widgetid:'1'
     });
     if(loopOn){
       params.set('loop','1');
@@ -287,13 +309,44 @@ footer{
     iframe.title='YouTube video';
     iframe.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
     iframe.allowFullscreen=true;
-    iframe.setAttribute('playsinline',''); /* REQUIRED for iOS autoplay */
+    iframe.setAttribute('playsinline','');
     iframe.style.width='100%';
     iframe.style.height='100%';
     iframe.style.border='0';
     iframe.src=buildSrc(loopOn);
 
     host.appendChild(iframe);
+
+    // Hook into YT messaging to detect video end
+    setTimeout(()=>attachEndListener(iframe), 350);
+  }
+
+  function attachEndListener(iframe){
+    const note=document.getElementById("mirrorNote");
+
+    function reveal(){
+      note.classList.add("reveal");
+    }
+
+    // Poll + listen approach
+    const ping=setInterval(()=>{
+      if(!iframe.contentWindow) return;
+      try{
+        iframe.contentWindow.postMessage(JSON.stringify({
+          event:"listening",id:"player"
+        }), "*");
+      }catch(e){}
+    }, 800);
+
+    window.addEventListener("message", (event)=>{
+      try{
+        const data=JSON.parse(event.data);
+        if(data.event==="onStateChange" && data.info===0){ // ended
+          clearInterval(ping);
+          reveal();
+        }
+      }catch(e){}
+    });
   }
 
   playBtn.addEventListener('click',function(){
