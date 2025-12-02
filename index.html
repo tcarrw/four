@@ -1,372 +1,310 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>four.plnt.earth — Opalite Edition</title>
-<meta name="color-scheme" content="dark light"/>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Four · PLNT Earth</title>
+<meta name="color-scheme" content="dark">
 <style>
-:root{
-  --ink:#f4f9ff;
-  --ink-dim:#c2d0e9;
-  --line:rgba(255,255,255,0.17);
-  --opal1:#aab8ff;
-  --opal2:#c8ffe3;
-  --opal3:#e4d2ff;
-  --glass:rgba(255,255,255,0.06);
-  --glass2:rgba(255,255,255,0.10);
-}
+  :root{
+    --bg:#0b0e14;
+    --ink:#f5f5ff;
+    --muted:#8c96a8;
+    --line:#2a3242;
+    --cube:#647cff44;
 
-*{box-sizing:border-box;}
-html,body{height:100%}
+    /* Colors */
+    --anchor:#ffffff;
+    --orb:#a8d6ff;
+    --periph:#8c8cff;
+    --arch:#ffb7c4;
 
-body{
-  margin:0;
-  font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
-  -webkit-font-smoothing:antialiased;
-  color:var(--ink);
+    /* Individual Illumina chips */
+    --alina:#f2c9a8;
+    --fletcher:#ff99a6;
+    --chvrches:#d4e0ff;
+  }
 
-  background:
-    radial-gradient(1400px 900px at 75% -10%, var(--opal1), transparent 65%),
-    radial-gradient(1000px 700px at -15% 40%, var(--opal2), transparent 60%),
-    radial-gradient(1200px 1000px at 50% 120%, var(--opal3), transparent 70%),
-    #06070d;
-  animation:opalShift 24s infinite linear;
-}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:system-ui, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding:24px;
+  }
 
-@keyframes opalShift{
-  0%{filter:hue-rotate(0deg) brightness(1);}
-  50%{filter:hue-rotate(40deg) brightness(1.08);}
-  100%{filter:hue-rotate(0deg) brightness(1);}
-}
+  h1,h2{
+    margin:0 0 20px;
+    font-weight:600;
+  }
 
-nav{
-  display:flex;gap:18px;
-  padding:14px 20px;
-  backdrop-filter:blur(18px);
-  background:rgba(10,12,18,0.55);
-  border-bottom:1px solid var(--line);
-  position:sticky;top:0;z-index:20;
-  font-size:14px;overflow-x:auto;
-}
-nav a{
-  text-decoration:none;color:var(--ink-dim);font-weight:500;
-  white-space:nowrap;transition:color .2s ease;
-}
-nav a:hover{color:var(--ink)}
+  .section{
+    margin:48px 0;
+  }
 
-header{padding:26px 20px 10px;}
-.wrap{max-width:900px;margin:0 auto;}
-h1{
-  margin:0 0 6px;
-  font-size:clamp(24px,3.6vw,36px);
-  font-weight:800;
-  letter-spacing:.25px;
-  background:linear-gradient(90deg,var(--ink),var(--opal1));
-  -webkit-background-clip:text;
-  color:transparent;
-}
-.sub{
-  color:var(--ink-dim);
-  font-size:14px;
-  margin-top:4px;
-}
+  svg{
+    width:100%;
+    height:auto;
+    touch-action:manipulation;
+  }
 
-main{padding:28px 20px 100px;}
+  /* ==== Tap-to-reveal labels ==== */
+  .node-label{
+    font-size:11px;
+    fill:var(--ink);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .25s ease;
+  }
 
-.card{
-  background:linear-gradient(180deg,var(--glass2),var(--glass));
-  border:1px solid var(--line);
-  border-radius:20px;
-  overflow:hidden;
-  box-shadow:0 18px 55px rgba(0,0,0,.45);
-  animation:snapIn .65s cubic-bezier(.16,1,.3,1);
-}
+  .hit{
+    cursor:pointer;
+  }
+  .hit:active + .node-label,
+  .hit:focus + .node-label{
+    opacity:1;
+  }
+  .hit:hover + .node-label{
+    opacity:.85;
+  }
 
-@keyframes snapIn{
-  0%{opacity:0;transform:translateY(30px) scale(.97);}
-  60%{opacity:1;transform:translateY(0) scale(1.015);}
-  100%{transform:scale(1);}
-}
+  /* Node circles */
+  .anchor-node{ r:6; fill:var(--anchor); }
+  .orb-node{ r:6; fill:var(--orb); }
+  .periph-node{ r:6; fill:var(--periph); }
+  .arch-node{ r:6; fill:var(--arch); }
 
-.head{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:18px 18px 0;gap:14px;
-}
-.meta{display:flex;align-items:center;gap:14px}
-.dot{
-  width:16px;height:16px;border-radius:50%;
-  background:radial-gradient(circle at 35% 35%,var(--opal2),var(--opal1));
-  box-shadow:0 0 20px var(--opal3);
-}
-.title{font-weight:700;font-size:17px;}
-.artist{font-size:13px;color:var(--ink-dim)}
+  /* Corridor newcomers */
+  .alina-node{ r:6; fill:var(--alina); }
+  .fletcher-node{ r:6; fill:var(--fletcher); }
+  .chvrches-node{ r:6; fill:var(--chvrches); }
 
-.actions{display:flex;gap:10px;}
-.btn{
-  padding:8px 13px;border-radius:14px;
-  background:var(--glass);border:1px solid var(--line);
-  color:var(--ink);font-size:13px;text-decoration:none;
-}
-.btn:hover{background:rgba(255,255,255,0.14)}
-
-.player{
-  width:100%;aspect-ratio:16/9;
-  background:rgba(255,255,255,0.05);
-  border-top:1px solid var(--line);
-  display:grid;place-items:center;
-  position:relative;
-  transition:opacity .8s ease;
-}
-.fade-out{opacity:0;}
-
-.thumb-wrap{
-  position:absolute;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-  border-radius:inherit;
-  transition:opacity .6s ease;
-}
-.thumb-img{
-  width:100%;height:100%;
-  object-fit:cover;
-  opacity:0.9;
-  filter:brightness(0.88) saturate(1.1);
-}
-.thumb-overlay{
-  position:absolute;
-  inset:0;
-  background:linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.35));
-}
-
-.playpad{
-  display:flex;flex-direction:column;align-items:center;
-  gap:12px;text-align:center;padding:26px;
-}
-.play{
-  padding:12px 20px;border-radius:16px;
-  background:var(--opal2);color:#0b1f18;font-weight:800;
-  border:none;cursor:pointer;font-size:15px;
-  transition:transform .15s ease;
-}
-.play:active{transform:scale(.93);}
-.controls{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;font-size:13px;color:var(--ink-dim)}
-
-.bee-note{
-  margin-top:26px;
-  padding:16px 20px;
-  font-size:13px;
-  border-radius:14px;
-  background:rgba(255,255,255,0.06);
-  border:1px solid rgba(255,255,255,0.18);
-  color:var(--ink-dim);
-  line-height:1.48;
-  max-width:800px;
-  margin-left:auto;
-  margin-right:auto;
-  opacity:0;
-  transition:opacity 1.4s ease;
-}
-.bee-note.reveal{opacity:1;}
-
-footer{
-  color:var(--ink-dim);text-align:center;padding:36px 20px 20px;
-  border-top:1px solid var(--line);
-  background:linear-gradient(180deg,rgba(255,255,255,.04),transparent);
-  font-size:13px;margin-top:40px;
-}
+  .legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    font-size:13px;
+    margin-top:16px;
+    color:var(--muted);
+  }
+  .legend span{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .legend i{
+    display:inline-block;
+    width:10px;height:10px;
+    border-radius:50%;
+  }
 </style>
 </head>
-
 <body>
 
-<nav>
-  <a href="https://time.plnt.earth/map">Map</a>
-  <a href="https://time.plnt.earth">Time</a>
-  <a href="https://time.plnt.earth/elevator/index.html">Elevator</a>
-  <a href="https://center.plnt.earth">Center</a>
-  <a href="https://mirrorhoney.plnt.earth">Marina</a>
-  <a href="https://honey.plnt.earth">Sabrina</a>
-  <a href="https://clarity.plnt.earth">Sigrid</a>
-  <a href="https://motion.plnt.earth">Dua</a>
-  <a href="https://school.plnt.earth">Taylor</a>
-</nav>
+<h1>Four · PLNT Earth</h1>
+<p>The Illumina 3-axis field rendered as a 3D cube and 2D projection. Tap a dot to reveal its name.</p>
 
-<header>
-  <div class="wrap">
-    <h1>four.plnt.earth — Opalite Edition</h1>
-    <div class="sub">Soft-refraction mode. Click to play. Loop is on.</div>
-  </div>
-</header>
-
-<main class="wrap">
-  <article class="card">
-    <div class="head">
-      <div class="meta">
-        <div class="dot"></div>
-        <div>
-          <div class="title">Bejeweled</div>
-          <div class="artist">Taylor Swift</div>
-        </div>
-      </div>
-      <div class="actions">
-        <a class="btn" target="_blank" href="https://www.youtube.com/watch?v=b7QlX3yR2xs">Open on YouTube</a>
-      </div>
-    </div>
-
-    <div class="player" id="player">
-
-      <div id="thumbWrap" class="thumb-wrap">
-        <img id="thumbImg" class="thumb-img" alt="Video thumbnail">
-        <div class="thumb-overlay"></div>
-      </div>
-
-      <div class="playpad" id="playpad">
-        <button id="playBtn" class="play">Play</button>
-        <div class="controls">
-          <label><input id="loopToggle" type="checkbox" checked> Loop</label>
-          <button id="restartBtn" class="btn" type="button">Restart</button>
-        </div>
-        <div class="mini">Thumbnail loads first. Video loads on play.</div>
-      </div>
-
-    </div>
-  </article>
-</main>
-
-<div id="mirrorNote" class="bee-note">
-  Some encounters aren’t meant to be held —
-  they arrive like a mirror, angled just right
-  to show you a part of yourself you stopped looking at.  
-
-  The moment wasn’t a thread to follow;
-  it was a reflection:  
-  a brief shimmer of recognition,
-  reminding you of what you’ve outgrown
-  and what you’re now capable of stepping into.
-
-  Not a bond.  
-  Not a destiny.  
-  A mirror — and a gentle invitation  
-  to continue becoming the person  
-  who no longer waits for external permission to move.
+<!-- ========================================================= -->
+<!-- LEGEND -->
+<!-- ========================================================= -->
+<div class="legend">
+  <span><i style="background:var(--anchor);"></i> Anchors</span>
+  <span><i style="background:var(--orb);"></i> Orbital Satellites</span>
+  <span><i style="background:var(--periph);"></i> Peripheral Satellites</span>
+  <span><i style="background:var(--arch);"></i> Archetype Nodes</span>
+  <span><i style="background:var(--alina);"></i> Alina Baraz (Warmth→Dream)</span>
+  <span><i style="background:var(--fletcher);"></i> FLETCHER (Empathy→Joy)</span>
+  <span><i style="background:var(--chvrches);"></i> CHVRCHES / Lauren (Atmos→Motion)</span>
 </div>
 
-<footer>
-  four.plnt.earth — opalite mode.
-</footer>
+<!-- ========================================================= -->
+<!-- 3D ISOMETRIC CUBE — ALL ANCHORS + SATELLITES + ARCHETYPES -->
+<!-- ========================================================= -->
+<div class="section">
+<h2>3D Illumina Cube (Tap to reveal)</h2>
 
-<script>
-(function(){
-  var VIDEO_ID="b7QlX3yR2xs";
-  var host=document.getElementById('player');
-  var playBtn=document.getElementById('playBtn');
-  var loopToggle=document.getElementById('loopToggle');
-  var restartBtn=document.getElementById('restartBtn');
-  var playpad=document.getElementById('playpad');
-  var thumbWrap=document.getElementById('thumbWrap');
-  var thumbImg=document.getElementById('thumbImg');
+<svg viewBox="0 0 600 450">
 
-  thumbImg.src="https://img.youtube.com/vi/"+VIDEO_ID+"/maxresdefault.jpg";
+  <!-- Cube edges -->
+  <g stroke="var(--cube)" stroke-width="2" fill="none">
+    <polygon points="200,80 380,80 480,160 300,160" />
+    <polygon points="150,180 330,180 430,260 250,260" />
+    <line x1="200" y1="80" x2="150" y2="180"/>
+    <line x1="380" y1="80" x2="330" y2="180"/>
+    <line x1="480" y1="160" x2="430" y2="260"/>
+    <line x1="300" y1="160" x2="250" y2="260"/>
+  </g>
 
-  function buildSrc(loopOn){
-    var params=new URLSearchParams({
-      autoplay:'1',
-      playsinline:'1',
-      modestbranding:'1',
-      rel:'0',
-      color:'white',
-      enablejsapi:'1',
-      widgetid:'1'
-    });
-    if(loopOn){
-      params.set('loop','1');
-      params.set('playlist',VIDEO_ID);
-    }
-    return 'https://www.youtube.com/embed/'+VIDEO_ID+'?'+params.toString();
-  }
+  <!-- ===================================================== -->
+  <!-- ANCHOR PLACEMENTS -->
+  <!-- ===================================================== -->
 
-  function inject(loopOn){
-    host.innerHTML='';
+  <!-- Marina -->
+  <circle cx="220" cy="170" class="anchor-node hit"></circle>
+  <text x="230" y="165" class="node-label">Marina</text>
 
-    var iframe=document.createElement('iframe');
-    iframe.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-    iframe.allowFullscreen=true;
-    iframe.setAttribute('playsinline','');
-    iframe.style.width='100%';
-    iframe.style.height='100%';
-    iframe.style.border='0';
-    iframe.src=buildSrc(loopOn);
+  <!-- Sigrid -->
+  <circle cx="350" cy="150" class="anchor-node hit"></circle>
+  <text x="360" y="145" class="node-label">Sigrid</text>
 
-    host.appendChild(iframe);
+  <!-- Dagny -->
+  <circle cx="280" cy="120" class="anchor-node hit"></circle>
+  <text x="290" y="115" class="node-label">Dagny</text>
 
-    setTimeout(()=>attachEndListener(iframe), 350);
-  }
+  <!-- Dua -->
+  <circle cx="360" cy="200" class="anchor-node hit"></circle>
+  <text x="370" y="195" class="node-label">Dua Lipa</text>
 
-  function attachEndListener(iframe){
-    const note=document.getElementById("mirrorNote");
+  <!-- Ariana -->
+  <circle cx="315" cy="130" class="anchor-node hit"></circle>
+  <text x="325" y="125" class="node-label">Ariana Grande</text>
 
-    function reveal(){
-      note.classList.add("reveal");
-    }
+  <!-- Sabrina -->
+  <circle cx="260" cy="210" class="anchor-node hit"></circle>
+  <text x="270" y="205" class="node-label">Sabrina</text>
 
-    const ping=setInterval(()=>{
-      if(!iframe.contentWindow) return;
-      try{
-        iframe.contentWindow.postMessage(JSON.stringify({
-          event:"listening",id:"player"
-        }), "*");
-      }catch(e){}
-    }, 800);
+  <!-- Taylor -->
+  <circle cx="330" cy="170" class="anchor-node hit"></circle>
+  <text x="340" y="165" class="node-label">Taylor</text>
 
-    window.addEventListener("message", (event)=>{
-      try{
-        const data=JSON.parse(event.data);
-        if(data.event==="onStateChange" && data.info===0){
-          clearInterval(ping);
-          reveal();
-        }
-      }catch(e){}
-    });
-  }
+  <!-- Miss Monique -->
+  <circle cx="400" cy="215" class="anchor-node hit"></circle>
+  <text x="410" y="210" class="node-label">Monique</text>
 
-  // Play button
-  playBtn.addEventListener('click', startPlayback);
+  <!-- Doechii -->
+  <circle cx="300" cy="240" class="anchor-node hit"></circle>
+  <text x="310" y="235" class="node-label">Doechii</text>
 
-  // TAP ANYWHERE TO PLAY
-  document.getElementById("player").addEventListener("click", function(e){
-    if (host.querySelector("iframe")) return;
-    if (e.target.id === "playBtn" || e.target.closest(".controls")) return;
-    startPlayback();
-  });
+  <!-- AURORA -->
+  <circle cx="240" cy="135" class="anchor-node hit"></circle>
+  <text x="250" y="130" class="node-label">AURORA</text>
 
-  function startPlayback(){
-    thumbWrap.style.opacity='0';
-    playpad.classList.add('fade-out');
+  <!-- Tove Lo -->
+  <circle cx="210" cy="225" class="anchor-node hit"></circle>
+  <text x="220" y="220" class="node-label">Tove Lo</text>
 
-    setTimeout(()=>{
-      thumbWrap.remove();
-      playpad.remove();
-      inject(loopToggle.checked);
-    },600);
-  }
+  <!-- Rosalía -->
+  <circle cx="360" cy="120" class="anchor-node hit"></circle>
+  <text x="370" y="115" class="node-label">Rosalía</text>
 
-  loopToggle.addEventListener('change',function(){
-    if(host.querySelector('iframe')){
-      inject(loopToggle.checked);
-    }
-  });
+  <!-- Kim Petras -->
+  <circle cx="320" cy="220" class="anchor-node hit"></circle>
+  <text x="330" y="215" class="node-label">Kim</text>
 
-  restartBtn.addEventListener('click',function(){
-    inject(loopToggle.checked);
-  });
 
-})();
-</script>
+  <!-- ===================================================== -->
+  <!-- ORBITAL SATELLITES -->
+  <!-- ===================================================== -->
+
+  <!-- Zara Larsson -->
+  <circle cx="380" cy="155" class="orb-node hit"></circle>
+  <text x="390" y="150" class="node-label">Zara</text>
+
+  <!-- Griff -->
+  <circle cx="330" cy="140" class="orb-node hit"></circle>
+  <text x="340" y="135" class="node-label">Griff</text>
+
+  <!-- Lennon Stella -->
+  <circle cx="290" cy="185" class="orb-node hit"></circle>
+  <text x="300" y="180" class="node-label">Lennon Stella</text>
+
+  <!-- MUNA -->
+  <circle cx="405" cy="230" class="orb-node hit"></circle>
+  <text x="415" y="225" class="node-label">MUNA</text>
+
+  <!-- Tove Styrke (promoted) -->
+  <circle cx="215" cy="150" class="orb-node hit"></circle>
+  <text x="225" y="145" class="node-label">Tove Styrke</text>
+
+  <!-- Alina Baraz (Warmth→Dream) -->
+  <circle cx="260" cy="160" class="alina-node hit"></circle>
+  <text x="270" y="155" class="node-label">Alina Baraz</text>
+
+  <!-- FLETCHER (Empathy→Joy) -->
+  <circle cx="310" cy="165" class="fletcher-node hit"></circle>
+  <text x="320" y="160" class="node-label">FLETCHER</text>
+
+  <!-- CHVRCHES / Lauren (Atmosphere→Motion) -->
+  <circle cx="395" cy="135" class="chvrches-node hit"></circle>
+  <text x="405" y="130" class="node-label">CHVRCHES / Lauren</text>
+
+
+  <!-- ===================================================== -->
+  <!-- PERIPHERAL SATELLITES -->
+  <!-- ===================================================== -->
+
+  <!-- Bea Miller -->
+  <circle cx="250" cy="250" class="periph-node hit"></circle>
+  <text x="260" y="245" class="node-label">Bea Miller</text>
+
+  <!-- MØ -->
+  <circle cx="390" cy="250" class="periph-node hit"></circle>
+  <text x="400" y="245" class="node-label">MØ</text>
+
+  <!-- Astrid S -->
+  <circle cx="340" cy="110" class="periph-node hit"></circle>
+  <text x="350" y="105" class="node-label">Astrid S</text>
+
+  <!-- Carly Rae Jepsen -->
+  <circle cx="300" cy="100" class="periph-node hit"></circle>
+  <text x="310" y="95" class="node-label">Carly Rae Jepsen</text>
+
+
+  <!-- ===================================================== -->
+  <!-- ARCHETYPE NODES -->
+  <!-- ===================================================== -->
+
+  <!-- Sophie Ellis-Bextor -->
+  <circle cx="345" cy="185" class="arch-node hit"></circle>
+  <text x="355" y="180" class="node-label">Sophie EB</text>
+
+  <!-- Robyn -->
+  <circle cx="260" cy="135" class="arch-node hit"></circle>
+  <text x="270" y="130" class="node-label">Robyn</text>
+
+  <!-- Kylie Minogue -->
+  <circle cx="320" cy="145" class="arch-node hit"></circle>
+  <text x="330" y="140" class="node-label">Kylie Minogue</text>
+
+</svg>
+</div>
+
+<!-- ========================================================= -->
+<!-- 2D PROJECTION LAYER -->
+<!-- ========================================================= -->
+<div class="section">
+<h2>2D Projection (Height / Motion / Clarity)</h2>
+
+<svg viewBox="0 0 360 320">
+
+  <rect width="360" height="320" fill="var(--bg)"/>
+
+  <line x1="180" y1="290" x2="180" y2="40" stroke="var(--line)" stroke-width="2"/>
+  <line x1="60" y1="215" x2="300" y2="215" stroke="var(--line)" stroke-width="2"/>
+  <line x1="110" y1="260" x2="260" y2="110" stroke="var(--line)" stroke-width="2"/>
+
+  <text x="180" y="35" fill="var(--muted)" font-size="12" text-anchor="middle">HEIGHT</text>
+  <text x="180" y="305" fill="var(--muted)" font-size="12" text-anchor="middle">GROUNDING</text>
+  <text x="45" y="220" fill="var(--muted)" font-size="12" text-anchor="end">STILLNESS</text>
+  <text x="315" y="220" fill="var(--muted)" font-size="12" text-anchor="start">MOTION</text>
+  <text x="270" y="105" fill="var(--muted)" font-size="12" text-anchor="start">CLARITY</text>
+  <text x="100" y="275" fill="var(--muted)" font-size="12" text-anchor="end">DREAM</text>
+
+  <!-- Example: CHVRCHES / Lauren (translate 0-1 to projected space) -->
+  <circle cx="245" cy="130" class="chvrches-node hit"></circle>
+  <text x="255" y="125" class="node-label">CHVRCHES</text>
+
+  <!-- Alina -->
+  <circle cx="160" cy="170" class="alina-node hit"></circle>
+  <text x="170" y="165" class="node-label">Alina</text>
+
+  <!-- FLETCHER -->
+  <circle cx="210" cy="160" class="fletcher-node hit"></circle>
+  <text x="220" y="155" class="node-label">FLETCHER</text>
+
+</svg>
+</div>
 
 </body>
 </html>
