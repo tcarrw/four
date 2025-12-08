@@ -1,180 +1,591 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MAP · PLNT EARTH</title>
-<meta name="color-scheme" content="dark">
-
-<style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Four · PLNT.Earth</title>
+  <meta name="description" content="The entry portal. Four paths, four lenses. Choose how you want to see the system.">
+  <meta name="color-scheme" content="dark">
+  
+  <style>
+/* ============================================================
+   CORE THEME - Taylor's Architecture
+============================================================ */
 :root{
-  --bg:#0b0c0f;
-  --pepper:#0b0c0f;
-  --ink:#f2f2f7;
-  --muted:#9ba0ad;
-
-  /* Illumina chips */
-  --map:#cad7ff; 
-  --fire:#ff3b30; 
-  --knife:#8e8eff;
-  --key:#ffe27a;
-
-  --ring:#ffffff10;
-  --dot-size:9px;
+  --bg:#0a0b0d;
+  --ink:#f4f4f4;
+  --ink-muted:#c2d0e9;
+  --panel:rgba(20,26,42,0.7);
+  --line:rgba(255,255,255,0.12);
+  --taylor-lavender:#C4B5FD;
+  --taylor-dark:#9b84d4;
+  
+  /* Quadrant colors */
+  --map-color:#3b82f6;
+  --fire-color:#c64747;
+  --knife-color:#6e88a8;
+  --key-color:#4ac0b4;
+  
+  --shadow:0 8px 32px rgba(0,0,0,0.4);
 }
 
-body{
-  margin:0;
-  background:var(--pepper);
+*{box-sizing:border-box;margin:0;padding:0;}
+
+html,body{
+  height:100%;
+  background:var(--bg);
   color:var(--ink);
-  font-family:-apple-system, BlinkMacSystemFont, sans-serif;
-  overflow:hidden;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  line-height:1.6;
 }
 
-#scene{
-  position:absolute;
+/* Starfield background */
+body::before{
+  content:"";
+  position:fixed;
   inset:0;
+  background-image:
+    radial-gradient(circle at 50% 50%,rgba(196,181,253,0.03),transparent 70%),
+    radial-gradient(2px 2px at 20% 30%, white, transparent),
+    radial-gradient(2px 2px at 60% 70%, white, transparent),
+    radial-gradient(1px 1px at 50% 50%, white, transparent),
+    radial-gradient(1px 1px at 80% 10%, white, transparent),
+    radial-gradient(2px 2px at 90% 60%, white, transparent),
+    radial-gradient(1px 1px at 33% 50%, white, transparent),
+    radial-gradient(2px 2px at 70% 90%, white, transparent);
+  background-size:200% 200%;
+  background-position:0% 0%;
+  opacity:0.4;
+  animation:twinkleStars 200s ease-in-out infinite;
+  z-index:-1;
+}
+
+@keyframes twinkleStars{
+  0%,100%{opacity:0.4}
+  50%{opacity:0.6}
+}
+
+/* ============================================================
+   HEADER
+============================================================ */
+.site-header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:100;
+  background:rgba(10,11,13,0.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  padding:1rem 2rem;
+}
+
+.header-content{
+  max-width:1400px;
+  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:1rem;
+}
+
+.logo{
+  font-size:1.5rem;
+  font-weight:300;
+  letter-spacing:0.3em;
+  background:linear-gradient(135deg,var(--taylor-lavender),var(--taylor-dark));
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  text-transform:uppercase;
+}
+
+.header-nav{
+  display:flex;
+  gap:1.5rem;
+  flex-wrap:wrap;
+}
+
+.header-nav a{
+  color:var(--ink-muted);
+  text-decoration:none;
+  font-size:0.9rem;
+  font-weight:500;
+  transition:color 0.2s ease;
+}
+
+.header-nav a:hover{
+  color:var(--taylor-lavender);
+}
+
+/* ============================================================
+   MAIN CONTAINER
+============================================================ */
+.main-container{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  padding-top:80px; /* Account for fixed header */
+}
+
+/* ============================================================
+   HERO SECTION
+============================================================ */
+.hero-section{
+  padding:4rem 2rem 3rem;
+  text-align:center;
+  max-width:900px;
+  margin:0 auto;
+}
+
+.hero-icon{
+  font-size:4rem;
+  margin-bottom:1rem;
+  filter:drop-shadow(0 0 20px rgba(196,181,253,0.4));
+  animation:gentleFloat 4s ease-in-out infinite;
+}
+
+@keyframes gentleFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+
+.hero-title{
+  font-size:clamp(2.5rem,6vw,4rem);
+  font-weight:800;
+  margin-bottom:1rem;
+  background:linear-gradient(135deg,var(--taylor-lavender),#fff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  letter-spacing:0.05em;
+}
+
+.hero-subtitle{
+  font-size:clamp(1rem,2.5vw,1.3rem);
+  color:var(--ink-muted);
+  max-width:600px;
+  margin:0 auto 1rem;
+  line-height:1.7;
+}
+
+.hero-description{
+  font-size:0.95rem;
+  color:var(--ink-muted);
+  max-width:700px;
+  margin:0 auto;
+  line-height:1.8;
+  font-style:italic;
+}
+
+/* ============================================================
+   QUADRANT GRID
+============================================================ */
+.quadrant-section{
+  flex:1;
   display:flex;
   align-items:center;
   justify-content:center;
-  overflow:hidden;
+  padding:2rem;
 }
 
-/* rotating moon/logo */
-#moon{
-  width:190px;
-  height:190px;
-  border-radius:50%;
-  background:url('https://plnt.earth/static/moon.png') center/cover no-repeat;
-  animation:spin 36s linear infinite;
-  opacity:0.7;
-  filter:drop-shadow(0 0 12px #ffffff20);
-}
-@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-
-/* 7 rings */
-.ring{
-  position:absolute;
-  border:1px solid var(--ring);
-  border-radius:50%;
-  animation:pulse 14s ease-in-out infinite alternate;
-}
-@keyframes pulse{
-  from{opacity:0.45}
-  to{opacity:0.9}
-}
-
-/* orbit dots */
-.dot{
-  position:absolute;
-  width:var(--dot-size);
-  height:var(--dot-size);
-  border-radius:50%;
-  opacity:.85;
-  mix-blend-mode:screen;
-  transition:transform .6s, left .6s, top .6s;
-}
-
-/* portals */
-#nav{
-  position:absolute;
-  bottom:30px;
-  left:50%;
-  transform:translateX(-50%);
-  display:flex;
-  gap:18px;
-  flex-wrap:wrap;
-  justify-content:center;
+.quadrant-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:2rem;
+  max-width:1200px;
   width:100%;
+  margin:0 auto;
 }
 
-.chip{
-  padding:14px 22px;
-  border-radius:14px;
-  font-size:17px;
-  font-weight:600;
+.quadrant-card{
+  position:relative;
+  background:var(--panel);
+  border:2px solid var(--line);
+  border-radius:24px;
+  padding:3rem 2rem;
   text-align:center;
-  text-decoration:none;
-  color:#000;
+  transition:all 0.3s ease;
   backdrop-filter:blur(8px);
-  box-shadow:0 0 20px #00000060;
-  transition:transform .2s ease;
+  cursor:pointer;
+  overflow:hidden;
+  min-height:300px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  text-decoration:none;
+  color:inherit;
 }
-.chip:active{transform:scale(.94)}
 
-.chip.map{background:var(--map);}
-.chip.fire{background:var(--fire);}
-.chip.knife{background:var(--knife);color:#fff;}
-.chip.key{background:var(--key);}
-
-/* bee note footer */
-#bee{
+.quadrant-card::before{
+  content:"";
   position:absolute;
+  top:0;
+  left:0;
+  right:0;
   bottom:0;
-  width:100%;
-  text-align:center;
-  font-size:13px;
-  padding:8px 0 14px 0;
-  color:var(--muted);
-  opacity:.65;
+  background:radial-gradient(circle at center, var(--quadrant-color), transparent 70%);
+  opacity:0;
+  transition:opacity 0.3s ease;
+  z-index:-1;
 }
-#bee a{color:var(--muted);text-decoration:none}
-</style>
-</head>
 
+.quadrant-card:hover{
+  transform:translateY(-8px) scale(1.02);
+  border-color:var(--quadrant-color);
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.5),
+    0 0 40px var(--quadrant-glow);
+}
+
+.quadrant-card:hover::before{
+  opacity:0.15;
+}
+
+.quadrant-icon{
+  font-size:4rem;
+  margin-bottom:1.5rem;
+  display:block;
+  filter:drop-shadow(0 0 15px var(--quadrant-glow));
+  transition:transform 0.3s ease;
+}
+
+.quadrant-card:hover .quadrant-icon{
+  transform:scale(1.1);
+}
+
+.quadrant-title{
+  font-size:2.5rem;
+  font-weight:800;
+  margin-bottom:0.5rem;
+  color:var(--quadrant-color);
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+}
+
+.quadrant-subtitle{
+  font-size:1rem;
+  color:var(--ink-muted);
+  margin-bottom:1rem;
+  font-weight:500;
+}
+
+.quadrant-description{
+  font-size:0.95rem;
+  color:var(--ink-muted);
+  line-height:1.6;
+  max-width:400px;
+  margin:0 auto;
+}
+
+.quadrant-arrow{
+  margin-top:1.5rem;
+  font-size:1.5rem;
+  color:var(--quadrant-color);
+  opacity:0;
+  transform:translateX(-10px);
+  transition:all 0.3s ease;
+}
+
+.quadrant-card:hover .quadrant-arrow{
+  opacity:1;
+  transform:translateX(0);
+}
+
+/* Quadrant-specific colors */
+.quadrant-map{
+  --quadrant-color:var(--map-color);
+  --quadrant-glow:rgba(59,130,246,0.4);
+}
+
+.quadrant-fire{
+  --quadrant-color:var(--fire-color);
+  --quadrant-glow:rgba(198,71,71,0.4);
+}
+
+.quadrant-knife{
+  --quadrant-color:var(--knife-color);
+  --quadrant-glow:rgba(110,136,168,0.4);
+}
+
+.quadrant-key{
+  --quadrant-color:var(--key-color);
+  --quadrant-glow:rgba(74,192,180,0.4);
+}
+
+/* ============================================================
+   TAYLOR'S NOTE
+============================================================ */
+.architect-note{
+  max-width:800px;
+  margin:0 auto 3rem;
+  padding:2rem;
+  background:rgba(196,181,253,0.05);
+  border:1px solid rgba(196,181,253,0.2);
+  border-radius:16px;
+  text-align:center;
+}
+
+.architect-note-title{
+  font-size:0.85rem;
+  text-transform:uppercase;
+  letter-spacing:0.15em;
+  color:var(--taylor-lavender);
+  margin-bottom:0.8rem;
+  font-weight:600;
+}
+
+.architect-note-text{
+  font-size:0.95rem;
+  color:var(--ink-muted);
+  line-height:1.7;
+  font-style:italic;
+}
+
+/* ============================================================
+   FOOTER
+============================================================ */
+.site-footer{
+  padding:2rem;
+  background:var(--panel);
+  border-top:1px solid var(--line);
+  text-align:center;
+}
+
+.footer-content{
+  max-width:900px;
+  margin:0 auto;
+}
+
+.earth-statement{
+  font-size:0.9rem;
+  line-height:1.7;
+  color:var(--ink-muted);
+  margin-bottom:1.5rem;
+}
+
+.earth-statement a{
+  color:var(--key-color);
+  text-decoration:none;
+  font-weight:600;
+}
+
+.earth-statement a:hover{
+  text-decoration:underline;
+}
+
+.footer-meta{
+  font-size:0.85rem;
+  color:var(--ink-muted);
+  opacity:0.7;
+  margin-top:1rem;
+}
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+@media(max-width:968px){
+  .quadrant-grid{
+    grid-template-columns:1fr;
+    gap:1.5rem;
+    max-width:500px;
+  }
+  
+  .quadrant-card{
+    min-height:250px;
+  }
+}
+
+@media(max-width:768px){
+  .site-header{
+    position:relative;
+    padding:1rem;
+  }
+  
+  .main-container{
+    padding-top:0;
+  }
+  
+  .header-content{
+    flex-direction:column;
+    text-align:center;
+  }
+  
+  .hero-section{
+    padding:2rem 1rem;
+  }
+  
+  .hero-icon{
+    font-size:3rem;
+  }
+  
+  .quadrant-section{
+    padding:1rem;
+  }
+  
+  .quadrant-card{
+    padding:2rem 1.5rem;
+  }
+  
+  .quadrant-title{
+    font-size:2rem;
+  }
+  
+  .quadrant-icon{
+    font-size:3rem;
+  }
+}
+
+@media(max-width:480px){
+  .logo{
+    font-size:1.2rem;
+  }
+  
+  .hero-title{
+    font-size:2rem;
+  }
+  
+  .quadrant-card{
+    min-height:220px;
+  }
+}
+
+/* ============================================================
+   SUBTLE ANIMATIONS
+============================================================ */
+@keyframes fadeInUp{
+  from{
+    opacity:0;
+    transform:translateY(20px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.hero-section{
+  animation:fadeInUp 0.8s ease-out;
+}
+
+.quadrant-card{
+  animation:fadeInUp 0.8s ease-out;
+  animation-fill-mode:both;
+}
+
+.quadrant-card:nth-child(1){animation-delay:0.1s}
+.quadrant-card:nth-child(2){animation-delay:0.2s}
+.quadrant-card:nth-child(3){animation-delay:0.3s}
+.quadrant-card:nth-child(4){animation-delay:0.4s}
+
+.architect-note{
+  animation:fadeInUp 0.8s ease-out 0.5s both;
+}
+  </style>
+</head>
 <body>
 
-<div id="scene">
-  <div id="moon"></div>
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-content">
+    <div class="logo">FOUR</div>
+    <nav class="header-nav">
+      <a href="https://map.plnt.earth">Map</a>
+      <a href="https://time.plnt.earth/elevator">Elevator</a>
+      <a href="https://time.plnt.earth">Time</a>
+      <a href="https://earth.plnt.earth">Earth</a>
+    </nav>
+  </div>
+</header>
 
-  <div class="ring" style="width:260px;height:260px;"></div>
-  <div class="ring" style="width:340px;height:340px;"></div>
-  <div class="ring" style="width:420px;height:420px;"></div>
-  <div class="ring" style="width:500px;height:500px;"></div>
-  <div class="ring" style="width:580px;height:580px;"></div>
-  <div class="ring" style="width:660px;height:660px;"></div>
-  <div class="ring" style="width:740px;height:740px;"></div>
+<!-- MAIN CONTAINER -->
+<div class="main-container">
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <div class="hero-icon">🏹</div>
+    <h1 class="hero-title">Four</h1>
+    <p class="hero-subtitle">
+      The entry portal. Four paths, four perspectives, four ways to navigate the system.
+    </p>
+    <p class="hero-description">
+      Taylor architects the structure. Each quadrant reveals a different dimension of plnt.earth—choose your lens and begin.
+    </p>
+  </section>
+
+  <!-- QUADRANT GRID -->
+  <section class="quadrant-section">
+    <div class="quadrant-grid">
+      
+      <!-- MAP -->
+      <a href="https://map.plnt.earth" class="quadrant-card quadrant-map">
+        <span class="quadrant-icon">🗺️</span>
+        <h2 class="quadrant-title">Map</h2>
+        <p class="quadrant-subtitle">Spatial View</p>
+        <p class="quadrant-description">
+          See the complete system from above. Marina at center, all 13 anchors orbiting, every domain mapped and organized. The horizontal dimension.
+        </p>
+        <div class="quadrant-arrow">→</div>
+      </a>
+
+      <!-- FIRE -->
+      <a href="https://fire.plnt.earth" class="quadrant-card quadrant-fire">
+        <span class="quadrant-icon">🔥</span>
+        <h2 class="quadrant-title">Fire</h2>
+        <p class="quadrant-subtitle">Doechii's Lens</p>
+        <p class="quadrant-description">
+          Transformation through intensity. The trickster catalyst who disrupts patterns and forces evolution. Enter through the flame.
+        </p>
+        <div class="quadrant-arrow">→</div>
+      </a>
+
+      <!-- KNIFE -->
+      <a href="https://knife.plnt.earth" class="quadrant-card quadrant-knife">
+        <span class="quadrant-icon">🔪</span>
+        <h2 class="quadrant-title">Knife</h2>
+        <p class="quadrant-subtitle">Kim Petras' Lens</p>
+        <p class="quadrant-description">
+          Precision and clarity. Cut away what doesn't serve, keep only what's essential. Haunted neon glam meets surgical accuracy.
+        </p>
+        <div class="quadrant-arrow">→</div>
+      </a>
+
+      <!-- KEY -->
+      <a href="https://key.plnt.earth" class="quadrant-card quadrant-key">
+        <span class="quadrant-icon">🔑</span>
+        <h2 class="quadrant-title">Key</h2>
+        <p class="quadrant-subtitle">Marina's Lens</p>
+        <p class="quadrant-description">
+          The mirror, the center, the unlock. Marina's empathy opens everything. She is the key to the entire system.
+        </p>
+        <div class="quadrant-arrow">→</div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- TAYLOR'S NOTE -->
+  <section class="architect-note">
+    <div class="architect-note-title">The Architect's Note</div>
+    <p class="architect-note-text">
+      "I built this with layers. You can explore linearly or jump between dimensions. The elevator takes you vertically through frequency. The map shows you spatial relationships. Fire, Knife, and Key give you three anchor perspectives. Multiple entry points, hidden connections, easter eggs for those who pay attention. That's how good architecture works—it reveals itself slowly."
+    </p>
+  </section>
+
 </div>
 
-<div id="nav">
-  <a href="map.plnt.earth" class="chip map">MAP</a>
-  <a href="fire.plnt.earth" class="chip fire">FIRE</a>
-  <a href="knife.plnt.earth" class="chip knife">KNIFE</a>
-  <a href="key.plnt.earth" class="chip key">KEY</a>
-</div>
-
-<div id="bee">🐝 burn gently · <a href="https://earth.plnt.earth">earth.plnt.earth</a></div>
-
-<script>
-const scene=document.getElementById('scene');
-const colors=['#f59e0b','#a855f7','#22d3ee','#ff3b30','#ffe27a','#8e8eff','#34d399'];
-
-const dots=[];
-for(let i=0;i<28;i++){
-  const d=document.createElement('div');
-  d.className='dot';
-  d.style.background=colors[i%colors.length];
-  scene.appendChild(d);
-  dots.push({
-    el:d,
-    angle:Math.random()*Math.PI*2,
-    radius:240+Math.random()*240,
-    speed:0.0015+Math.random()*0.003
-  });
-}
-
-function animate(){
-  dots.forEach(o=>{
-    o.angle+=o.speed;
-    const x=Math.cos(o.angle)*o.radius;
-    const y=Math.sin(o.angle)*o.radius;
-    o.el.style.left=`calc(50% + ${x}px)`;
-    o.el.style.top=`calc(50% + ${y}px)`;
-  });
-  requestAnimationFrame(animate);
-}
-animate();
-</script>
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-content">
+    <div class="earth-statement">
+      <a href="https://earth.plnt.earth">Earth</a> is the ground beneath all of this. It stays, no matter what changes above. A place to hold joy, music, and motion—untouched by the noise. If the system shifts, Earth remains.
+    </div>
+    <div class="footer-meta">
+      Floor 13 · Vine · Structure · Lavender · © 2025 · Creative Commons BY-NC-SA 4.0
+    </div>
+  </div>
+</footer>
 
 </body>
 </html>
